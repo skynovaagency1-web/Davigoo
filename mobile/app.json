@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "MOVA (prototype)",
+    "slug": "mova-prototype",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0b1220"
+  }
+}

@@ -1,0 +1,7 @@
+node_modules
+dist
+.DS_Store
+*.local
+mobile/node_modules
+mobile/.expo
+tsconfig.tsbuildinfo
