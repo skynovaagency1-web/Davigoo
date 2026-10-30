@@ -24,6 +24,7 @@
     --input: 223 33% 25%;
     --ring: 45 100% 48%;
     --radius: 0.85rem;
+    color-scheme: dark;
   }
   * { @apply border-border; }
   html { scroll-behavior: smooth; }

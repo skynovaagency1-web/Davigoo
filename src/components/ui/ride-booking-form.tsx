@@ -130,7 +130,7 @@ export const RideBookingForm = React.forwardRef<HTMLDivElement, RideBookingFormP
                 >
                   Voir l'estimation
                 </button>
-                <a href="/app.html" className="group text-sm text-muted-foreground transition-colors hover:text-foreground">
+                <a href="./app.html" className="group text-sm text-muted-foreground transition-colors hover:text-foreground">
                   Essayer le prototype d'app
                   <ArrowRight className="ml-1 inline-block h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </a>

@@ -12,7 +12,7 @@ export function AppTeaser() {
             <p className="mt-3 text-lg text-muted-foreground">
               Commandez une course fictive, puis basculez en mode chauffeur pour accepter une demande et faire avancer le trajet.
             </p>
-            <a href="/app.html" className={buttonVariants({ size: "lg", className: "mt-6" })}>
+            <a href="./app.html" className={buttonVariants({ size: "lg", className: "mt-6" })}>
               Ouvrir le prototype <ArrowRight className="size-4" />
             </a>
           </div>

@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react";
 
 // Multi-page build: the marketing site, the interactive prototype and the legal page.
 export default defineConfig({
+  base: "./",
   plugins: [react()],
   resolve: {
     alias: { "@": path.resolve(__dirname, "src") },

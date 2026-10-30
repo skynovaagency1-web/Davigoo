@@ -8,11 +8,11 @@ import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { label: "Comment ça marche", href: "/#fonctionnement" },
-  { label: "Trajets", href: "/#trajets" },
-  { label: "Sécurité", href: "/#securite" },
-  { label: "Chauffeurs", href: "/#chauffeurs" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "Comment ça marche", href: "./#fonctionnement" },
+  { label: "Trajets", href: "./#trajets" },
+  { label: "Sécurité", href: "./#securite" },
+  { label: "Chauffeurs", href: "./#chauffeurs" },
+  { label: "FAQ", href: "./#faq" },
 ];
 
 export function Header() {
@@ -48,10 +48,10 @@ export function Header() {
               {link.label}
             </a>
           ))}
-          <a className={buttonVariants({ variant: "outline", className: "ml-2" })} href="/app.html">
+          <a className={buttonVariants({ variant: "outline", className: "ml-2" })} href="./app.html">
             Voir l'app
           </a>
-          <a className={buttonVariants()} href="/#devis">
+          <a className={buttonVariants()} href="./#devis">
             Estimer un trajet
           </a>
         </div>
@@ -81,10 +81,10 @@ export function Header() {
           ))}
         </div>
         <div className="flex flex-col gap-2">
-          <a className={buttonVariants({ variant: "outline", className: "w-full" })} href="/app.html">
+          <a className={buttonVariants({ variant: "outline", className: "w-full" })} href="./app.html">
             Voir l'app (démo)
           </a>
-          <a onClick={() => setOpen(false)} className={buttonVariants({ className: "w-full" })} href="/#devis">
+          <a onClick={() => setOpen(false)} className={buttonVariants({ className: "w-full" })} href="./#devis">
             Estimer un trajet
           </a>
         </div>
