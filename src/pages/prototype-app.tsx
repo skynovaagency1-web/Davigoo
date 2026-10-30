@@ -75,12 +75,17 @@ function PhoneFrame({ children }: { children: React.ReactNode }) {
 function MiniMap({ progress, showCar }: { progress: number; showCar: boolean }) {
   // Car follows the route path; progress in [0,1].
   const pathRef = React.useRef<SVGPathElement>(null);
-  const [pos, setPos] = React.useState({ x: 80, y: 120 });
+  const [pos, setPos] = React.useState({ x: 80, y: 120, angle: 140 });
   React.useEffect(() => {
     const p = pathRef.current;
     if (!p) return;
-    const pt = p.getPointAtLength(p.getTotalLength() * Math.min(1, Math.max(0, progress)));
-    setPos({ x: pt.x, y: pt.y });
+    const total = p.getTotalLength();
+    const at = total * Math.min(1, Math.max(0, progress));
+    const a = p.getPointAtLength(Math.max(0, at - 1));
+    const b = p.getPointAtLength(Math.min(total, at + 1));
+    const pt = p.getPointAtLength(at);
+    // The car is drawn nose-up, so add 90° to the path's heading.
+    setPos({ x: pt.x, y: pt.y, angle: (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI + 90 });
   }, [progress]);
 
   return (
@@ -98,12 +103,39 @@ function MiniMap({ progress, showCar }: { progress: number; showCar: boolean }) 
       <circle cx="80" cy="120" r="9" fill="hsl(var(--background))" stroke="hsl(var(--primary))" strokeWidth="5" />
       <rect x="271" y="321" width="18" height="18" rx="4" fill="hsl(var(--primary))" />
       {showCar && (
-        <g transform={`translate(${pos.x - 13} ${pos.y - 13})`} style={{ transition: "transform 0.9s linear" }}>
-          <circle cx="13" cy="13" r="13" fill="hsl(var(--foreground))" />
-          <path d="M7 15l2-5h8l2 5v3H7z" fill="hsl(var(--background))" />
+        <g style={{ transform: `translate(${pos.x}px, ${pos.y}px) rotate(${pos.angle}deg)`, transition: "transform 0.3s linear" }}>
+          <CarMarker />
         </g>
       )}
     </svg>
+  );
+}
+
+/** Top-down car, nose pointing up, centred on (0,0). */
+function CarMarker() {
+  return (
+    <g>
+      <circle r="24" fill="hsl(var(--primary) / 0.18)" />
+      <ellipse cx="1.5" cy="2.5" rx="11" ry="19" fill="black" opacity="0.35" />
+      {/* wheels */}
+      <rect x="-12" y="-12" width="4" height="7" rx="1.5" fill="#0b0f19" />
+      <rect x="8" y="-12" width="4" height="7" rx="1.5" fill="#0b0f19" />
+      <rect x="-12" y="6" width="4" height="7" rx="1.5" fill="#0b0f19" />
+      <rect x="8" y="6" width="4" height="7" rx="1.5" fill="#0b0f19" />
+      {/* body */}
+      <path d="M-9 -12 C -9 -18, -5 -19, 0 -19 C 5 -19, 9 -18, 9 -12 L 9 13 C 9 17, 6 18, 0 18 C -6 18, -9 17, -9 13 Z" fill="hsl(var(--primary))" stroke="hsl(45 100% 30%)" strokeWidth="0.8" />
+      {/* windscreen, roof, rear window */}
+      <path d="M-7 -8 Q 0 -11 7 -8 L 6 -3 L -6 -3 Z" fill="#1b2438" />
+      <rect x="-6" y="-3" width="12" height="9" rx="1.5" fill="hsl(45 100% 40%)" />
+      <path d="M-6 6 L 6 6 L 7 10 Q 0 12 -7 10 Z" fill="#1b2438" />
+      {/* roof sign */}
+      <rect x="-3.5" y="-0.5" width="7" height="3" rx="1" fill="#0b0f19" />
+      {/* headlights and tail lights */}
+      <rect x="-7.5" y="-18" width="4" height="2" rx="1" fill="#fff8d6" />
+      <rect x="3.5" y="-18" width="4" height="2" rx="1" fill="#fff8d6" />
+      <rect x="-7.5" y="15.5" width="3.5" height="1.6" rx="0.8" fill="#ff4d4d" />
+      <rect x="4" y="15.5" width="3.5" height="1.6" rx="0.8" fill="#ff4d4d" />
+    </g>
   );
 }
 
