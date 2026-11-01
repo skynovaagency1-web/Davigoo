@@ -30,15 +30,37 @@ export default function Legal() {
 
         <h2>Statut du service</h2>
         <p>
-          MOVA est un nom de travail et un prototype. Aucun service de transport n'est proposé à ce jour : aucune course,
-          aucun paiement, aucune vérification et aucun chauffeur affichés sur ce site ne sont réels.
+          MOVA est un nom de travail et un service en préparation. Aucun service de transport n'est proposé à ce jour :
+          les courses, prix, chauffeurs et vérifications affichés dans les démonstrations sont fictifs.
         </p>
 
-        <h2>Données personnelles</h2>
+        <h2 id="confidentialite" className="scroll-mt-28">Données personnelles</h2>
         <p>
-          Ce prototype ne transmet aucune donnée à un serveur : les formulaires fonctionnent uniquement dans votre
-          navigateur. Une politique de confidentialité conforme au RGPD (responsable de traitement, finalités, durées de
-          conservation, droits, géolocalisation) sera publiée avant le pilote.
+          <strong className="text-foreground">Données collectées :</strong> via la liste d'attente passagers, votre
+          e-mail et, si vous les indiquez, votre prénom, commune et type de trajet ; via le formulaire chauffeurs, votre
+          prénom, e-mail, et si vous les indiquez, téléphone, commune, disponibilités et la déclaration d'une carte VTC.
+          Aucun document n'est collecté.
+        </p>
+        <p>
+          <strong className="text-foreground">Finalité et base légale :</strong> vous informer de l'ouverture du service à
+          Besançon et préparer le pilote (recrutement de chauffeurs, choix de la zone), sur la base de votre consentement.
+        </p>
+        <p>
+          <strong className="text-foreground">Responsable du traitement :</strong> <Todo>raison sociale et adresse</Todo>.
+          Contact : <Todo>e-mail dédié aux données personnelles</Todo>.
+        </p>
+        <p>
+          <strong className="text-foreground">Conservation :</strong> jusqu'au lancement du pilote et au plus 24 mois
+          après votre inscription, puis suppression. <strong className="text-foreground">Hébergement des données :</strong>{" "}
+          Supabase, serveurs situés dans l'Union européenne (Irlande).
+        </p>
+        <p>
+          <strong className="text-foreground">Vos droits :</strong> accès, rectification, suppression, retrait du
+          consentement et réclamation auprès de la CNIL (cnil.fr). Pour les exercer, écrivez au contact ci-dessus.
+        </p>
+        <p>
+          Les autres parties du site (estimation, vérification par code, prototype d'app) fonctionnent uniquement dans
+          votre navigateur et n'envoient aucune donnée.
         </p>
 
         <h2>Propriété intellectuelle</h2>

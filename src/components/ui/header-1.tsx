@@ -51,8 +51,8 @@ export function Header() {
           <a className={buttonVariants({ variant: "outline", className: "ml-2" })} href="./app.html">
             Voir l'app
           </a>
-          <a className={buttonVariants()} href="./#devis">
-            Estimer un trajet
+          <a className={buttonVariants()} href="./#liste-attente">
+            Liste d'attente
           </a>
         </div>
         <Button
@@ -84,8 +84,8 @@ export function Header() {
           <a className={buttonVariants({ variant: "outline", className: "w-full" })} href="./app.html">
             Voir l'app (démo)
           </a>
-          <a onClick={() => setOpen(false)} className={buttonVariants({ className: "w-full" })} href="./#devis">
-            Estimer un trajet
+          <a onClick={() => setOpen(false)} className={buttonVariants({ className: "w-full" })} href="./#liste-attente">
+            Rejoindre la liste d'attente
           </a>
         </div>
       </MobileMenu>
@@ -96,7 +96,7 @@ export function Header() {
 export function DemoBanner() {
   return (
     <div className="bg-primary px-4 py-1.5 text-center text-xs font-semibold text-primary-foreground sm:text-sm">
-      Prototype de démonstration : aucune réservation, aucun paiement et aucun chauffeur ne sont réels.
+      Service en préparation : les réservations et paiements ne sont pas encore ouverts. Le parcours de réservation est une démo.
     </div>
   );
 }

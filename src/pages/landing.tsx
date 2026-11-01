@@ -8,6 +8,7 @@ import { Security } from "@/components/sections/security";
 import { Drivers } from "@/components/sections/drivers";
 import { AppTeaser } from "@/components/sections/app-teaser";
 import { Faq } from "@/components/sections/faq";
+import { Waitlist } from "@/components/sections/waitlist";
 
 const useCases = [
   { icon: TrainFront, title: "Gares Viotte & TGV", description: "Rejoindre la gare Besançon Franche-Comté TGV à Auxon ou Viotte sans chercher de place.", footnote: "Exemple fictif : Centre → Gare TGV" },
@@ -29,6 +30,7 @@ export default function Landing() {
             <RideBookingForm />
           </div>
         </section>
+        <Waitlist />
         <HowItWorks />
         <Features
           id="trajets"

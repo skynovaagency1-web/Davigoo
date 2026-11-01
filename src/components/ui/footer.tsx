@@ -7,6 +7,7 @@ const links = [
   { title: "Trajets", href: "./#trajets" },
   { title: "Sécurité", href: "./#securite" },
   { title: "Devenir chauffeur", href: "./#chauffeurs" },
+  { title: "Liste d'attente", href: "./#liste-attente" },
   { title: "FAQ", href: "./#faq" },
   { title: "Prototype d'app", href: "./app.html" },
   { title: "Mentions légales", href: "./mentions-legales.html" },
@@ -34,8 +35,8 @@ export default function FooterSection() {
           </span>
         </div>
         <p className="mx-auto max-w-2xl text-center text-xs text-muted-foreground">
-          MOVA est un nom de travail, non vérifié juridiquement. Ce site est un prototype : aucune course, aucun paiement,
-          aucun chauffeur et aucune vérification ne sont réels.
+          MOVA est un nom de travail, non vérifié juridiquement. Service en préparation : aucune course ni aucun paiement
+          n'est encore proposé. Seules les inscriptions à la liste d'attente sont enregistrées.
         </p>
         <span className="mt-4 block text-center text-sm text-muted-foreground">© {new Date().getFullYear()} MOVA (projet)</span>
       </div>

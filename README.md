@@ -2,7 +2,7 @@
 
 Site vitrine et prototype interactif pour MOVA, un concept de plateforme VTC locale à Besançon.
 
-> **Prototype only.** No booking, payment, driver, SMS or verification is real. Keep the "prototype / démo" notices on any public demo and never collect real ID or insurance documents through this site.
+> **Pre-launch.** No booking, payment, driver, SMS or verification is real; only waitlist sign-ups are stored. Keep the demo notices and never collect ID or insurance documents through this site.
 
 ## Stack
 
@@ -19,7 +19,7 @@ Site vitrine et prototype interactif pour MOVA, un concept de plateforme VTC loc
 
 | Path | Content |
 | --- | --- |
-| `/` (`index.html`) | Landing page: fictitious quote form, how it works, Besançon use cases, verification mock-up (demo code `123456`), driver interest form (nothing sent), FAQ |
+| `/` (`index.html`) | Landing page: fictitious quote form, how it works, Besançon use cases, verification mock-up (demo code `123456`), passenger waitlist and driver interest form (stored in Supabase), FAQ |
 | `/app.html` | Interactive phone prototype: rider ↔ driver toggle, simulated match, accept/refuse, trip states |
 | `/mentions-legales.html` | Legal notice placeholder, to complete before going public |
 | `mobile/` | Expo / React Native starter (see `mobile/README.md`) |
@@ -33,7 +33,20 @@ npm run build      # outputs static files to dist/
 npm run preview
 ```
 
-`dist/` is plain static HTML/JS/CSS and can be hosted anywhere (Netlify, Vercel, Cloudflare Pages, GitHub Pages).
+`dist/` is plain static HTML/JS/CSS and can be hosted anywhere.
+
+## Hosting (GitHub Pages)
+
+`.github/workflows/deploy.yml` builds and publishes the site on every push to `main`.
+One-time setup: in the repo go to **Settings → Pages → Build and deployment → Source** and pick **GitHub Actions**.
+The site is then served at `https://skynovaagency1-web.github.io/Mova/`. A custom domain can be added on the same settings page.
+
+## Waitlist sign-ups
+
+The passenger waitlist and driver interest forms insert rows into the Supabase table `public.mova_signups`
+(project "Skynova Agency's Project", EU region). Visitors can only insert; read the sign-ups in the Supabase
+dashboard (Table editor → `mova_signups`) or export them as CSV. Override the project with `VITE_SUPABASE_URL` /
+`VITE_SUPABASE_KEY` (publishable key) at build time if needed.
 
 ## Demo data
 

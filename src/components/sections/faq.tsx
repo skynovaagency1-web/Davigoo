@@ -4,7 +4,7 @@ const items = [
   {
     id: "real",
     title: "Puis-je réserver une vraie course aujourd'hui ?",
-    content: <p>Non. MOVA est au stade de prototype : aucune réservation, aucun chauffeur, aucun paiement n'est réel. Ce site sert à présenter le concept et à mesurer l'intérêt local.</p>,
+    content: <p>Pas encore. MOVA prépare un pilote à Besançon : le parcours de réservation du site est une démonstration. Inscrivez-vous à la liste d'attente pour être prévenu de l'ouverture.</p>,
   },
   {
     id: "zone",
@@ -24,12 +24,12 @@ const items = [
   {
     id: "data",
     title: "Que faites-vous de mes données ?",
-    content: <p>Ce prototype n'envoie aucune donnée à un serveur. Avant le pilote, une politique de confidentialité conforme au RGPD et aux recommandations de la CNIL (géolocalisation, applications mobiles) sera publiée.</p>,
+    content: <p>Seuls les formulaires de liste d'attente et d'intérêt chauffeur enregistrent vos informations, uniquement pour vous recontacter au sujet du lancement. Vous pouvez demander leur suppression à tout moment. Le reste du site (estimation, vérification, prototype d'app) fonctionne dans votre navigateur sans rien envoyer.</p>,
   },
   {
     id: "driver",
     title: "Je suis chauffeur VTC, comment participer ?",
-    content: <p>Utilisez le formulaire de la section Chauffeurs pour voir le parcours. La collecte réelle des documents se fera plus tard via un espace sécurisé, jamais par e-mail.</p>,
+    content: <p>Laissez vos coordonnées dans la section Chauffeurs : nous vous recontacterons pour un premier échange. Les documents (carte VTC, assurance…) seront demandés plus tard via un espace sécurisé, jamais par e-mail.</p>,
   },
 ];
 
