@@ -36,15 +36,15 @@ export function Header() {
     <header
       ref={headerRef}
       className={cn("sticky top-0 z-50 w-full border-b border-transparent", {
-        "border-border bg-background/95 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60": scrolled || open,
+        "border-border bg-background/90 backdrop-blur-lg supports-[backdrop-filter]:bg-background/75": scrolled || open,
       })}
     >
       <DemoBanner />
-      <nav className="container flex h-16 items-center justify-between">
+      <nav className="container flex h-[4.5rem] items-center justify-between">
         <Logo />
         <div className="hidden items-center gap-1 lg:flex">
           {links.map((link) => (
-            <a key={link.label} className={buttonVariants({ variant: "ghost" })} href={link.href}>
+            <a key={link.label} className={buttonVariants({ variant: "ghost", className: "font-medium" })} href={link.href}>
               {link.label}
             </a>
           ))}
@@ -95,8 +95,8 @@ export function Header() {
 
 export function DemoBanner() {
   return (
-    <div className="bg-primary px-4 py-1.5 text-center text-xs font-semibold text-primary-foreground sm:text-sm">
-      Service en préparation : les réservations et paiements ne sont pas encore ouverts. Le parcours de réservation est une démo.
+    <div className="bg-board px-4 py-2 text-center font-mono text-[11px] text-board-foreground/80">
+      <span className="text-signal">●</span> Service en préparation<span className="hidden sm:inline"> · réservations et paiements pas encore ouverts</span> · réservation en démo
     </div>
   );
 }

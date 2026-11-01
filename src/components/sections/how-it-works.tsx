@@ -1,30 +1,28 @@
-import { CarFront, MapPinned, Receipt } from "lucide-react";
+import { SectionHeading } from "@/components/ui/section-heading";
 
-const steps = [
-  { icon: MapPinned, title: "Indiquez votre trajet", text: "Départ, destination, heure : immédiat ou planifié. Vous voyez une estimation avant de confirmer." },
-  { icon: CarFront, title: "Un chauffeur local accepte", text: "Un chauffeur VTC indépendant et vérifié accepte la course. Vous suivez son arrivée." },
-  { icon: Receipt, title: "Payez et recevez le reçu", text: "Paiement via un prestataire agréé, reçu envoyé après la course, assistance en cas de souci." },
+const stops = [
+  { time: "00:00", title: "Vous indiquez le trajet", text: "Départ, arrivée, maintenant ou plus tard. Le prix s'affiche avant de confirmer." },
+  { time: "+01:30", title: "Un chauffeur accepte", text: "Un chauffeur VTC indépendant et vérifié prend la course. Vous suivez son arrivée." },
+  { time: "+12:00", title: "Vous arrivez, vous payez", text: "Paiement par un prestataire agréé, reçu par e-mail, assistance si besoin." },
 ];
 
 export function HowItWorks() {
   return (
-    <section id="fonctionnement" className="scroll-mt-24 border-y bg-card/40 py-20">
+    <section id="fonctionnement" className="scroll-mt-24 py-20">
       <div className="container">
-        <div className="max-w-2xl">
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Comment ça marche</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Trois étapes, sans surprise</h2>
-          <p className="mt-3 text-lg text-muted-foreground">
-            Le parcours visé pour le pilote. Aujourd'hui, ces étapes sont simulées dans le prototype.
-          </p>
-        </div>
-        <ol className="mt-12 grid gap-6 md:grid-cols-3">
-          {steps.map((s, i) => (
-            <li key={s.title} className="relative rounded-xl border bg-card p-6">
-              <span className="absolute right-5 top-4 text-5xl font-extrabold text-border">{i + 1}</span>
-              <div className="mb-5 grid size-11 place-items-center rounded-lg bg-primary text-primary-foreground">
-                <s.icon className="size-5" />
-              </div>
-              <h3 className="text-lg font-semibold">{s.title}</h3>
+        <SectionHeading tag="01 · Le trajet" title="Trois arrêts, sans surprise">
+          Le parcours visé pour le pilote. Pour l'instant, il est simulé dans le prototype.
+        </SectionHeading>
+        <ol className="relative mt-12 grid gap-10 md:ml-[12rem] md:grid-cols-3 md:gap-6">
+          <span aria-hidden className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-0.5 bg-primary/25 md:left-0 md:top-[7px] md:h-0.5 md:w-full" />
+          {stops.map((s, i) => (
+            <li key={s.title} className="relative pl-9 md:pl-0 md:pt-9">
+              <span
+                aria-hidden
+                className={`absolute left-0 top-0.5 size-4 rounded-full border-[3px] border-primary md:top-0 ${i === stops.length - 1 ? "bg-primary" : "bg-background"}`}
+              />
+              <p className="font-mono text-xs text-primary tnum">{s.time}</p>
+              <h3 className="mt-1 text-lg font-bold">{s.title}</h3>
               <p className="mt-1 text-muted-foreground">{s.text}</p>
             </li>
           ))}

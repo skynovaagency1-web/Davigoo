@@ -15,18 +15,18 @@ const links = [
 
 export default function FooterSection() {
   return (
-    <footer className="border-t py-16">
-      <div className="mx-auto max-w-5xl px-6">
-        <Logo className="mx-auto w-fit" />
+    <footer className="border-t border-foreground/80 py-14">
+      <div className="container">
+        <Logo className="w-fit" />
 
-        <div className="my-8 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm">
+        <div className="my-8 flex flex-wrap gap-x-6 gap-y-3 text-sm">
           {links.map((link) => (
-            <a key={link.title} href={link.href} className="block text-muted-foreground duration-150 hover:text-primary">
+            <a key={link.title} href={link.href} className="block font-medium duration-150 hover:text-primary">
               {link.title}
             </a>
           ))}
         </div>
-        <div className="my-8 flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
+        <div className="my-8 flex flex-wrap gap-6 font-mono text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-2">
             <MapPin className="size-4" /> Besançon, Doubs
           </span>
@@ -34,11 +34,11 @@ export default function FooterSection() {
             <Mail className="size-4" /> Contact à définir
           </span>
         </div>
-        <p className="mx-auto max-w-2xl text-center text-xs text-muted-foreground">
+        <p className="max-w-2xl text-xs text-muted-foreground">
           MOVA est un nom de travail, non vérifié juridiquement. Service en préparation : aucune course ni aucun paiement
           n'est encore proposé. Seules les inscriptions à la liste d'attente sont enregistrées.
         </p>
-        <span className="mt-4 block text-center text-sm text-muted-foreground">© {new Date().getFullYear()} MOVA (projet)</span>
+        <span className="mt-4 block font-mono text-xs text-muted-foreground">© {new Date().getFullYear()} MOVA (projet)</span>
       </div>
     </footer>
   );

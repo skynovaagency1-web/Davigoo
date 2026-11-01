@@ -1,22 +1,22 @@
-import { ArrowRight } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 
 export function AppTeaser() {
   return (
     <section className="py-20">
       <div className="container">
-        <div className="relative overflow-hidden rounded-3xl border bg-gradient-to-br from-primary/20 via-card to-card p-8 sm:p-12">
-          <div className="max-w-xl">
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Prototype interactif</p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Côté passager, côté chauffeur</h2>
-            <p className="mt-3 text-lg text-muted-foreground">
-              Commandez une course fictive, puis basculez en mode chauffeur pour accepter une demande et faire avancer le trajet.
+        <a
+          href="./app.html"
+          className="group grid items-end gap-6 border-y border-foreground/80 py-10 transition-colors hover:bg-card md:grid-cols-[12rem_1fr_auto]"
+        >
+          <p className="font-mono text-xs text-muted-foreground">04 · Prototype</p>
+          <div>
+            <p className="font-wide text-3xl font-black leading-none tracking-tight sm:text-5xl">Essayez l'app</p>
+            <p className="mt-3 max-w-xl text-muted-foreground">
+              Commandez une course fictive, puis passez côté chauffeur pour accepter la demande et faire avancer le trajet.
             </p>
-            <a href="./app.html" className={buttonVariants({ size: "lg", className: "mt-6" })}>
-              Ouvrir le prototype <ArrowRight className="size-4" />
-            </a>
           </div>
-        </div>
+          <ArrowUpRight className="size-12 text-primary transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+        </a>
       </div>
     </section>
   );

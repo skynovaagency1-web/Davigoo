@@ -1,4 +1,5 @@
 import { Accordion } from "@/components/ui/accordion";
+import { SectionHeading } from "@/components/ui/section-heading";
 
 const items = [
   {
@@ -36,10 +37,11 @@ const items = [
 export function Faq() {
   return (
     <section id="faq" className="scroll-mt-24 py-20">
-      <div className="container max-w-3xl">
-        <p className="text-center text-xs font-bold uppercase tracking-[0.14em] text-primary">FAQ</p>
-        <h2 className="mt-3 text-center text-3xl font-bold tracking-tight sm:text-4xl">Questions fréquentes</h2>
-        <Accordion items={items} defaultOpen={["real"]} className="mt-10" />
+      <div className="container">
+        <SectionHeading tag="05 · Questions" title="Questions fréquentes" />
+        <div className="mt-10 max-w-3xl md:ml-[12rem]">
+          <Accordion items={items} defaultOpen={["real"]} />
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { BadgeCheck, FileCheck2, LifeBuoy, ShieldCheck, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { cn } from "@/lib/utils";
 
 const DEMO_CODE = "123456";
@@ -46,19 +47,16 @@ export function Security() {
 
   return (
     <section id="securite" className="scroll-mt-24 py-20">
-      <div className="container grid items-start gap-12 lg:grid-cols-2">
+      <div className="container">
+        <SectionHeading tag="03 · Sécurité" title="Des chauffeurs contrôlés, des passagers vérifiés">
+          Ce que MOVA prévoit de vérifier avant le pilote. La liste exacte des pièces sera validée par un spécialiste.
+        </SectionHeading>
+      <div className="mt-10 grid items-start gap-10 md:ml-[12rem] lg:grid-cols-2">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">Sécurité & vérification</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Des chauffeurs contrôlés, des passagers vérifiés</h2>
-          <p className="mt-3 text-lg text-muted-foreground">
-            Ce que MOVA prévoit de vérifier avant le pilote. La liste exacte des pièces sera validée par un spécialiste.
-          </p>
-          <ul className="mt-8 grid gap-5">
+          <ul className="grid gap-6">
             {checks.map((c) => (
               <li key={c.title} className="flex gap-4">
-                <div className="grid size-10 shrink-0 place-items-center rounded-full bg-success/15 text-success">
-                  <c.icon className="size-5" />
-                </div>
+                <c.icon className="mt-0.5 size-5 shrink-0 text-primary" />
                 <div>
                   <p className="font-semibold">{c.title}</p>
                   <p className="text-muted-foreground">{c.text}</p>
@@ -68,12 +66,12 @@ export function Security() {
           </ul>
         </div>
 
-        <form onSubmit={verify} className="rounded-2xl border bg-card p-6 shadow-xl sm:p-8">
+        <form onSubmit={verify} className="rounded-md border border-foreground/15 bg-card p-6 sm:p-8">
           <div className="flex items-center justify-between gap-3">
             <h3 className="flex items-center gap-2 text-lg font-semibold">
               <Smartphone className="size-5 text-primary" /> Vérification du téléphone
             </h3>
-            <span className="rounded-full bg-primary/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-primary">Maquette</span>
+            <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Maquette</span>
           </div>
           <div className="mt-4 rounded-lg border-l-4 border-warning bg-warning/10 p-3 text-sm text-muted-foreground">
             <strong className="text-foreground">Aucun SMS n'est envoyé.</strong> Saisissez le code de démo{" "}
@@ -109,6 +107,7 @@ export function Security() {
             Vérifier
           </Button>
         </form>
+      </div>
       </div>
     </section>
   );

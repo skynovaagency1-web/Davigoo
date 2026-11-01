@@ -1,8 +1,9 @@
-import { Clock3, Moon, Stethoscope, TrainFront, GraduationCap, Luggage } from "lucide-react";
+import { Clock3, GraduationCap, Luggage, Moon, Stethoscope, TrainFront } from "lucide-react";
 import { Header } from "@/components/ui/header-1";
 import { RideBookingForm } from "@/components/ui/ride-booking-form";
 import Features from "@/components/ui/features-01";
 import FooterSection from "@/components/ui/footer";
+import { DepartureBoard } from "@/components/sections/departure-board";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Security } from "@/components/sections/security";
 import { Drivers } from "@/components/sections/drivers";
@@ -11,12 +12,12 @@ import { Faq } from "@/components/sections/faq";
 import { Waitlist } from "@/components/sections/waitlist";
 
 const useCases = [
-  { icon: TrainFront, title: "Gares Viotte & TGV", description: "Rejoindre la gare Besançon Franche-Comté TGV à Auxon ou Viotte sans chercher de place.", footnote: "Exemple fictif : Centre → Gare TGV" },
-  { icon: Moon, title: "Soirées", description: "Rentrer de Battant ou du centre en fin de soirée, quand les bus se font rares.", footnote: "Horaires du pilote à définir" },
-  { icon: Stethoscope, title: "CHU Minjoz", description: "Rendez-vous médicaux et visites, avec trajet planifié à l'avance.", footnote: "Accessibilité à préciser" },
-  { icon: GraduationCap, title: "Campus & Témis", description: "La Bouloie, Témis, Micropolis : des trajets courts et réguliers.", footnote: "Demande à mesurer" },
-  { icon: Luggage, title: "Bagages & groupes", description: "Catégorie Van jusqu'à 7 places pour les familles et les valises.", footnote: "Catégories à confirmer" },
-  { icon: Clock3, title: "Planifié ou immédiat", description: "Réserver maintenant ou à l'avance, avec une estimation avant de confirmer.", footnote: "Mode de réservation à trancher" },
+  { icon: TrainFront, title: "Gares Viotte et Besançon TGV", description: "Rejoindre Auxon ou Viotte sans chercher de place ni rater le train.", footnote: "Centre → TGV · ≈ 12 km" },
+  { icon: Moon, title: "Soirées", description: "Rentrer de Battant ou du centre quand les bus se font rares.", footnote: "Horaires à définir" },
+  { icon: Stethoscope, title: "CHU Minjoz", description: "Rendez-vous médicaux et visites, avec un trajet planifié à l'avance.", footnote: "Accessibilité à préciser" },
+  { icon: GraduationCap, title: "La Bouloie, Témis, Micropolis", description: "Des trajets courts et réguliers entre campus, zones d'activité et salons.", footnote: "Demande à mesurer" },
+  { icon: Luggage, title: "Bagages et groupes", description: "Un van jusqu'à 7 places pour les familles et les valises.", footnote: "Catégorie à confirmer" },
+  { icon: Clock3, title: "Immédiat ou planifié", description: "Réserver maintenant ou la veille, avec un prix affiché avant de confirmer.", footnote: "Mode à trancher" },
 ];
 
 export default function Landing() {
@@ -24,19 +25,33 @@ export default function Landing() {
     <>
       <Header />
       <main>
-        <section className="relative overflow-hidden py-12 sm:py-16">
-          <div className="pointer-events-none absolute -right-40 -top-40 size-[640px] rounded-full bg-primary/15 blur-3xl" />
-          <div className="container relative">
-            <RideBookingForm />
+        <section className="pb-20 pt-10 sm:pt-14">
+          <div className="container grid items-start gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+            <div>
+              <p className="font-mono text-xs text-muted-foreground">47°14′N · 6°01′E — VTC local, en préparation</p>
+              <h1 className="font-wide mt-5 text-[3.1rem] font-black leading-[0.92] tracking-tight sm:text-7xl xl:text-[5.5rem]">
+                Besançon,
+                <br />
+                <span className="text-primary">à l'heure.</span>
+              </h1>
+              <p className="mt-6 max-w-lg text-lg text-muted-foreground">
+                MOVA met en relation les Bisontins avec des chauffeurs VTC indépendants de la ville. Prix connu avant de partir,
+                chauffeurs vérifiés, support local.
+              </p>
+              <RideBookingForm className="mt-9" />
+            </div>
+            <div className="lg:pt-24">
+              <DepartureBoard />
+            </div>
           </div>
         </section>
         <Waitlist />
         <HowItWorks />
         <Features
           id="trajets"
-          eyebrow="Pensé pour Besançon"
+          tag="02 · Trajets"
           title="Les trajets que nous voulons tester"
-          subtitle="Nous ne présumons pas la demande : ces cas d'usage seront mesurés pendant le pilote."
+          subtitle="Nous ne présumons pas la demande : ces usages seront mesurés pendant le pilote."
           features={useCases}
         />
         <Security />

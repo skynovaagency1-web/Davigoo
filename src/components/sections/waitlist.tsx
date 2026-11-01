@@ -29,28 +29,28 @@ export function Waitlist() {
   };
 
   return (
-    <section id="liste-attente" className="scroll-mt-24 py-20">
+    <section id="liste-attente" className="scroll-mt-24 bg-primary py-16 text-primary-foreground sm:py-20">
       <div className="container">
-        <div className="grid items-center gap-10 rounded-3xl border bg-gradient-to-br from-primary/15 via-card to-card p-6 sm:p-10 lg:grid-cols-2">
+        <div className="grid items-start gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
           <div>
-            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-primary">
-              <BellRing className="size-4" /> Liste d'attente
+            <p className="flex items-center gap-2 font-mono text-xs text-primary-foreground/70">
+              <BellRing className="size-4 text-signal" /> Liste d'attente
             </p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Soyez prévenu du lancement à Besançon</h2>
-            <p className="mt-3 text-lg text-muted-foreground">
+            <h2 className="font-wide mt-4 text-4xl font-black leading-[0.95] tracking-tight sm:text-5xl">Soyez du premier trajet.</h2>
+            <p className="mt-4 max-w-md text-lg text-primary-foreground/75">
               Inscrivez-vous pour être parmi les premiers passagers du pilote. Dites-nous quels trajets vous intéressent :
               cela nous aide à choisir la zone et les horaires.
             </p>
           </div>
 
           {state === "sent" ? (
-            <div className="rounded-2xl border bg-background/60 p-6 text-center" aria-live="polite">
+            <div className="rounded-md bg-card p-6 text-center text-foreground" aria-live="polite">
               <CheckCircle2 className="mx-auto size-9 text-success" />
               <p className="mt-2 text-lg font-semibold">C'est noté, merci !</p>
               <p className="text-muted-foreground">Nous vous écrirons dès l'ouverture du pilote.</p>
             </div>
           ) : (
-            <form onSubmit={onSubmit} className="grid gap-4 rounded-2xl border bg-background/60 p-5 sm:p-6">
+            <form onSubmit={onSubmit} className="grid gap-4 rounded-md bg-card p-5 text-foreground sm:p-7">
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="grid gap-1.5 text-sm font-medium text-muted-foreground">
                   E-mail *
@@ -76,7 +76,7 @@ export function Waitlist() {
                 </label>
               </div>
               <ConsentCheckbox id="wl-consent" />
-              <Button type="submit" size="lg" disabled={state === "sending"}>
+              <Button type="submit" size="lg" disabled={state === "sending"} className="bg-foreground text-background hover:bg-foreground/85">
                 {state === "sending" && <Loader2 className="size-4 animate-spin" />}
                 M'inscrire
               </Button>

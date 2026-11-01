@@ -8,7 +8,8 @@ export default {
     container: { center: true, padding: "1.25rem", screens: { "2xl": "1160px" } },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+        sans: ["Archivo", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+        mono: ["Martian Mono", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -24,6 +25,8 @@ export default {
         card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
         success: "hsl(var(--success))",
         warning: "hsl(var(--warning))",
+        signal: "hsl(var(--signal))",
+        board: { DEFAULT: "hsl(var(--board))", foreground: "hsl(var(--board-foreground))" },
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -184,7 +184,7 @@ export function Accordion({
   const { isOpen, headerProps, panelProps } = useAccordion({ items: entries, type, defaultOpen, collapsible });
 
   return (
-    <div className={`divide-y divide-border overflow-hidden rounded-xl border bg-card shadow-sm ${className}`}>
+    <div className={`divide-y divide-border border-y ${className}`}>
       {items.map((item) => (
         <AccordionRow
           key={item.id}
@@ -231,10 +231,10 @@ function AccordionRow({
       <div role="heading" aria-level={headingLevel}>
         <button
           {...header}
-          className="flex w-full items-center gap-3 px-5 py-4 text-left outline-none transition-colors duration-150 hover:bg-accent focus-visible:bg-primary/10 focus-visible:shadow-[inset_0_0_0_1px_hsl(var(--primary))]"
+          className="flex w-full items-center gap-3 py-5 text-left outline-none transition-colors duration-150 hover:text-primary focus-visible:bg-primary/5 focus-visible:shadow-[inset_0_0_0_1px_hsl(var(--primary))]"
         >
           <span
-            className={`min-w-0 flex-1 text-base font-semibold transition-colors duration-150 ${
+            className={`min-w-0 flex-1 text-lg font-bold transition-colors duration-150 ${
               open ? "text-foreground" : "text-foreground/85"
             }`}
           >
@@ -262,14 +262,14 @@ function AccordionRow({
         transition={reduced ? { duration: 0 } : DISCLOSE}
         style={{ overflow: "hidden", height: ready ? undefined : open ? "auto" : 0 }}
       >
-        <div {...panel} ref={ref} className="border-t bg-background/40">
+        <div {...panel} ref={ref}>
           <motion.div
             initial={false}
             animate={{ opacity: open ? 1 : 0 }}
             transition={
               reduced ? { duration: 0 } : open ? { duration: 0.18, ease: EASE } : { duration: 0.14, ease: EXIT_EASE }
             }
-            className="px-5 pb-5 pt-4 text-[15px] leading-relaxed text-muted-foreground"
+            className="max-w-2xl pb-6 pr-8 text-base leading-relaxed text-muted-foreground"
           >
             {item.content}
           </motion.div>
