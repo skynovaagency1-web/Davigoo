@@ -44,9 +44,18 @@ The site is then served at `https://skynovaagency1-web.github.io/Mova/`. A custo
 ## Waitlist sign-ups
 
 The passenger waitlist and driver interest forms insert rows into the Supabase table `public.mova_signups`
-(project "Skynova Agency's Project", EU region). Visitors can only insert; read the sign-ups in the Supabase
-dashboard (Table editor → `mova_signups`) or export them as CSV. Override the project with `VITE_SUPABASE_URL` /
-`VITE_SUPABASE_KEY` (publishable key) at build time if needed.
+(organization "MOVA", project "Mova", EU region). Visitors can only insert. The database schema lives in
+`supabase/migrations/`. Override the project with `VITE_SUPABASE_URL` / `VITE_SUPABASE_KEY` (publishable key)
+at build time if needed.
+
+## Ops console (`/ops/`)
+
+Private staff console for the sign-ups: overview, passenger and driver lists, candidate status, notes, CSV export.
+Access requires a Supabase Auth account, a TOTP authenticator app (enrolled on first login) and a row in
+`public.mova_staff`. Row level security enforces both, so the page itself holds no data. The page is `noindex`.
+
+Add a staff member: create the user in Supabase (Authentication → Users → Add user, auto-confirm), then run
+`insert into public.mova_staff (user_id) select id from auth.users where email = '...';`
 
 ## Demo data
 
