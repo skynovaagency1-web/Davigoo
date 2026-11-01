@@ -1,7 +1,6 @@
 // Waitlist sign-ups are stored in Supabase (table public.mova_signups, insert-only for visitors).
 // The publishable key is meant to be public; row level security only allows inserts.
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL ?? "https://scixaxatkvwihedzukma.supabase.co";
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY ?? "sb_publishable_uPjoYqzAW16IPOSan-YzTQ_VdxV5PfS";
+import { SUPABASE_KEY, SUPABASE_URL } from "@/lib/supabase-config";
 
 export type Signup = {
   kind: "passenger" | "driver";
