@@ -1,5 +1,5 @@
 export const inputClass =
-  "w-full rounded-md border bg-background px-3.5 py-2.5 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-ring";
+  "w-full rounded-2xl border border-white/80 bg-white/60 px-4 py-2.5 shadow-[inset_0_1px_2px_rgba(90,70,50,0.08)] text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-ring";
 
 export function ConsentCheckbox({ id }: { id: string }) {
   return (

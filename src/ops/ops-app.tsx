@@ -41,7 +41,7 @@ export default function OpsApp() {
     const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
       if (event === "SIGNED_OUT") evaluate(null);
       if (event === "PASSWORD_RECOVERY") needsPassword.current = true;
-      if (event === "TOKEN_REFRESHED" || event === "MFA_CHALLENGE_VERIFIED") evaluate(s);
+      if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED" || event === "MFA_CHALLENGE_VERIFIED") evaluate(s);
     });
     return () => sub.subscription.unsubscribe();
   }, [evaluate]);
@@ -52,12 +52,13 @@ export default function OpsApp() {
 
   return (
     <div className="grid min-h-screen place-items-center px-4 py-10">
+      <div className="ops-backdrop" aria-hidden />
       <div className="w-full max-w-sm">
-        <p className="font-wide text-3xl font-black tracking-tight">
-          MOVA <span className="text-primary">Ops</span>
+        <p className="font-display text-4xl font-medium tracking-[0.14em]">
+          MOVA <span className="text-xl tracking-[0.3em] text-muted-foreground">OPS</span>
         </p>
         <p className="mt-1 font-mono text-xs text-muted-foreground">Console interne · accès réservé à l'équipe</p>
-        <div className="mt-8 rounded-md border border-foreground/15 bg-card p-6">
+        <div className="glass-card mt-8 rounded-[1.75rem] p-7">
           {gate.step === "loading" && <Loader2 className="mx-auto size-6 animate-spin text-muted-foreground" />}
           {gate.step === "signed-out" && <SignIn />}
           {gate.step === "enroll" && <Enroll onDone={() => supabase.auth.getSession().then(({ data }) => evaluate(data.session))} />}

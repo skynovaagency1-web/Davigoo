@@ -79,7 +79,7 @@ export function AppSection() {
   const pending = drivers.filter((d) => !d.approved).length;
 
   return (
-    <section className="mt-12" aria-labelledby="app-title">
+    <section className="glass-card mt-6 rounded-[1.75rem] p-5 sm:p-7" aria-labelledby="app-title">
       <div className="flex items-end justify-between gap-4 border-b pb-3">
         <h2 id="app-title" className="text-lg font-bold">
           Application pilote{" "}
@@ -89,7 +89,7 @@ export function AppSection() {
           <RefreshCw className={cn("size-4", loading && "animate-spin")} />
         </Button>
       </div>
-      {error && <p role="alert" className="mt-4 rounded-md border-l-4 border-warning bg-warning/10 p-3 text-sm">{error}</p>}
+      {error && <p role="alert" className="mt-4 rounded-2xl border-l-4 border-warning bg-warning/10 p-3 text-sm">{error}</p>}
 
       <div className="mt-6 grid gap-8 lg:grid-cols-2">
         <div>
