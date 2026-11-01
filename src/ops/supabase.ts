@@ -1,6 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/lib/supabase-config";
 
+// Read before the client consumes the URL: invite, recovery and magic links must end with choosing a password.
+export const ARRIVED_FROM_EMAIL_LINK =
+  typeof window !== "undefined" && /type=(invite|recovery|magiclink|signup)/.test(window.location.hash);
+
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, storageKey: "mova-ops-auth" },
 });
