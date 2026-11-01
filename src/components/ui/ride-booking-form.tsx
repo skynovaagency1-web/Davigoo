@@ -5,16 +5,16 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CATEGORIES, PLACES, estimateRide, formatEuro, type Category, type Estimate } from "@/lib/demo-data";
+import { CATEGORIES, PLACES, estimateBetween, formatEuro, type Category, type Estimate, type Place } from "@/lib/demo-data";
+import { AddressInput } from "@/components/ui/address-input";
 
-const selectClass =
-  "w-full appearance-none bg-transparent py-1 text-base font-semibold text-foreground focus:outline-none [&>option]:bg-card";
 
 export const RideBookingForm = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
     const today = new Date().toISOString().slice(0, 10);
-    const [pickup, setPickup] = React.useState("viotte");
-    const [dropoff, setDropoff] = React.useState("tgv");
+    const byId = (id: string) => PLACES.find((p) => p.id === id)!;
+    const [pickup, setPickup] = React.useState<Place>(byId("viotte"));
+    const [dropoff, setDropoff] = React.useState<Place>(byId("tgv"));
     const [date, setDate] = React.useState(today);
     const [time, setTime] = React.useState("");
     const [category, setCategory] = React.useState<Category["id"]>("standard");
@@ -25,8 +25,8 @@ export const RideBookingForm = React.forwardRef<HTMLDivElement, React.HTMLAttrib
     React.useEffect(() => {
       const onPick = (e: Event) => {
         const id = (e as CustomEvent<string>).detail;
-        setDropoff(id);
-        setPickup((p) => (p === id ? (id === "viotte" ? "centre" : "viotte") : p));
+        setDropoff(byId(id));
+        setPickup((p) => (p.id === id ? byId(id === "viotte" ? "centre" : "viotte") : p));
         setEstimate(null);
       };
       window.addEventListener("mova:destination", onPick);
@@ -35,10 +35,10 @@ export const RideBookingForm = React.forwardRef<HTMLDivElement, React.HTMLAttrib
 
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
-      const result = estimateRide(pickup, dropoff, category, time || undefined);
+      const result = estimateBetween(pickup, dropoff, category, time || undefined);
       if (!result) {
         setEstimate(null);
-        setError("Choisissez un départ et une destination différents.");
+        setError("Choisissez un départ et une destination différents (au moins 300 m).");
         return;
       }
       setError("");
@@ -66,22 +66,14 @@ export const RideBookingForm = React.forwardRef<HTMLDivElement, React.HTMLAttrib
           aria-describedby="devis-note"
         >
           <motion.div variants={itemVariants} className="grid sm:grid-cols-2">
-            <label className="block border-b py-3 sm:border-r sm:pr-4">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Départ</span>
-              <select id="pickup" value={pickup} onChange={(e) => setPickup(e.target.value)} className={selectClass}>
-                {PLACES.map((p) => (
-                  <option key={p.id} value={p.id}>{p.label}</option>
-                ))}
-              </select>
-            </label>
-            <label className="block border-b py-3 sm:pl-4">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Arrivée</span>
-              <select id="dropoff" value={dropoff} onChange={(e) => setDropoff(e.target.value)} className={selectClass}>
-                {PLACES.map((p) => (
-                  <option key={p.id} value={p.id}>{p.label}</option>
-                ))}
-              </select>
-            </label>
+            <div className="block border-b py-3 sm:border-r sm:pr-4">
+              <label htmlFor="pickup" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Départ</label>
+              <AddressInput id="pickup" label="Départ" value={pickup} onChange={(p) => { setPickup(p); setEstimate(null); }} />
+            </div>
+            <div className="block border-b py-3 sm:pl-4">
+              <label htmlFor="dropoff" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Arrivée</label>
+              <AddressInput id="dropoff" label="Arrivée" value={dropoff} onChange={(p) => { setDropoff(p); setEstimate(null); }} />
+            </div>
           </motion.div>
 
           <motion.div variants={itemVariants} className="grid grid-cols-2 border-b">
@@ -116,7 +108,7 @@ export const RideBookingForm = React.forwardRef<HTMLDivElement, React.HTMLAttrib
           <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t py-4">
             <button
               type="submit"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-primary px-7 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-7 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               Estimer le trajet <ArrowRight className="size-4" />
             </button>
@@ -134,7 +126,7 @@ export const RideBookingForm = React.forwardRef<HTMLDivElement, React.HTMLAttrib
           </motion.div>
         </motion.form>
         <p id="devis-note" className="mt-3 text-xs text-muted-foreground">
-          Estimation d'exemple, calculée à vol d'oiseau. Aucune réservation n'est créée ; le tarif réel reste à définir.
+          Estimation d'exemple, calculée à vol d'oiseau. Adresses : Base Adresse Nationale. Aucune réservation n'est créée ; le tarif réel reste à définir.
         </p>
       </div>
     );

@@ -38,9 +38,16 @@ export type Estimate = { km: number; minutes: number; price: number; night: bool
 export function estimateRide(fromId: string, toId: string, categoryId: Category["id"], time?: string): Estimate | null {
   const from = PLACES.find((p) => p.id === fromId);
   const to = PLACES.find((p) => p.id === toId);
+  if (!from || !to) return null;
+  return estimateBetween(from, to, categoryId, time);
+}
+
+/** Same demo tariff between any two points (addresses from the search). */
+export function estimateBetween(from: Place, to: Place, categoryId: Category["id"], time?: string): Estimate | null {
   const cat = CATEGORIES.find((c) => c.id === categoryId);
-  if (!from || !to || !cat || from.id === to.id) return null;
+  if (!cat || from.id === to.id) return null;
   const km = haversineKm(from, to) * 1.35;
+  if (km < 0.3) return null;
   const minutes = Math.round((km / 24) * 60 + 3);
   const hour = time ? Number(time.split(":")[0]) : new Date().getHours();
   const night = hour >= 21 || hour < 6;

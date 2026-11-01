@@ -31,7 +31,11 @@ export type Ride = {
   driver_id: string | null;
   status: RideStatus;
   pickup_label: string;
+  pickup_lat: number;
+  pickup_lng: number;
   dropoff_label: string;
+  dropoff_lat: number;
+  dropoff_lng: number;
   category: CategoryId;
   km: number;
   minutes: number;
