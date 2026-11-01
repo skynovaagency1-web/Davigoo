@@ -1,10 +1,12 @@
 import * as React from "react";
-import { ActivityIndicator, RefreshControl, ScrollView, Switch, Text, View } from "react-native";
+import { ActivityIndicator, RefreshControl, ScrollView, Text, View } from "react-native";
 import { usePolling } from "../hooks";
 import { errorText, supabase, type Contact, type Driver as DriverRow, type Profile, type Ride } from "../supabase";
-import { Body, Button, C, Card, ErrorText, Label, Title } from "../ui";
+import { Body, Button, C, Card, ErrorText, Label, SERIF, Title } from "../ui";
 import { Header } from "./Header";
 import { RideRoute } from "./RideRoute";
+import { Account } from "./Account";
+import { Rudder, RUDDER_SPACE } from "./Rudder";
 
 const NEXT: Partial<Record<Ride["status"], { status: Ride["status"]; label: string; title: string }>> = {
   accepted: { status: "arriving", label: "Je pars chercher le passager", title: "Course acceptée" },
@@ -18,6 +20,7 @@ export function Driver({ profile }: { profile: Profile }) {
   const [requests, setRequests] = React.useState<Ride[]>([]);
   const [error, setError] = React.useState("");
   const [busy, setBusy] = React.useState<string | null>(null);
+  const [tab, setTab] = React.useState<"rides" | "account">("rides");
 
   const load = React.useCallback(async () => {
     const [{ data: d }, { data: mine }] = await Promise.all([
@@ -61,10 +64,34 @@ export function Driver({ profile }: { profile: Profile }) {
     );
   }
 
+  const rudder = (
+    <Rudder
+      left={{ icon: "list", label: "Courses", active: tab === "rides", onPress: () => setTab("rides") }}
+      center={{
+        icon: "power",
+        label: driver.online ? "Passer hors ligne" : "Passer en ligne",
+        tint: driver.online ? "sage" : "sand",
+        busy: busy === "online",
+        disabled: !driver.approved || !!ride,
+        onPress: () => run("online", () => supabase.rpc("mova_update_driver", { p_online: !driver.online })),
+      }}
+      right={{ icon: "person", label: "Compte", active: tab === "account", onPress: () => setTab("account") }}
+    />
+  );
+
+  if (tab === "account")
+    return (
+      <View style={{ flex: 1 }}>
+        {header}
+        <Account profile={profile} extra={<Card><Label>Véhicule</Label><Body>{driver.vehicle} · {driver.plate}</Body></Card>} />
+        {rudder}
+      </View>
+    );
+
   return (
     <View style={{ flex: 1 }}>
       {header}
-      <ScrollView contentContainerStyle={{ padding: 20, gap: 16 }} refreshControl={<RefreshControl refreshing={false} onRefresh={load} />}>
+      <ScrollView contentContainerStyle={{ padding: 20, gap: 16, paddingBottom: RUDDER_SPACE }} refreshControl={<RefreshControl refreshing={false} onRefresh={load} />}>
         {!driver.approved ? (
           <Card>
             <Title style={{ fontSize: 22 }}>Compte en attente de validation</Title>
@@ -73,21 +100,12 @@ export function Driver({ profile }: { profile: Profile }) {
             </Body>
           </Card>
         ) : (
-          <Card dark style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+          <Card dark style={{ flexDirection: "row", alignItems: "center", gap: 14 }}>
+            <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: driver.online ? "#B5BE98" : "#6B5E51" }} />
             <View style={{ flex: 1 }}>
-              <Text style={{ color: C.boardFg, fontSize: 22, fontWeight: "900" }}>{driver.online ? "En ligne" : "Hors ligne"}</Text>
-              <Text style={{ color: "#9AA8A1" }}>{driver.vehicle} · {driver.plate}</Text>
+              <Text style={{ color: C.boardFg, fontFamily: SERIF, fontSize: 26 }}>{driver.online ? "En ligne" : "Hors ligne"}</Text>
+              <Text style={{ color: "#B5A898" }}>{driver.online ? "Vous recevez les demandes." : "Touchez le bouton central pour passer en ligne."}</Text>
             </View>
-            {busy === "online" ? (
-              <ActivityIndicator color={C.signal} />
-            ) : (
-              <Switch
-                accessibilityLabel="Passer en ligne"
-                value={driver.online}
-                onValueChange={(v) => run("online", () => supabase.rpc("mova_update_driver", { p_online: v }))}
-                trackColor={{ true: C.signal, false: "#3A4641" }}
-              />
-            )}
           </Card>
         )}
         <ErrorText>{error}</ErrorText>
@@ -108,6 +126,7 @@ export function Driver({ profile }: { profile: Profile }) {
           <Body muted>Passez en ligne pour recevoir des demandes de course.</Body>
         ) : null}
       </ScrollView>
+      {rudder}
     </View>
   );
 }
@@ -124,7 +143,7 @@ function ActiveRide({ ride, busy, run }: { ride: Ride; busy: string | null; run:
     <View style={{ gap: 12 }}>
       <Card>
         <Label>{next?.title ?? "Course"} · n° {ride.id}</Label>
-        <Text style={{ fontSize: 22, fontWeight: "900", color: C.fg }}>Passager : {contact?.first_name ?? "…"}</Text>
+        <Text style={{ fontFamily: SERIF, fontSize: 26, color: C.fg }}>Passager : {contact?.first_name ?? "…"}</Text>
         <RideRoute ride={ride} />
       </Card>
       {next && (

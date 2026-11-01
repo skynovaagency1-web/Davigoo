@@ -8,7 +8,8 @@ export default {
     container: { center: true, padding: "1.25rem", screens: { "2xl": "1160px" } },
     extend: {
       fontFamily: {
-        sans: ["Archivo", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+        sans: ["Jost", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+        display: ["Cormorant Garamond", "Didot", "Georgia", "serif"],
         mono: ["Martian Mono", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
       },
       colors: {

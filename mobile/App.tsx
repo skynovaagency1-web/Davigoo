@@ -4,7 +4,9 @@ import { StatusBar } from "expo-status-bar";
 import { ActivityIndicator, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { supabase, type Profile } from "./src/supabase";
-import { C } from "./src/ui";
+import { Backdrop, C } from "./src/ui";
+import { Welcome } from "./src/screens/Welcome";
+import { Reveal } from "./src/screens/Reveal";
 import { Login } from "./src/screens/Login";
 import { Onboarding } from "./src/screens/Onboarding";
 import { Passenger } from "./src/screens/Passenger";
@@ -14,6 +16,8 @@ import { Driver } from "./src/screens/Driver";
 // The two store apps (passenger / driver) will be built from this code later.
 export default function App() {
   const [session, setSession] = React.useState<Session | null | undefined>(undefined);
+  const [intro, setIntro] = React.useState(true);
+  const [revealed, setRevealed] = React.useState(false);
   const [profile, setProfile] = React.useState<Profile | null | undefined>(undefined);
 
   React.useEffect(() => {
@@ -40,10 +44,14 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, backgroundColor: C.bg }}>
-        <StatusBar style="dark" />
-        <View style={{ flex: 1 }}>{screen}</View>
-      </SafeAreaView>
+      <Backdrop>
+        <SafeAreaView style={{ flex: 1 }}>
+          <StatusBar style="dark" />
+          <View style={{ flex: 1 }}>{screen}</View>
+        </SafeAreaView>
+        {session === null && !revealed && <Reveal onDone={() => setRevealed(true)} />}
+        {intro && <Welcome onDone={() => setIntro(false)} />}
+      </Backdrop>
     </SafeAreaProvider>
   );
 }

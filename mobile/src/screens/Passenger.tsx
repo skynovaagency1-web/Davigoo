@@ -3,9 +3,11 @@ import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { usePolling } from "../hooks";
 import { CATEGORIES, PLACES, euro, previewPrice, type Place } from "../places";
 import { ACTIVE, errorText, supabase, type CategoryId, type Contact, type Profile, type Ride } from "../supabase";
-import { Body, Button, C, Card, Chip, ErrorText, Label, Title } from "../ui";
+import { Body, Button, C, Card, Chip, ErrorText, Label, SERIF, Title } from "../ui";
 import { Header } from "./Header";
 import { RideRoute } from "./RideRoute";
+import { Account } from "./Account";
+import { Rudder, RUDDER_SPACE } from "./Rudder";
 
 const STATUS: Record<Ride["status"], { title: string; text: string }> = {
   requested: { title: "Recherche d'un chauffeur…", text: "Votre demande est envoyée aux chauffeurs MOVA en ligne." },
@@ -19,6 +21,8 @@ const STATUS: Record<Ride["status"], { title: string; text: string }> = {
 export function Passenger({ profile }: { profile: Profile }) {
   const [ride, setRide] = React.useState<Ride | null | undefined>(undefined);
   const [dismissed, setDismissed] = React.useState<number | null>(null);
+  const [tab, setTab] = React.useState<"ride" | "account">("ride");
+  const [bookKey, setBookKey] = React.useState(0);
 
   const load = React.useCallback(async () => {
     const { data } = await supabase
@@ -37,13 +41,28 @@ export function Passenger({ profile }: { profile: Profile }) {
   return (
     <View style={{ flex: 1 }}>
       <Header name={profile.first_name} subtitle="Passager" />
-      {ride === undefined ? (
+      {tab === "account" ? (
+        <Account profile={profile} />
+      ) : ride === undefined ? (
         <ActivityIndicator style={{ marginTop: 40 }} color={C.primary} />
       ) : ride && active ? (
         <CurrentRide ride={ride} onChange={setRide} onClose={() => setDismissed(ride.id)} />
       ) : (
-        <Book onBooked={setRide} />
+        <Book key={bookKey} onBooked={setRide} />
       )}
+      <Rudder
+        left={{ icon: "route", label: "Course", active: tab === "ride", onPress: () => setTab("ride") }}
+        center={{
+          icon: "plus",
+          label: "Nouvelle course",
+          onPress: () => {
+            setTab("ride");
+            if (ride && !ACTIVE.includes(ride.status)) setDismissed(ride.id);
+            if (!ride || !ACTIVE.includes(ride.status)) setBookKey((k) => k + 1);
+          },
+        }}
+        right={{ icon: "person", label: "Compte", active: tab === "account", onPress: () => setTab("account") }}
+      />
     </View>
   );
 }
@@ -88,7 +107,7 @@ function Book({ onBooked }: { onBooked: (r: Ride) => void }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 20, gap: 22 }}>
+    <ScrollView contentContainerStyle={{ padding: 20, gap: 22, paddingBottom: RUDDER_SPACE }}>
       <Title>Où allez-vous ?</Title>
       <PlacePicker label="Départ" value={from} onChange={(p) => { setFrom(p); if (to?.id === p.id) setTo(null); }} />
       <PlacePicker label="Arrivée" value={to} onChange={setTo} exclude={from} />
@@ -103,7 +122,7 @@ function Book({ onBooked }: { onBooked: (r: Ride) => void }) {
       {est && (
         <Card>
           <Label>Estimation</Label>
-          <Text style={{ fontSize: 34, fontWeight: "900", color: C.fg }}>≈ {euro(est.price)}</Text>
+          <Text style={{ fontFamily: SERIF, fontSize: 42, color: C.fg }}>≈ {euro(est.price)}</Text>
           <Body muted>
             {String(est.km).replace(".", ",")} km · {est.minutes} min{est.night ? " · tarif soirée" : ""}. Tarif pilote, à titre indicatif.
           </Body>
@@ -138,19 +157,19 @@ function CurrentRide({ ride, onChange, onClose }: { ride: Ride; onChange: (r: Ri
   const cancelText = ride.status === "cancelled" ? (ride.cancelled_by === "driver" ? "Le chauffeur a annulé la course. Vous pouvez en commander une autre." : "Vous avez annulé cette course.") : st.text;
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 20, gap: 16 }}>
+    <ScrollView contentContainerStyle={{ padding: 20, gap: 16, paddingBottom: RUDDER_SPACE }}>
       <Card dark>
-        <Text style={{ color: C.signal, fontSize: 12, letterSpacing: 1, fontWeight: "700", textTransform: "uppercase" }}>Course n° {ride.id}</Text>
-        <Text style={{ color: C.boardFg, fontSize: 26, fontWeight: "900" }}>{st.title}</Text>
-        {!!cancelText && <Text style={{ color: "#B9C4BE", fontSize: 15 }}>{cancelText}</Text>}
-        {ride.status === "requested" && <ActivityIndicator color={C.signal} style={{ alignSelf: "flex-start" }} />}
+        <Text style={{ color: C.accentOnDark, fontSize: 11, letterSpacing: 1.6, fontWeight: "600", textTransform: "uppercase" }}>Course n° {ride.id}</Text>
+        <Text style={{ color: C.boardFg, fontFamily: SERIF, fontSize: 32 }}>{st.title}</Text>
+        {!!cancelText && <Text style={{ color: "#B5A898", fontSize: 15 }}>{cancelText}</Text>}
+        {ride.status === "requested" && <ActivityIndicator color={C.accentOnDark} style={{ alignSelf: "flex-start" }} />}
       </Card>
       {contact && ride.status !== "completed" && (
         <Card>
           <Label>Votre chauffeur</Label>
-          <Text style={{ fontSize: 20, fontWeight: "800", color: C.fg }}>{contact.first_name}</Text>
+          <Text style={{ fontFamily: SERIF, fontSize: 26, color: C.fg }}>{contact.first_name}</Text>
           <Body>
-            {contact.vehicle} · <Text style={{ fontWeight: "800", letterSpacing: 1 }}>{contact.plate}</Text>
+            {contact.vehicle} · <Text style={{ fontWeight: "600", letterSpacing: 1.2 }}>{contact.plate}</Text>
           </Body>
         </Card>
       )}

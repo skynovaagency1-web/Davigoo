@@ -1,19 +1,14 @@
-import { Pressable, Text, View } from "react-native";
-import { supabase } from "../supabase";
-import { C } from "../ui";
+import { Text, View } from "react-native";
+import { C, Wordmark } from "../ui";
 
 export function Header({ name, subtitle }: { name: string; subtitle: string }) {
   return (
-    <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 20, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: C.border }}>
-      <View>
-        <Text style={{ fontSize: 22, fontWeight: "900", color: C.fg }}>
-          MOVA <Text style={{ color: C.primary }}>{subtitle}</Text>
-        </Text>
-        <Text style={{ color: C.muted }}>Bonjour {name}</Text>
+    <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 20, paddingTop: 8, paddingBottom: 12 }}>
+      <Wordmark size={20} />
+      <View style={{ alignItems: "flex-end" }}>
+        <Text style={{ color: C.fg, fontSize: 14 }}>Bonjour {name}</Text>
+        <Text style={{ fontSize: 10, letterSpacing: 1.4, color: C.signal, textTransform: "uppercase" }}>{subtitle}</Text>
       </View>
-      <Pressable accessibilityRole="button" onPress={() => supabase.auth.signOut()} hitSlop={10}>
-        <Text style={{ color: C.muted, textDecorationLine: "underline" }}>Déconnexion</Text>
-      </Pressable>
     </View>
   );
 }
