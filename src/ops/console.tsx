@@ -1,4 +1,5 @@
 import * as React from "react";
+import { AppSection } from "@/ops/app-section";
 import { Download, Loader2, LogOut, RefreshCw, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { inputClass } from "@/components/ui/consent";
@@ -215,12 +216,14 @@ export function Console({ email, onSignOut }: { email: string; onSignOut: () => 
             </table>
             {!loading && !list.length && (
               <p className="py-12 text-center text-muted-foreground">
-                {rows.length ? "Aucune inscription ne correspond à ces filtres." : "Pas encore d'inscription. Elles apparaîtront ici dès que le site sera en ligne."}
+                {rows.length ? "Aucune inscription ne correspond à ces filtres." : "Pas encore d'inscription sur la liste d'attente."}
               </p>
             )}
             {loading && <Loader2 className="mx-auto my-12 size-6 animate-spin text-muted-foreground" />}
           </div>
         </section>
+
+        <AppSection />
       </main>
 
       {open && <DetailPanel row={open} onClose={() => setOpenId(null)} onSaved={onSaved} />}

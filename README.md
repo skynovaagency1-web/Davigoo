@@ -22,7 +22,7 @@ Site vitrine et prototype interactif pour MOVA, un concept de plateforme VTC loc
 | `/` (`index.html`) | Landing page: fictitious quote form, how it works, Besançon use cases, verification mock-up (demo code `123456`), passenger waitlist and driver interest form (stored in Supabase), FAQ |
 | `/app.html` | Interactive phone prototype: rider ↔ driver toggle, simulated match, accept/refuse, trip states |
 | `/mentions-legales.html` | Legal notice placeholder, to complete before going public |
-| `mobile/` | Expo / React Native starter (see `mobile/README.md`) |
+| `mobile/` | Pilot passenger and driver app, Expo / React Native (see `mobile/README.md`) |
 
 ## Run locally
 
@@ -56,6 +56,10 @@ Access requires a Supabase Auth account, a TOTP authenticator app (enrolled on f
 
 Add a staff member: create the user in Supabase (Authentication → Users → Add user, auto-confirm), then run
 `insert into public.mova_staff (user_id) select id from auth.users where email = '...';`
+
+## Pilot app (`mobile/`)
+
+Expo app for passengers and drivers on the same Supabase project. See `mobile/README.md`.
 
 ## Demo data
 
