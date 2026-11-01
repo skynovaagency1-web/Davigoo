@@ -5,7 +5,7 @@ One Expo / React Native codebase for both apps. The account's role picks the exp
 - **Passenger:** choose pick-up and drop-off (pilot list of Besançon places), see the estimate, request a ride, follow its status, cancel.
 - **Driver:** register vehicle, wait for MOVA validation, go online, see open requests, accept, then "en route" → "passager à bord" → "terminer".
 
-Sign-in uses a 6-digit code sent by e-mail (Supabase Auth). There is no payment, map or live GPS yet; those come in the next steps.
+Sign-in uses e-mail + password (Supabase Auth, "Confirm email" turned off for the pilot because the project has no custom e-mail service yet). There is no payment, map or live GPS yet; those come in the next steps.
 
 ## Run it on your phone
 
@@ -20,7 +20,6 @@ The schema is in `../supabase/migrations/` (`20261103_mova_rides_v1.sql` for the
 functions (`mova_request_ride`, `mova_accept_ride`, `mova_advance_ride`, `mova_cancel_ride`) that enforce who may do what;
 prices are computed in the database. Drivers are validated by staff in the ops console (`/ops/`).
 
-Supabase e-mail templates **Confirm signup** and **Magic Link** must include `{{ .Token }}` so users receive the code.
 
 ## Checks
 
