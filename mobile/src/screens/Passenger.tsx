@@ -8,6 +8,9 @@ import { ACTIVE, errorText, supabase, type CategoryId, type Contact, type Profil
 import { Body, Button, C, Card, Chip, ErrorText, Label, SERIF, Title } from "../ui";
 import { Header } from "./Header";
 import { RideRoute } from "./RideRoute";
+import { MapPreview } from "./MapPreview";
+import { AddressField } from "./AddressField";
+import { etaMinutes } from "../geo";
 import { Account } from "./Account";
 import { Rudder, RUDDER_SPACE } from "./Rudder";
 
@@ -108,10 +111,19 @@ const ph = StyleSheet.create({
 function Book({ onBooked }: { onBooked: (r: Ride) => void }) {
   const [from, setFrom] = React.useState<Place | null>(null);
   const [to, setTo] = React.useState<Place | null>(null);
+  const [active, setActive] = React.useState<"from" | "to">("from");
   const [category, setCategory] = React.useState<CategoryId>("standard");
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState("");
   const est = from && to ? previewPrice(from, to, category) : null;
+
+  const setPlace = (which: "from" | "to", p: Place | null) => {
+    setError("");
+    if (which === "from") {
+      setFrom(p);
+      if (p) setActive("to");
+    } else setTo(p);
+  };
 
   const book = async () => {
     if (!from || !to) return;
@@ -132,10 +144,19 @@ function Book({ onBooked }: { onBooked: (r: Ride) => void }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 20, gap: 22, paddingBottom: RUDDER_SPACE }}>
+    <ScrollView contentContainerStyle={{ padding: 20, gap: 18, paddingBottom: RUDDER_SPACE }} keyboardShouldPersistTaps="handled">
       <Title>Où allez-vous ?</Title>
-      <PlacePicker label="Départ" value={from} onChange={(p) => { setFrom(p); if (to?.id === p.id) setTo(null); }} />
-      <PlacePicker label="Arrivée" value={to} onChange={setTo} exclude={from} />
+      <MapPreview from={from} to={to} />
+      <View style={{ gap: 10 }}>
+        <AddressField label="Adresse de départ" marker="dot" value={from} onChange={(p) => setPlace("from", p)} onFocus={() => setActive("from")} withLocation />
+        <AddressField label="Adresse d'arrivée" marker="square" value={to} onChange={(p) => setPlace("to", p)} onFocus={() => setActive("to")} near={from ?? undefined} />
+      </View>
+      <PlacePicker
+        label={active === "from" ? "Lieux populaires · départ" : "Lieux populaires · arrivée"}
+        value={active === "from" ? from : to}
+        exclude={active === "from" ? to : from}
+        onChange={(p) => setPlace(active, p)}
+      />
       <View style={{ gap: 10 }}>
         <Label>Catégorie</Label>
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
@@ -155,7 +176,7 @@ function Book({ onBooked }: { onBooked: (r: Ride) => void }) {
       )}
       <ErrorText>{error}</ErrorText>
       <Button title="Commander" onPress={book} busy={busy} disabled={!from || !to} />
-      <Text style={{ fontSize: 10, color: C.muted, lineHeight: 14 }}>{PHOTO_CREDITS}</Text>
+      <Text style={{ fontSize: 10, color: C.muted, lineHeight: 14 }}>Adresses : Base Adresse Nationale (Géoplateforme). {PHOTO_CREDITS}</Text>
     </ScrollView>
   );
 }
@@ -180,6 +201,12 @@ function CurrentRide({ ride, onChange, onClose }: { ride: Ride; onChange: (r: Ri
     onChange(data as Ride);
   };
 
+  // Live driver position, shown while it is fresh (sent in the last 90 seconds).
+  const fresh = ride.driver_located_at != null && Date.now() - new Date(ride.driver_located_at).getTime() < 90_000;
+  const car = fresh && ride.driver_lat != null && ride.driver_lng != null ? { lat: ride.driver_lat, lng: ride.driver_lng, heading: ride.driver_heading } : null;
+  const target = ride.status === "in_progress" ? { lat: ride.dropoff_lat, lng: ride.dropoff_lng } : { lat: ride.pickup_lat, lng: ride.pickup_lng };
+  const eta = car && ["accepted", "arriving", "in_progress"].includes(ride.status) ? etaMinutes(car, target) : null;
+
   const cancelText = ride.status === "cancelled" ? (ride.cancelled_by === "driver" ? "Le chauffeur a annulé la course. Vous pouvez en commander une autre." : "Vous avez annulé cette course.") : st.text;
 
   return (
@@ -187,6 +214,12 @@ function CurrentRide({ ride, onChange, onClose }: { ride: Ride; onChange: (r: Ri
       <Card dark>
         <Text style={{ color: C.accentOnDark, fontSize: 11, letterSpacing: 1.6, fontWeight: "600", textTransform: "uppercase" }}>Course n° {ride.id}</Text>
         <Text style={{ color: C.boardFg, fontFamily: SERIF, fontSize: 32 }}>{st.title}</Text>
+        {eta != null && (
+          <Text style={{ color: C.boardFg, fontSize: 17 }}>
+            {ride.status === "in_progress" ? "Arrivée prévue dans " : "Votre chauffeur arrive dans "}
+            <Text style={{ fontFamily: SERIF, fontSize: 24, color: C.accentOnDark }}>~{eta} min</Text>
+          </Text>
+        )}
         {!!cancelText && <Text style={{ color: "#B5A898", fontSize: 15 }}>{cancelText}</Text>}
         {ride.status === "requested" && <ActivityIndicator color={C.accentOnDark} style={{ alignSelf: "flex-start" }} />}
       </Card>
@@ -199,6 +232,7 @@ function CurrentRide({ ride, onChange, onClose }: { ride: Ride; onChange: (r: Ri
           </Body>
         </Card>
       )}
+      <MapPreview from={{ lat: ride.pickup_lat, lng: ride.pickup_lng }} to={{ lat: ride.dropoff_lat, lng: ride.dropoff_lng }} car={car} height={190} />
       <Card>
         <RideRoute ride={ride} />
       </Card>

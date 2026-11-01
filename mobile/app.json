@@ -23,6 +23,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "MOVA utilise votre position pour proposer votre adresse de départ."
+        }
+      ]
+    ]
   }
 }

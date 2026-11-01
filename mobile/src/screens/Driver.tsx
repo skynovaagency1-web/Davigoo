@@ -1,10 +1,12 @@
 import * as React from "react";
-import { ActivityIndicator, RefreshControl, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Linking, Platform, RefreshControl, ScrollView, Text, View } from "react-native";
 import { usePolling } from "../hooks";
 import { errorText, supabase, type Contact, type Driver as DriverRow, type Profile, type Ride } from "../supabase";
 import { Body, Button, C, Card, ErrorText, Label, SERIF, Title } from "../ui";
 import { Header } from "./Header";
 import { RideRoute } from "./RideRoute";
+import { MapPreview } from "./MapPreview";
+import { useShareLocation } from "./useShareLocation";
 import { Account } from "./Account";
 import { Rudder, RUDDER_SPACE } from "./Rudder";
 
@@ -139,8 +141,36 @@ function ActiveRide({ ride, busy, run }: { ride: Ride; busy: string | null; run:
     supabase.rpc("mova_ride_contact", { p_ride_id: ride.id }).then(({ data }) => setContact((data as Contact[] | null)?.[0] ?? null));
   }, [ride.id]);
 
+  const sharing = useShareLocation(["accepted", "arriving", "in_progress"].includes(ride.status) ? ride.id : null);
+
+  // Before pick-up the driver navigates to the passenger, afterwards to the destination.
+  const toPickup = ride.status === "accepted" || ride.status === "arriving";
+  const dest = toPickup ? { lat: ride.pickup_lat, lng: ride.pickup_lng } : { lat: ride.dropoff_lat, lng: ride.dropoff_lng };
+  const navigate = () => {
+    const ll = `${dest.lat},${dest.lng}`;
+    Linking.openURL(Platform.OS === "ios" ? `https://maps.apple.com/?daddr=${ll}&dirflg=d` : `https://www.google.com/maps/dir/?api=1&destination=${ll}&travelmode=driving`);
+  };
+
   return (
     <View style={{ gap: 12 }}>
+      <MapPreview
+        from={{ lat: ride.pickup_lat, lng: ride.pickup_lng }}
+        to={{ lat: ride.dropoff_lat, lng: ride.dropoff_lng }}
+        car={ride.driver_lat != null && ride.driver_lng != null ? { lat: ride.driver_lat, lng: ride.driver_lng, heading: ride.driver_heading } : null}
+        height={180}
+      />
+      <Text style={{ fontSize: 12, color: sharing === "sharing" ? C.muted : C.warning, paddingHorizontal: 4 }}>
+        {sharing === "sharing"
+          ? "● Position partagée avec le passager. Gardez MOVA ouvert pendant la course."
+          : sharing === "denied"
+            ? "Autorisez la localisation dans Réglages pour que le passager vous voie arriver."
+            : sharing === "error"
+              ? "Position non envoyée. Vérifiez la connexion."
+              : "Activation du partage de position…"}
+      </Text>
+      {ride.status !== "completed" && ride.status !== "cancelled" && (
+        <Button title={toPickup ? "Itinéraire vers le passager" : "Itinéraire vers la destination"} variant="outline" onPress={navigate} />
+      )}
       <Card>
         <Label>{next?.title ?? "Course"} · n° {ride.id}</Label>
         <Text style={{ fontFamily: SERIF, fontSize: 26, color: C.fg }}>Passager : {contact?.first_name ?? "…"}</Text>
