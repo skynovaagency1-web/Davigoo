@@ -10,6 +10,7 @@ import { Header } from "./Header";
 import { RideRoute } from "./RideRoute";
 import { MapPreview } from "./MapPreview";
 import { AddressField } from "./AddressField";
+import { etaMinutes } from "../geo";
 import { Account } from "./Account";
 import { Rudder, RUDDER_SPACE } from "./Rudder";
 
@@ -200,6 +201,12 @@ function CurrentRide({ ride, onChange, onClose }: { ride: Ride; onChange: (r: Ri
     onChange(data as Ride);
   };
 
+  // Live driver position, shown while it is fresh (sent in the last 90 seconds).
+  const fresh = ride.driver_located_at != null && Date.now() - new Date(ride.driver_located_at).getTime() < 90_000;
+  const car = fresh && ride.driver_lat != null && ride.driver_lng != null ? { lat: ride.driver_lat, lng: ride.driver_lng, heading: ride.driver_heading } : null;
+  const target = ride.status === "in_progress" ? { lat: ride.dropoff_lat, lng: ride.dropoff_lng } : { lat: ride.pickup_lat, lng: ride.pickup_lng };
+  const eta = car && ["accepted", "arriving", "in_progress"].includes(ride.status) ? etaMinutes(car, target) : null;
+
   const cancelText = ride.status === "cancelled" ? (ride.cancelled_by === "driver" ? "Le chauffeur a annulé la course. Vous pouvez en commander une autre." : "Vous avez annulé cette course.") : st.text;
 
   return (
@@ -207,6 +214,12 @@ function CurrentRide({ ride, onChange, onClose }: { ride: Ride; onChange: (r: Ri
       <Card dark>
         <Text style={{ color: C.accentOnDark, fontSize: 11, letterSpacing: 1.6, fontWeight: "600", textTransform: "uppercase" }}>Course n° {ride.id}</Text>
         <Text style={{ color: C.boardFg, fontFamily: SERIF, fontSize: 32 }}>{st.title}</Text>
+        {eta != null && (
+          <Text style={{ color: C.boardFg, fontSize: 17 }}>
+            {ride.status === "in_progress" ? "Arrivée prévue dans " : "Votre chauffeur arrive dans "}
+            <Text style={{ fontFamily: SERIF, fontSize: 24, color: C.accentOnDark }}>~{eta} min</Text>
+          </Text>
+        )}
         {!!cancelText && <Text style={{ color: "#B5A898", fontSize: 15 }}>{cancelText}</Text>}
         {ride.status === "requested" && <ActivityIndicator color={C.accentOnDark} style={{ alignSelf: "flex-start" }} />}
       </Card>
@@ -219,7 +232,7 @@ function CurrentRide({ ride, onChange, onClose }: { ride: Ride; onChange: (r: Ri
           </Body>
         </Card>
       )}
-      <MapPreview from={{ lat: ride.pickup_lat, lng: ride.pickup_lng }} to={{ lat: ride.dropoff_lat, lng: ride.dropoff_lng }} height={170} />
+      <MapPreview from={{ lat: ride.pickup_lat, lng: ride.pickup_lng }} to={{ lat: ride.dropoff_lat, lng: ride.dropoff_lng }} car={car} height={190} />
       <Card>
         <RideRoute ride={ride} />
       </Card>

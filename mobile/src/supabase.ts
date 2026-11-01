@@ -36,6 +36,10 @@ export type Ride = {
   dropoff_label: string;
   dropoff_lat: number;
   dropoff_lng: number;
+  driver_lat: number | null;
+  driver_lng: number | null;
+  driver_heading: number | null;
+  driver_located_at: string | null;
   category: CategoryId;
   km: number;
   minutes: number;
@@ -49,6 +53,8 @@ export type CategoryId = "standard" | "confort" | "van";
 export const ACTIVE: RideStatus[] = ["requested", "accepted", "arriving", "in_progress"];
 
 const ERRORS: Record<string, string> = {
+  not_your_ride: "Cette course n'est plus active.",
+  bad_position: "Position invalide.",
   not_a_passenger: "Ce compte n'est pas un compte passager.",
   not_a_driver: "Ce compte n'est pas un compte chauffeur.",
   driver_not_approved: "Votre compte chauffeur n'est pas encore validé par MOVA.",

@@ -31,3 +31,11 @@ export async function reverseGeocode(lat: number, lng: number): Promise<Place | 
 }
 
 export const DEFAULT_REGION = { latitude: BESANCON.lat, longitude: BESANCON.lng, latitudeDelta: 0.09, longitudeDelta: 0.09 };
+
+// Rough time to reach a point in town: straight line x 1.35 at 24 km/h, as for the price estimate.
+export function etaMinutes(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
+  const rad = (d: number) => (d * Math.PI) / 180;
+  const h = Math.sin(rad(b.lat - a.lat) / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(rad(b.lng - a.lng) / 2) ** 2;
+  const km = 2 * 6371 * Math.asin(Math.sqrt(h)) * 1.35;
+  return Math.max(1, Math.round((km / 24) * 60));
+}
