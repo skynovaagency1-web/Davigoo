@@ -3,6 +3,7 @@ import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View
 import { LinearGradient } from "expo-linear-gradient";
 import { PHOTO_CREDITS, PLACE_PHOTOS } from "../place-photos";
 import { usePolling } from "../hooks";
+import { useSignedPhoto } from "./DriverPhoto";
 import { CATEGORIES, PLACES, euro, previewPrice, type Place } from "../places";
 import { ACTIVE, errorText, supabase, type CategoryId, type Contact, type Profile, type Ride } from "../supabase";
 import { Body, Button, C, Card, Chip, ErrorText, Label, SERIF, Title } from "../ui";
@@ -183,6 +184,8 @@ function Book({ onBooked }: { onBooked: (r: Ride) => void }) {
 
 function CurrentRide({ ride, onChange, onClose }: { ride: Ride; onChange: (r: Ride) => void; onClose: () => void }) {
   const [contact, setContact] = React.useState<Contact | null>(null);
+  const [photoPath, setPhotoPath] = React.useState<string | null>(null);
+  const photo = useSignedPhoto(photoPath);
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState("");
   const st = STATUS[ride.status];
@@ -191,6 +194,13 @@ function CurrentRide({ ride, onChange, onClose }: { ride: Ride; onChange: (r: Ri
     if (!ride.driver_id || ride.status === "cancelled") return setContact(null);
     supabase.rpc("mova_ride_contact", { p_ride_id: ride.id }).then(({ data }) => setContact((data as Contact[] | null)?.[0] ?? null));
   }, [ride.id, ride.driver_id, ride.status]);
+
+  // The driver's photo, so the passenger can recognise who picks them up. Only during the ride.
+  const showPhoto = !!ride.driver_id && ["accepted", "arriving", "in_progress"].includes(ride.status);
+  React.useEffect(() => {
+    if (!showPhoto) return setPhotoPath(null);
+    supabase.rpc("mova_ride_driver_photo", { p_ride_id: ride.id }).then(({ data }) => setPhotoPath((data as string | null) ?? null));
+  }, [ride.id, showPhoto]);
 
   const cancel = async () => {
     setBusy(true);
@@ -226,10 +236,20 @@ function CurrentRide({ ride, onChange, onClose }: { ride: Ride; onChange: (r: Ri
       {contact && ride.status !== "completed" && (
         <Card>
           <Label>Votre chauffeur</Label>
-          <Text style={{ fontFamily: SERIF, fontSize: 26, color: C.fg }}>{contact.first_name}</Text>
-          <Body>
-            {contact.vehicle} · <Text style={{ fontWeight: "600", letterSpacing: 1.2 }}>{contact.plate}</Text>
-          </Body>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 14 }}>
+            {showPhoto && (
+              <View style={{ width: 64, height: 64, borderRadius: 32, overflow: "hidden", backgroundColor: "rgba(255,255,255,0.6)" }}>
+                {photo && <Image source={{ uri: photo }} style={{ width: 64, height: 64 }} accessibilityLabel={`Photo de ${contact.first_name}`} />}
+              </View>
+            )}
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontFamily: SERIF, fontSize: 26, color: C.fg }}>{contact.first_name}</Text>
+              <Body>
+                {contact.vehicle} · <Text style={{ fontWeight: "600", letterSpacing: 1.2 }}>{contact.plate}</Text>
+              </Body>
+            </View>
+          </View>
+          {showPhoto && <Body muted>Vérifiez la photo et la plaque avant de monter.</Body>}
         </Card>
       )}
       <MapPreview from={{ lat: ride.pickup_lat, lng: ride.pickup_lng }} to={{ lat: ride.dropoff_lat, lng: ride.dropoff_lng }} car={car} height={190} />

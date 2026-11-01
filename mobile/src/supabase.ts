@@ -22,6 +22,7 @@ export type Driver = {
   category: CategoryId;
   approved: boolean;
   online: boolean;
+  photo_path: string | null;
 };
 export type RideStatus = "requested" | "accepted" | "arriving" | "in_progress" | "completed" | "cancelled";
 export type Ride = {
@@ -55,6 +56,8 @@ export const ACTIVE: RideStatus[] = ["requested", "accepted", "arriving", "in_pr
 const ERRORS: Record<string, string> = {
   not_your_ride: "Cette course n'est plus active.",
   bad_position: "Position invalide.",
+  bad_photo: "Photo invalide. Reprenez-la.",
+  checks_incomplete: "Votre vérification MOVA n'est pas complète ou un document a expiré.",
   not_a_passenger: "Ce compte n'est pas un compte passager.",
   not_a_driver: "Ce compte n'est pas un compte chauffeur.",
   driver_not_approved: "Votre compte chauffeur n'est pas encore validé par MOVA.",
