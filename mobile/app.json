@@ -30,6 +30,14 @@
         {
           "locationWhenInUsePermission": "MOVA utilise votre position pour proposer votre adresse de départ."
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "MOVA utilise l'appareil photo pour votre photo de chauffeur, montrée au passager.",
+          "photosPermission": "MOVA accède à vos photos si vous choisissez votre photo de chauffeur dans la galerie.",
+          "microphonePermission": false
+        }
       ]
     ]
   }

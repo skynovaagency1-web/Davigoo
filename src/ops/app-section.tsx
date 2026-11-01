@@ -1,20 +1,11 @@
 import * as React from "react";
-import { Check, Loader2, RefreshCw, X } from "lucide-react";
+import { Loader2, RefreshCw, ShieldCheck, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/ops/supabase";
+import { DriverVerification, ExpiryBadge, type VerifDriver } from "@/ops/driver-verification";
 
-type StaffDriver = {
-  user_id: string;
-  first_name: string;
-  email: string;
-  vehicle: string;
-  plate: string;
-  category: string;
-  approved: boolean;
-  online: boolean;
-  created_at: string;
-};
+type StaffDriver = VerifDriver & { created_at: string };
 
 type Ride = {
   id: number;
@@ -36,16 +27,19 @@ const RIDE_STATUS: Record<string, string> = {
 
 const fmt = (iso: string) => new Date(iso).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" });
 
-// Pilot app: validate drivers (after checking their documents outside the app) and follow rides.
+// Pilot app: verify and validate drivers, follow rides.
 export function AppSection() {
   const [drivers, setDrivers] = React.useState<StaffDriver[]>([]);
   const [rides, setRides] = React.useState<Ride[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [busy, setBusy] = React.useState<string | null>(null);
   const [error, setError] = React.useState("");
+  const [open, setOpen] = React.useState<StaffDriver | null>(null);
 
   const load = React.useCallback(async () => {
     setLoading(true);
+    // Documents expire on their own: take expired drivers offline before listing.
+    await supabase.rpc("mova_pause_expired_drivers");
     const [d, r] = await Promise.all([
       supabase.rpc("mova_staff_drivers"),
       supabase.from("mova_rides").select("id,created_at,status,pickup_label,dropoff_label,price_estimate").order("created_at", { ascending: false }).limit(25),
@@ -56,7 +50,9 @@ export function AppSection() {
       return;
     }
     setError("");
-    setDrivers((d.data as StaffDriver[]) ?? []);
+    const list = (d.data as StaffDriver[]) ?? [];
+    setDrivers(list);
+    setOpen((cur) => (cur ? list.find((x) => x.user_id === cur.user_id) ?? null : null));
     setRides((r.data as Ride[]) ?? []);
   }, []);
 
@@ -65,7 +61,7 @@ export function AppSection() {
   }, [load]);
 
   const setApproved = async (driver: StaffDriver, approved: boolean) => {
-    if (!approved && !window.confirm(`Retirer la validation de ${driver.first_name} ? Il ne pourra plus passer en ligne.`)) return;
+    if (!window.confirm(`Retirer la validation de ${driver.first_name} ? Ce chauffeur ne pourra plus passer en ligne.`)) return;
     setBusy(driver.user_id);
     const { error } = await supabase
       .from("mova_drivers")
@@ -94,18 +90,19 @@ export function AppSection() {
       <div className="mt-6 grid gap-8 lg:grid-cols-2">
         <div>
           <h3 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Chauffeurs inscrits dans l'app</h3>
-          <p className="mt-1 text-xs text-muted-foreground">Validez uniquement après avoir vérifié carte VTC, assurance et véhicule, hors de l'application.</p>
+          <p className="mt-1 text-xs text-muted-foreground">Ouvrez « Vérifier » pour cocher chaque document. La validation n'est possible qu'une fois tout vérifié et en cours de validité.</p>
           <ul className="mt-3 divide-y border-y">
             {drivers.map((d) => (
               <li key={d.user_id} className="flex items-center justify-between gap-3 py-3 text-sm">
                 <div className="min-w-0">
-                  <p className="font-semibold">
-                    {d.first_name}{" "}
+                  <p className="flex flex-wrap items-center gap-x-2 gap-y-1 font-semibold">
+                    {d.first_name}
                     {d.approved ? (
-                      <span className="ml-1 text-xs font-normal text-success">{d.online ? "● en ligne" : "validé"}</span>
+                      <span className="text-xs font-normal text-success">{d.online ? "● en ligne" : "validé"}</span>
                     ) : (
-                      <span className="ml-1 text-xs font-normal text-warning">à valider</span>
+                      <span className="text-xs font-normal text-warning">{d.photo_path ? "à vérifier" : "photo manquante"}</span>
                     )}
+                    <ExpiryBadge date={d.next_expiry} />
                   </p>
                   <p className="truncate text-muted-foreground">{d.email}</p>
                   <p className="font-mono text-xs text-muted-foreground">
@@ -114,14 +111,17 @@ export function AppSection() {
                 </div>
                 {busy === d.user_id ? (
                   <Loader2 className="size-4 animate-spin" />
-                ) : d.approved ? (
-                  <Button variant="outline" size="sm" onClick={() => setApproved(d, false)}>
-                    <X className="size-4" /> Retirer
-                  </Button>
                 ) : (
-                  <Button size="sm" onClick={() => setApproved(d, true)}>
-                    <Check className="size-4" /> Valider
-                  </Button>
+                  <div className="flex shrink-0 gap-2">
+                    <Button variant={d.approved ? "outline" : "default"} size="sm" onClick={() => setOpen(d)}>
+                      <ShieldCheck className="size-4" /> Vérifier
+                    </Button>
+                    {d.approved && (
+                      <Button variant="outline" size="sm" onClick={() => setApproved(d, false)} aria-label={`Retirer la validation de ${d.first_name}`}>
+                        <X className="size-4" />
+                      </Button>
+                    )}
+                  </div>
                 )}
               </li>
             ))}
@@ -147,6 +147,7 @@ export function AppSection() {
           </ul>
         </div>
       </div>
+      {open && <DriverVerification driver={open} onClose={() => setOpen(null)} onChanged={load} />}
     </section>
   );
 }

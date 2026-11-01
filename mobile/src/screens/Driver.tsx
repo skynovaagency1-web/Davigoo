@@ -8,6 +8,7 @@ import { RideRoute } from "./RideRoute";
 import { MapPreview } from "./MapPreview";
 import { useShareLocation } from "./useShareLocation";
 import { Account } from "./Account";
+import { DriverPhoto } from "./DriverPhoto";
 import { Rudder, RUDDER_SPACE } from "./Rudder";
 
 const NEXT: Partial<Record<Ride["status"], { status: Ride["status"]; label: string; title: string }>> = {
@@ -85,7 +86,7 @@ export function Driver({ profile }: { profile: Profile }) {
     return (
       <View style={{ flex: 1 }}>
         {header}
-        <Account profile={profile} extra={<Card><Label>Véhicule</Label><Body>{driver.vehicle} · {driver.plate}</Body></Card>} />
+        <Account profile={profile} extra={<><DriverPhoto driver={driver} onChanged={load} /><Card><Label>Véhicule</Label><Body>{driver.vehicle} · {driver.plate}</Body></Card></>} />
         {rudder}
       </View>
     );
@@ -95,12 +96,17 @@ export function Driver({ profile }: { profile: Profile }) {
       {header}
       <ScrollView contentContainerStyle={{ padding: 20, gap: 16, paddingBottom: RUDDER_SPACE }} refreshControl={<RefreshControl refreshing={false} onRefresh={load} />}>
         {!driver.approved ? (
-          <Card>
-            <Title style={{ fontSize: 22 }}>Compte en attente de validation</Title>
-            <Body muted>
-              MOVA vérifie votre carte VTC, votre assurance et votre véhicule ({driver.vehicle}, {driver.plate}). Vous pourrez passer en ligne dès la validation. Tirez vers le bas pour actualiser.
-            </Body>
-          </Card>
+          <>
+            <Card>
+              <Title style={{ fontSize: 22 }}>Compte en attente de validation</Title>
+              <Body muted>
+                {driver.photo_path
+                  ? `MOVA vérifie en personne votre identité, votre carte VTC, vos assurances et votre véhicule (${driver.vehicle}, ${driver.plate}). Vous pourrez passer en ligne dès la validation. Tirez vers le bas pour actualiser.`
+                  : "Première étape : ajoutez votre photo ci-dessous. MOVA vérifiera ensuite en personne votre identité, votre carte VTC, vos assurances et votre véhicule."}
+              </Body>
+            </Card>
+            {!driver.photo_path && <DriverPhoto driver={driver} onChanged={load} />}
+          </>
         ) : (
           <Card dark style={{ flexDirection: "row", alignItems: "center", gap: 14 }}>
             <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: driver.online ? "#B5BE98" : "#6B5E51" }} />
