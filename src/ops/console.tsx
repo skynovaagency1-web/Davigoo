@@ -93,10 +93,11 @@ export function Console({ email, onSignOut }: { email: string; onSignOut: () => 
 
   return (
     <div className="min-h-screen">
-      <header className="border-b border-foreground/80">
+      <div className="ops-backdrop" aria-hidden />
+      <header className="sticky top-0 z-40 border-b border-white/60 bg-[#f4efea]/60 backdrop-blur-xl">
         <div className="container flex h-16 items-center justify-between gap-4">
-          <p className="font-wide text-xl font-black tracking-tight">
-            MOVA <span className="text-primary">Ops</span>
+          <p className="font-display text-2xl font-medium tracking-[0.14em]">
+            MOVA <span className="text-sm tracking-[0.3em] text-muted-foreground">OPS</span>
           </p>
           <div className="flex items-center gap-3">
             <span className="hidden font-mono text-xs text-muted-foreground sm:inline">{email}</span>
@@ -109,16 +110,16 @@ export function Console({ email, onSignOut }: { email: string; onSignOut: () => 
 
       <main className="container py-8">
         {error && (
-          <p role="alert" className="mb-6 rounded-md border-l-4 border-warning bg-warning/10 p-3 text-sm">
+          <p role="alert" className="glass-card mb-6 rounded-2xl border-l-4 !border-l-warning p-3 text-sm">
             {error}
           </p>
         )}
 
-        <section aria-label="Vue d'ensemble" className="grid grid-cols-2 gap-px overflow-hidden rounded-md border bg-border sm:grid-cols-3 lg:grid-cols-5">
+        <section aria-label="Vue d'ensemble" className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {stats.map((s) => (
-            <div key={s.label} className="bg-card p-4">
+            <div key={s.label} className="glass-card rounded-[1.5rem] p-5">
               <p className="text-xs text-muted-foreground">{s.label}</p>
-              <p className="mt-1 font-wide text-3xl font-black tnum">
+              <p className="mt-1 font-display text-4xl font-medium tnum">
                 {loading ? "–" : s.value}
                 {s.goal && <span className="ml-1 font-mono text-xs font-normal text-muted-foreground">/ objectif {s.goal}</span>}
               </p>
@@ -131,7 +132,7 @@ export function Console({ email, onSignOut }: { email: string; onSignOut: () => 
           <TopList title="Trajets demandés (passagers)" items={topValues("details", passengers)} />
         </section>
 
-        <section className="mt-10">
+        <section className="glass-card mt-6 rounded-[1.75rem] p-5 sm:p-7">
           <div className="flex flex-wrap items-end justify-between gap-4 border-b">
             <div role="tablist" className="flex gap-6">
               {(["driver", "passenger"] as const).map((t) => (
@@ -192,7 +193,7 @@ export function Console({ email, onSignOut }: { email: string; onSignOut: () => 
               </thead>
               <tbody className="divide-y">
                 {list.map((r) => (
-                  <tr key={r.id} onClick={() => setOpenId(r.id)} className="cursor-pointer align-top hover:bg-card">
+                  <tr key={r.id} onClick={() => setOpenId(r.id)} className="cursor-pointer align-top hover:bg-white/50">
                     <td className="py-3 pr-4 font-mono text-xs text-muted-foreground tnum">{fmtDate(r.created_at)}</td>
                     <td className="py-3 pr-4 font-semibold">
                       <button className="text-left hover:underline" onClick={() => setOpenId(r.id)}>
@@ -234,7 +235,7 @@ export function Console({ email, onSignOut }: { email: string; onSignOut: () => 
 function TopList({ title, items }: { title: string; items: [string, number][] }) {
   const max = Math.max(1, ...items.map((i) => i[1]));
   return (
-    <div className="rounded-md border bg-card p-4">
+    <div className="glass-card rounded-[1.5rem] p-5">
       <p className="text-xs text-muted-foreground">{title}</p>
       {items.length ? (
         <ul className="mt-3 grid gap-2">
@@ -284,12 +285,12 @@ function DetailPanel({ row, onClose, onSaved }: { row: SignupRow; onClose: () =>
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-foreground/30" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex justify-end bg-[#2c251d]/25 backdrop-blur-[2px]" onClick={onClose}>
       <aside
         role="dialog"
         aria-modal="true"
         aria-label={`Fiche de ${row.first_name || row.email}`}
-        className="h-full w-full max-w-md overflow-y-auto bg-background p-6 shadow-2xl"
+        className="glass-card h-full w-full max-w-md overflow-y-auto !bg-[#f8f4f0]/90 p-6 sm:m-3 sm:h-[calc(100%-1.5rem)] sm:rounded-[1.75rem]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">

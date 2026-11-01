@@ -5,7 +5,7 @@ import { C } from "../ui";
 
 export function RideRoute({ ride, dark }: { ride: Pick<Ride, "pickup_label" | "dropoff_label" | "km" | "minutes" | "price_estimate">; dark?: boolean }) {
   const fg = dark ? C.boardFg : C.fg;
-  const muted = dark ? "#9AA8A1" : C.muted;
+  const muted = dark ? "#B5A898" : C.muted;
   return (
     <View style={{ gap: 8 }}>
       <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>

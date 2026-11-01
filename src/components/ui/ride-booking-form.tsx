@@ -21,6 +21,18 @@ export const RideBookingForm = React.forwardRef<HTMLDivElement, React.HTMLAttrib
     const [estimate, setEstimate] = React.useState<Estimate | null>(null);
     const [error, setError] = React.useState("");
 
+    // A click on a place photo elsewhere on the page picks it as the destination.
+    React.useEffect(() => {
+      const onPick = (e: Event) => {
+        const id = (e as CustomEvent<string>).detail;
+        setDropoff(id);
+        setPickup((p) => (p === id ? (id === "viotte" ? "centre" : "viotte") : p));
+        setEstimate(null);
+      };
+      window.addEventListener("mova:destination", onPick);
+      return () => window.removeEventListener("mova:destination", onPick);
+    }, []);
+
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       const result = estimateRide(pickup, dropoff, category, time || undefined);
