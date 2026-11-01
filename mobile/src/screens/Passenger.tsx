@@ -1,5 +1,7 @@
 import * as React from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { PHOTO_CREDITS, PLACE_PHOTOS } from "../place-photos";
 import { usePolling } from "../hooks";
 import { CATEGORIES, PLACES, euro, previewPrice, type Place } from "../places";
 import { ACTIVE, errorText, supabase, type CategoryId, type Contact, type Profile, type Ride } from "../supabase";
@@ -71,14 +73,37 @@ function PlacePicker({ label, value, onChange, exclude }: { label: string; value
   return (
     <View style={{ gap: 10 }}>
       <Label>{label}</Label>
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-        {PLACES.filter((p) => p.id !== exclude?.id).map((p) => (
-          <Chip key={p.id} label={p.short} active={value?.id === p.id} onPress={() => onChange(p)} />
-        ))}
-      </View>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: -20 }} contentContainerStyle={{ paddingHorizontal: 20, gap: 10 }}>
+        {PLACES.filter((p) => p.id !== exclude?.id).map((p) => {
+          const on = value?.id === p.id;
+          return (
+            <Pressable key={p.id} accessibilityRole="button" accessibilityState={{ selected: on }} accessibilityLabel={p.label} onPress={() => onChange(p)}>
+              {({ pressed }) => (
+                <View style={[ph.card, on && ph.on, { transform: [{ scale: pressed ? 0.97 : 1 }] }]}>
+                  <Image source={{ uri: PLACE_PHOTOS[p.id]?.uri }} style={StyleSheet.absoluteFill} resizeMode="cover" />
+                  <LinearGradient colors={["rgba(44,37,29,0)", "rgba(44,37,29,0.72)"]} locations={[0.35, 1]} style={StyleSheet.absoluteFill} />
+                  {on && (
+                    <View style={ph.check}>
+                      <Text style={{ color: C.fg, fontSize: 13, fontWeight: "700" }}>✓</Text>
+                    </View>
+                  )}
+                  <Text style={ph.name} numberOfLines={2}>{p.short}</Text>
+                </View>
+              )}
+            </Pressable>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 }
+
+const ph = StyleSheet.create({
+  card: { width: 118, height: 150, borderRadius: 22, overflow: "hidden", backgroundColor: "#D8C9B9", justifyContent: "flex-end", padding: 12, borderWidth: 2, borderColor: "rgba(255,255,255,0.6)" },
+  on: { borderColor: "#FFFFFF", shadowColor: "#A8835F", shadowOpacity: 0.45, shadowRadius: 14, shadowOffset: { width: 0, height: 8 }, elevation: 5 },
+  check: { position: "absolute", top: 10, right: 10, width: 26, height: 26, borderRadius: 13, backgroundColor: "rgba(255,255,255,0.92)", alignItems: "center", justifyContent: "center" },
+  name: { color: "#FFFFFF", fontFamily: SERIF, fontSize: 19, lineHeight: 21 },
+});
 
 function Book({ onBooked }: { onBooked: (r: Ride) => void }) {
   const [from, setFrom] = React.useState<Place | null>(null);
@@ -130,6 +155,7 @@ function Book({ onBooked }: { onBooked: (r: Ride) => void }) {
       )}
       <ErrorText>{error}</ErrorText>
       <Button title="Commander" onPress={book} busy={busy} disabled={!from || !to} />
+      <Text style={{ fontSize: 10, color: C.muted, lineHeight: 14 }}>{PHOTO_CREDITS}</Text>
     </ScrollView>
   );
 }
