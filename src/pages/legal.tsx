@@ -1,74 +1,108 @@
-import { Header } from "@/components/ui/header-1";
-import FooterSection from "@/components/ui/footer";
+import { COMPANY, Field, LegalLayout, Todo, type Section } from "@/components/legal-layout";
 
-const Todo = ({ children }: { children: React.ReactNode }) => (
-  <span className="rounded bg-primary/15 px-1.5 py-0.5 font-semibold text-primary">{children}</span>
-);
+const sections: Section[] = [
+  {
+    id: "editeur",
+    title: "Éditeur",
+    body: (
+      <>
+        <p>
+          Le site et l'application MOVA sont édités par <strong><Field value={COMPANY.name} label="Prénom Nom (EI)" /></strong>, entrepreneur
+          individuel exerçant sous le nom commercial MOVA (micro-entreprise).
+        </p>
+        <ul>
+          <li>SIREN : <Field value={COMPANY.siren} label="numéro SIREN" /></li>
+          <li>Adresse : <Field value={COMPANY.address} label="adresse professionnelle ou de domiciliation" /></li>
+          <li>E-mail : <Field value={COMPANY.email} label="e-mail de contact" /></li>
+          <li>Téléphone : <Field value={COMPANY.phone} label="téléphone" /></li>
+          <li>TVA : non applicable, article 293 B du Code général des impôts.</li>
+          <li>Directeur de la publication : <Field value={COMPANY.name} label="Prénom Nom" />.</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    id: "activite",
+    title: "Activité",
+    body: (
+      <>
+        <p>
+          MOVA est une plateforme de réservation de voitures de transport avec chauffeur (VTC) qui met en relation des passagers avec
+          des chauffeurs VTC professionnels et indépendants.
+        </p>
+        <p>
+          Déclaration en tant que centrale de réservation (Code des transports, art. L3142-1 et suivants) :{" "}
+          <Todo>numéro ou date de la déclaration</Todo>. Assurance de responsabilité civile professionnelle :{" "}
+          <Todo>assureur et numéro de contrat</Todo>.
+        </p>
+        <p>
+          Le service est en phase pilote à Besançon : certaines fonctions présentées sur le site (estimations, prototype d'app) sont des
+          démonstrations.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "hebergement",
+    title: "Hébergement",
+    body: (
+      <ul>
+        <li>
+          <strong>Site web</strong> : GitHub Pages, GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis,
+          et Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, États-Unis.
+        </li>
+        <li>
+          <strong>Données (comptes, courses, liste d'attente)</strong> : Supabase Inc., 970 Toa Payoh North #07-04, Singapour 318992.
+          Serveurs situés dans l'Union européenne.
+        </li>
+      </ul>
+    ),
+  },
+  {
+    id: "propriete",
+    title: "Propriété intellectuelle",
+    body: (
+      <>
+        <p>
+          Les textes, l'interface, le logo et le nom MOVA sont protégés. Toute reproduction sans autorisation écrite est interdite.
+          Dépôt de la marque MOVA : <Todo>numéro INPI une fois déposée</Todo>.
+        </p>
+        <p>
+          Les photographies de lieux de Besançon proviennent de Wikimedia Commons ; leurs auteurs et licences sont cités sous chaque
+          photo.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "contact",
+    title: "Contact et réclamations",
+    body: (
+      <>
+        <p>
+          Pour toute question ou réclamation : <Field value={COMPANY.email} label="e-mail de contact" />.
+        </p>
+        <p>
+          Médiateur de la consommation : <Field value={COMPANY.mediator} label="nom et site du médiateur" />. Avant de le saisir, adressez
+          d'abord une réclamation écrite à MOVA.
+        </p>
+        <p>
+          Données personnelles : voir la <a href="./confidentialite.html">politique de confidentialité</a>. Conditions du service : voir
+          les <a href="./cgu.html">conditions d'utilisation</a>.
+        </p>
+      </>
+    ),
+  },
+];
 
 export default function Legal() {
   return (
-    <>
-      <Header />
-      <main className="container max-w-3xl py-14 [&_h2]:mt-10 [&_h2]:text-xl [&_h2]:font-bold [&_p]:mt-3 [&_p]:text-muted-foreground [&_li]:text-muted-foreground">
-        <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Mentions légales</h1>
-        <p>
-          Page provisoire. Les champs surlignés doivent être complétés avant toute mise en ligne publique, et le contenu
-          validé par un professionnel.
-        </p>
-
-        <h2>Éditeur du site</h2>
-        <p>
-          Raison sociale : <Todo>à compléter</Todo>. Forme juridique et capital : <Todo>à compléter</Todo>. Siège :{" "}
-          <Todo>adresse</Todo>. SIREN / RCS : <Todo>à compléter</Todo>. Directeur de la publication : <Todo>nom</Todo>.
-          Contact : <Todo>e-mail et téléphone</Todo>.
-        </p>
-
-        <h2>Hébergement</h2>
-        <p>
-          Hébergeur : <Todo>nom, adresse et téléphone de l'hébergeur</Todo>.
-        </p>
-
-        <h2>Statut du service</h2>
-        <p>
-          MOVA est un nom de travail et un service en préparation. Aucun service de transport n'est proposé à ce jour :
-          les courses, prix, chauffeurs et vérifications affichés dans les démonstrations sont fictifs.
-        </p>
-
-        <h2 id="confidentialite" className="scroll-mt-28">Données personnelles</h2>
-        <p>
-          <strong className="text-foreground">Données collectées :</strong> via la liste d'attente passagers, votre
-          e-mail et, si vous les indiquez, votre prénom, commune et type de trajet ; via le formulaire chauffeurs, votre
-          prénom, e-mail, et si vous les indiquez, téléphone, commune, disponibilités et la déclaration d'une carte VTC.
-          Aucun document n'est collecté.
-        </p>
-        <p>
-          <strong className="text-foreground">Finalité et base légale :</strong> vous informer de l'ouverture du service à
-          Besançon et préparer le pilote (recrutement de chauffeurs, choix de la zone), sur la base de votre consentement.
-        </p>
-        <p>
-          <strong className="text-foreground">Responsable du traitement :</strong> <Todo>raison sociale et adresse</Todo>.
-          Contact : <Todo>e-mail dédié aux données personnelles</Todo>.
-        </p>
-        <p>
-          <strong className="text-foreground">Conservation :</strong> jusqu'au lancement du pilote et au plus 24 mois
-          après votre inscription, puis suppression. <strong className="text-foreground">Hébergement des données :</strong>{" "}
-          Supabase, serveurs situés dans l'Union européenne (Irlande).
-        </p>
-        <p>
-          <strong className="text-foreground">Vos droits :</strong> accès, rectification, suppression, retrait du
-          consentement et réclamation auprès de la CNIL (cnil.fr). Pour les exercer, écrivez au contact ci-dessus.
-        </p>
-        <p>
-          Les autres parties du site (estimation, vérification par code, prototype d'app) fonctionnent uniquement dans
-          votre navigateur et n'envoient aucune donnée.
-        </p>
-
-        <h2>Propriété intellectuelle</h2>
-        <p>
-          La disponibilité du nom et de la marque MOVA n'a pas encore été vérifiée (INPI, EUIPO, noms de domaine).
-        </p>
-      </main>
-      <FooterSection />
-    </>
+    <LegalLayout
+      current="mentions-legales.html"
+      title="Mentions légales"
+      updated="2 novembre 2026"
+      intro={<p>Qui édite MOVA, où le service est hébergé et comment nous joindre.</p>}
+      sections={sections}
+    />
   );
 }

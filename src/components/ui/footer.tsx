@@ -11,6 +11,8 @@ const links = [
   { title: "FAQ", href: "./#faq" },
   { title: "Prototype d'app", href: "./app.html" },
   { title: "Mentions légales", href: "./mentions-legales.html" },
+  { title: "Conditions d'utilisation", href: "./cgu.html" },
+  { title: "Confidentialité", href: "./confidentialite.html" },
 ];
 
 export default function FooterSection() {
