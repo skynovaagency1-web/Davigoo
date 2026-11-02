@@ -15,6 +15,8 @@ export default defineConfig({
         main: path.resolve(__dirname, "index.html"),
         app: path.resolve(__dirname, "app.html"),
         legal: path.resolve(__dirname, "mentions-legales.html"),
+        terms: path.resolve(__dirname, "cgu.html"),
+        privacy: path.resolve(__dirname, "confidentialite.html"),
         ops: path.resolve(__dirname, "ops/index.html"),
       },
     },

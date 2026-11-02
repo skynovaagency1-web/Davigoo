@@ -1,11 +1,12 @@
 import * as React from "react";
-import { ActivityIndicator, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, type TextInputProps } from "react-native";
+import { ActivityIndicator, Image, KeyboardAvoidingView, Linking, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, type TextInputProps } from "react-native";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { C, Glass, SERIF, Wordmark } from "../ui";
 import { supabase } from "../supabase";
 
 const GLOBE = require("../../assets/welcome-globe.jpg");
+const SITE = "https://skynovaagency1-web.github.io/Mova";
 
 // E-mail + password sign-in. The pilot runs without a custom e-mail service, so Supabase's
 // "Confirm email" setting is off; one-time codes come back once a sending service is connected.
@@ -86,7 +87,15 @@ export function Login() {
 
               <View style={{ flexDirection: "row", alignItems: "center", gap: 16, marginTop: 6 }}>
                 <Text style={{ flex: 1, fontSize: 11, lineHeight: 15, color: C.muted }}>
-                  Version pilote à Besançon. Vos données servent uniquement à vos courses.
+                  {mode === "signup" ? (
+                    <>
+                      En créant un compte, vous acceptez les{" "}
+                      <Text style={{ textDecorationLine: "underline" }} onPress={() => Linking.openURL(`${SITE}/cgu.html`)}>conditions d'utilisation</Text> et la{" "}
+                      <Text style={{ textDecorationLine: "underline" }} onPress={() => Linking.openURL(`${SITE}/confidentialite.html`)}>politique de confidentialité</Text>.
+                    </>
+                  ) : (
+                    "Version pilote à Besançon. Vos données servent uniquement à vos courses."
+                  )}
                 </Text>
                 <Pressable accessibilityRole="button" accessibilityLabel={mode === "signup" ? "Créer mon compte" : "Se connecter"} onPress={submit} disabled={busy}>
                   {({ pressed }) => (
