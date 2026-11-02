@@ -1,0 +1,10 @@
+// Cloudflare Workers deploy: serve the Vite build (dist) as static files.
+// With this file, Cloudflare skips its auto-detection, which refuses Vite 5.
+{
+  "name": "mova",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
