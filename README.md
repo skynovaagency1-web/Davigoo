@@ -1,4 +1,4 @@
-# NovaGo ·  (prototype)
+# DaviGoo ·  (prototype)
 
 Site vitrine et prototype interactif pour MOVA, un concept de plateforme VTC locale à Besançon.
 
