@@ -2,7 +2,7 @@
 // Vite build in dist/. D1 holds the data, R2 the driver photos. See CLOUDFLARE.md.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "mova",
+  "name": "davigoo",
   "main": "worker/src/index.ts",
   "compatibility_date": "2026-10-01",
   "assets": {
