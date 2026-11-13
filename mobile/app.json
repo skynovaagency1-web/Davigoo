@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "MOVA",
+    "name": "DaviGoo",
     "slug": "mova",
     "scheme": "mova",
     "version": "0.1.0",
@@ -14,7 +14,7 @@
     "android": {
       "package": "fr.mova.app",
       "adaptiveIcon": {
-        "backgroundColor": "#1C5947",
+        "backgroundColor": "#2C251D",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -28,14 +28,14 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "MOVA utilise votre position pour proposer votre adresse de départ."
+          "locationWhenInUsePermission": "DaviGoo utilise votre position pour proposer votre adresse de départ."
         }
       ],
       [
         "expo-image-picker",
         {
-          "cameraPermission": "MOVA utilise l'appareil photo pour votre photo de chauffeur, montrée au passager.",
-          "photosPermission": "MOVA accède à vos photos si vous choisissez votre photo de chauffeur dans la galerie.",
+          "cameraPermission": "DaviGoo utilise l'appareil photo pour votre photo de chauffeur, montrée au passager.",
+          "photosPermission": "DaviGoo accède à vos photos si vous choisissez votre photo de chauffeur dans la galerie.",
           "microphonePermission": false
         }
       ]

@@ -1,4 +1,4 @@
--- MOVA on Cloudflare D1 (SQLite). Replaces the former Supabase schema.
+-- DaviGoo on Cloudflare D1 (SQLite). Replaces the former Supabase schema.
 -- Safe to run more than once: every statement is "if not exists".
 -- Apply: npx wrangler d1 execute mova-db --remote --file worker/schema.sql
 -- All access rules live in the Worker (worker/src); the database is never exposed directly.

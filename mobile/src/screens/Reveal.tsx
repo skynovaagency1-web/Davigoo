@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Animated, Dimensions, Easing, PanResponder, Pressable, StyleSheet, Text, View } from "react-native";
-import { SERIF } from "../ui";
+import { SERIF, Wordmark } from "../ui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -66,7 +66,7 @@ export function Reveal({ onDone }: { onDone: () => void }) {
         <View style={{ width: 1, height: Math.max(40, H * 0.6 - DOT_Y - 60), backgroundColor: "rgba(255,255,255,0.7)" }} />
       </View>
       <View pointerEvents="box-none" style={{ flex: 1, alignItems: "center", paddingTop: insets.top + 24, paddingBottom: insets.bottom + 28 }}>
-        <Text style={{ color: "rgba(255,255,255,0.95)", fontFamily: SERIF, fontSize: 18, letterSpacing: 4, marginRight: -4 }}>MOVA</Text>
+        <Wordmark size={22} color="rgba(255,255,255,0.95)" light />
 
         <View style={{ flex: 1 }} />
 

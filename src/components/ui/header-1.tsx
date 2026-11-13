@@ -1,3 +1,4 @@
+import { IntroOverlay } from "@/components/ui/intro-overlay";
 // Adapted from 21st.dev "Header 1" by efferd: sticky header with scroll blur and animated mobile menu.
 import React from "react";
 import { createPortal } from "react-dom";
@@ -33,6 +34,8 @@ export function Header() {
   }, [open]);
 
   return (
+    <>
+    <IntroOverlay />
     <header
       ref={headerRef}
       className={cn("sticky top-0 z-50 w-full border-b border-transparent", {
@@ -90,6 +93,7 @@ export function Header() {
         </div>
       </MobileMenu>
     </header>
+    </>
   );
 }
 

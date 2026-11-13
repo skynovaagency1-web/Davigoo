@@ -1,4 +1,4 @@
-// MOVA on Cloudflare Workers: the Worker (worker/src) answers /api/*, everything else is the
+// DaviGoo on Cloudflare Workers: the Worker (worker/src) answers /api/*, everything else is the
 // Vite build in dist/. D1 holds the data, R2 the driver photos. See CLOUDFLARE.md.
 {
   "$schema": "node_modules/wrangler/config-schema.json",

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Wordmark } from "@/components/ui/wordmark";
 import QRCode from "qrcode";
 import { Loader2, LogOut, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -71,8 +72,8 @@ export default function OpsApp() {
     <div className="grid min-h-screen place-items-center px-4 py-10">
       <div className="ops-backdrop" aria-hidden />
       <div className="w-full max-w-sm">
-        <p className="font-display text-4xl font-medium tracking-[0.14em]">
-          MOVA <span className="text-xl tracking-[0.3em] text-muted-foreground">OPS</span>
+        <p className="flex items-end gap-3">
+          <Wordmark className="w-48 text-foreground" shine /> <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">OPS</span>
         </p>
         <p className="mt-1 font-mono text-xs text-muted-foreground">Console interne · accès réservé à l'équipe</p>
         <div className="glass-card mt-8 rounded-[1.75rem] p-7">
@@ -86,7 +87,7 @@ export default function OpsApp() {
             <div className="grid gap-4 text-sm">
               <p className="font-semibold">Ce compte n'a pas accès à la console.</p>
               <p className="text-muted-foreground">
-                Connecté en tant que {me?.user.email}. Demandez à un administrateur MOVA de vous ajouter à l'équipe.
+                Connecté en tant que {me?.user.email}. Demandez à un administrateur DaviGoo de vous ajouter à l'équipe.
               </p>
               <Button variant="outline" onClick={signOut}>
                 <LogOut className="size-4" /> Se déconnecter

@@ -1,4 +1,4 @@
-// MOVA on Cloudflare: one Worker serves the website (static files from dist/) and the API (/api/*),
+// DaviGoo on Cloudflare: one Worker serves the website (static files from dist/) and the API (/api/*),
 // with D1 for data and R2 for driver photos. Replaces the former Supabase backend.
 import { authRoutes } from "./auth";
 import { appRoutes } from "./app";

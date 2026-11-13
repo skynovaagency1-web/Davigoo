@@ -27,7 +27,7 @@ function toBytes(b64: string) {
 }
 
 // Required driver photo, shown to passengers once a ride is accepted. Taken live with the front
-// camera so it is a real, current picture; MOVA staff compare it with the ID seen in person.
+// camera so it is a real, current picture; DaviGoo staff compare it with the ID seen in person.
 export function DriverPhoto({ driver, onChanged }: { driver: Driver; onChanged: () => void }) {
   const url = useSignedPhoto(driver.photo_path);
   const [busy, setBusy] = React.useState(false);
@@ -57,7 +57,7 @@ export function DriverPhoto({ driver, onChanged }: { driver: Driver; onChanged: 
 
   const confirmTake = () => {
     if (!driver.approved) return take();
-    const msg = "Une nouvelle photo doit être vérifiée par MOVA. Vous serez hors ligne jusqu'à la nouvelle validation.";
+    const msg = "Une nouvelle photo doit être vérifiée par DaviGoo. Vous serez hors ligne jusqu'à la nouvelle validation.";
     if (Platform.OS === "web") return window.confirm(msg) && take();
     Alert.alert("Changer de photo ?", msg, [
       { text: "Annuler", style: "cancel" },

@@ -39,7 +39,7 @@ export function Account({ profile, extra }: { profile: Profile; extra?: React.Re
       {extra}
       <Card>
         <Label>Version pilote</Label>
-        <Body muted>MOVA est en test à Besançon. Pour toute question, écrivez à l'équipe MOVA.</Body>
+        <Body muted>DaviGoo est en test à Besançon. Pour toute question, écrivez à l'équipe DaviGoo.</Body>
       </Card>
       <View style={{ marginTop: 8 }}>
         <Button title="Se déconnecter" variant="outline" onPress={() => auth.signOut()} />

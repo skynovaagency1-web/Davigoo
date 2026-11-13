@@ -101,10 +101,10 @@ export async function makeLink(env: Env, origin: string, userId: string, kind: "
 
 export async function mailLink(env: Env, to: string, link: string, kind: "reset" | "invite") {
   return kind === "invite"
-    ? sendMail(env, to, "Votre accès à la console MOVA",
-        `Bonjour,\n\nVous avez été ajouté à l'équipe MOVA. Choisissez votre mot de passe avec ce lien (valable 7 jours) :\n${link}\n\nVous configurerez ensuite la vérification en deux étapes.\n\nL'équipe MOVA`)
-    : sendMail(env, to, "Réinitialiser votre mot de passe MOVA",
-        `Bonjour,\n\nPour choisir un nouveau mot de passe, ouvrez ce lien (valable 1 heure) :\n${link}\n\nSi vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail.\n\nL'équipe MOVA`);
+    ? sendMail(env, to, "Votre accès à la console DaviGoo",
+        `Bonjour,\n\nVous avez été ajouté à l'équipe DaviGoo. Choisissez votre mot de passe avec ce lien (valable 7 jours) :\n${link}\n\nVous configurerez ensuite la vérification en deux étapes.\n\nL'équipe DaviGoo`)
+    : sendMail(env, to, "Réinitialiser votre mot de passe DaviGoo",
+        `Bonjour,\n\nPour choisir un nouveau mot de passe, ouvrez ce lien (valable 1 heure) :\n${link}\n\nSi vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail.\n\nL'équipe DaviGoo`);
 }
 
 // Routes ---------------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "./config";
 
-// Client for the MOVA API (Cloudflare Worker). Every rule (who may accept, cancel, see a photo…)
+// Client for the DaviGoo API (Cloudflare Worker). Every rule (who may accept, cancel, see a photo…)
 // is checked by the Worker; the app only shows what it is allowed to see.
 
 const TOKEN_KEY = "mova-session";
@@ -122,14 +122,14 @@ const ERRORS: Record<string, string> = {
   bad_email: "Adresse e-mail invalide.",
   too_many_requests: "Trop de tentatives. Réessayez dans quelques minutes.",
   not_signed_in: "Session expirée. Reconnectez-vous.",
-  staff_account: "Ce compte appartient à l'équipe MOVA et ne peut pas être supprimé ici.",
+  staff_account: "Ce compte appartient à l'équipe DaviGoo et ne peut pas être supprimé ici.",
   not_your_ride: "Cette course n'est plus active.",
   bad_position: "Position invalide.",
   bad_photo: "Photo invalide. Reprenez-la.",
-  checks_incomplete: "Votre vérification MOVA n'est pas complète ou un document a expiré.",
+  checks_incomplete: "Votre vérification DaviGoo n'est pas complète ou un document a expiré.",
   not_a_passenger: "Ce compte n'est pas un compte passager.",
   not_a_driver: "Ce compte n'est pas un compte chauffeur.",
-  driver_not_approved: "Votre compte chauffeur n'est pas encore validé par MOVA.",
+  driver_not_approved: "Votre compte chauffeur n'est pas encore validé par DaviGoo.",
   driver_not_available: "Passez en ligne pour accepter des courses.",
   ride_in_progress: "Terminez votre course avant de passer hors ligne.",
   ride_already_active: "Vous avez déjà une course en cours.",

@@ -1,4 +1,4 @@
-# Putting MOVA live on Cloudflare
+# Putting DaviGoo live on Cloudflare
 
 Everything runs on Cloudflare: the **mova** Worker serves the website and the API, the **mova-db** D1 database holds the data,
 and the **mova-driver-photos** R2 bucket holds driver photos. The database and the bucket already exist in the account and the
@@ -39,7 +39,7 @@ This one-time code protects the creation of the first admin account.
 ## 4. Check that the site is live
 
 1. Open the **Deployments** tab and wait until the latest one shows **Success** (2 to 3 minutes after the merge).
-2. Click the link at the top of the **mova** page (`https://mova.<your-subdomain>.workers.dev`). The MOVA website opens.
+2. Click the link at the top of the **mova** page (`https://mova.<your-subdomain>.workers.dev`). The DaviGoo website opens.
 3. Add `/api/health` to the address. You should see `{"ok":true}`.
 
 ## 5. Create your admin account
