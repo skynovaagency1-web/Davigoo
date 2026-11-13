@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { inputClass } from "@/components/ui/consent";
 import { api, ApiError } from "@/lib/api";
 
-// Opened from a reset link (…/reinitialiser.html#token=…) sent by e-mail or by the MOVA team.
+// Opened from a reset link (…/reinitialiser.html#token=…) sent by e-mail or by the DaviGoo team.
 export default function ResetPassword() {
   const [token] = React.useState(() => {
     const m = window.location.hash.match(/token=([A-Za-z0-9_-]+)/);
@@ -34,7 +34,7 @@ export default function ResetPassword() {
       setBusy(false);
       setError(
         err instanceof ApiError && err.code === "link_expired"
-          ? "Ce lien a expiré ou a déjà servi. Demandez-en un nouveau à l'équipe MOVA."
+          ? "Ce lien a expiré ou a déjà servi. Demandez-en un nouveau à l'équipe DaviGoo."
           : err instanceof ApiError && err.code === "weak_password"
             ? "Mot de passe trop court."
             : "Enregistrement impossible. Vérifiez votre connexion et réessayez.",
@@ -51,12 +51,12 @@ export default function ResetPassword() {
             <div className="grid gap-3 text-center">
               <CheckCircle2 className="mx-auto size-10 text-success" aria-hidden />
               <h1 className="font-display text-3xl font-medium">Mot de passe enregistré</h1>
-              <p className="text-muted-foreground">Retournez dans l'application MOVA et connectez-vous avec votre nouveau mot de passe.</p>
+              <p className="text-muted-foreground">Retournez dans l'application DaviGoo et connectez-vous avec votre nouveau mot de passe.</p>
             </div>
           ) : !token ? (
             <div className="grid gap-3">
               <h1 className="font-display text-3xl font-medium">Lien incomplet</h1>
-              <p className="text-muted-foreground">Ouvrez le lien complet reçu de MOVA, ou demandez-en un nouveau à l'équipe.</p>
+              <p className="text-muted-foreground">Ouvrez le lien complet reçu de DaviGoo, ou demandez-en un nouveau à l'équipe.</p>
             </div>
           ) : (
             <form onSubmit={onSubmit} className="grid gap-4">

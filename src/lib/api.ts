@@ -1,4 +1,4 @@
-// Client for the MOVA API (Cloudflare Worker, same site under /api/).
+// Client for the DaviGoo API (Cloudflare Worker, same site under /api/).
 export class ApiError extends Error {
   constructor(public code: string, public status: number) {
     super(code);

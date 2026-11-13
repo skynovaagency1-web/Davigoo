@@ -7,8 +7,8 @@ const sections: Section[] = [
     body: (
       <>
         <p>
-          Le site et l'application MOVA sont édités par <strong><Field value={COMPANY.name} label="Prénom Nom (EI)" /></strong>, entrepreneur
-          individuel exerçant sous le nom commercial MOVA (micro-entreprise).
+          Le site et l'application DaviGoo sont édités par <strong><Field value={COMPANY.name} label="Prénom Nom (EI)" /></strong>, entrepreneur
+          individuel exerçant sous le nom commercial DaviGoo (micro-entreprise).
         </p>
         <ul>
           <li>SIREN : <Field value={COMPANY.siren} label="numéro SIREN" /></li>
@@ -27,7 +27,7 @@ const sections: Section[] = [
     body: (
       <>
         <p>
-          MOVA est une plateforme de réservation de voitures de transport avec chauffeur (VTC) qui met en relation des passagers avec
+          DaviGoo est une plateforme de réservation de voitures de transport avec chauffeur (VTC) qui met en relation des passagers avec
           des chauffeurs VTC professionnels et indépendants.
         </p>
         <p>
@@ -61,8 +61,8 @@ const sections: Section[] = [
     body: (
       <>
         <p>
-          Les textes, l'interface, le logo et le nom MOVA sont protégés. Toute reproduction sans autorisation écrite est interdite.
-          Dépôt de la marque MOVA : <Todo>numéro INPI une fois déposée</Todo>.
+          Les textes, l'interface, le logo et le nom DaviGoo sont protégés. Toute reproduction sans autorisation écrite est interdite.
+          Dépôt de la marque DaviGoo : <Todo>numéro INPI une fois déposée</Todo>.
         </p>
         <p>
           Les photographies de lieux de Besançon proviennent de Wikimedia Commons ; leurs auteurs et licences sont cités sous chaque
@@ -81,7 +81,7 @@ const sections: Section[] = [
         </p>
         <p>
           Médiateur de la consommation : <Field value={COMPANY.mediator} label="nom et site du médiateur" />. Avant de le saisir, adressez
-          d'abord une réclamation écrite à MOVA.
+          d'abord une réclamation écrite à DaviGoo.
         </p>
         <p>
           Données personnelles : voir la <a href="/confidentialite.html">politique de confidentialité</a>. Conditions du service : voir
@@ -98,7 +98,7 @@ export default function Legal() {
       current="mentions-legales.html"
       title="Mentions légales"
       updated="2 novembre 2026"
-      intro={<p>Qui édite MOVA, où le service est hébergé et comment nous joindre.</p>}
+      intro={<p>Qui édite DaviGoo, où le service est hébergé et comment nous joindre.</p>}
       sections={sections}
     />
   );

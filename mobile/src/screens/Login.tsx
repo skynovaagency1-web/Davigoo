@@ -9,8 +9,8 @@ import { API_URL } from "../config";
 const GLOBE = require("../../assets/welcome-globe.jpg");
 const SITE = API_URL;
 
-// E-mail + password sign-in (MOVA API). The pilot runs without an e-mail service, so addresses are
-// not confirmed yet; a forgotten password is reset with a link from the MOVA team.
+// E-mail + password sign-in (DaviGoo API). The pilot runs without an e-mail service, so addresses are
+// not confirmed yet; a forgotten password is reset with a link from the DaviGoo team.
 export function Login() {
   const [mode, setMode] = React.useState<"signin" | "signup">("signin");
   const [email, setEmail] = React.useState("");
@@ -75,7 +75,7 @@ export function Login() {
                 autoComplete={mode === "signup" ? "new-password" : "current-password"}
                 textContentType={mode === "signup" ? "newPassword" : "password"}
                 placeholder={mode === "signup" ? "mot de passe (8+ caractères)" : "mot de passe"}
-                action={mode === "signin" ? { label: "Oublié", onPress: () => setNotice("Pendant le pilote, écrivez à l'équipe MOVA : elle vous enverra un lien pour choisir un nouveau mot de passe.") } : undefined}
+                action={mode === "signin" ? { label: "Oublié", onPress: () => setNotice("Pendant le pilote, écrivez à l'équipe DaviGoo : elle vous enverra un lien pour choisir un nouveau mot de passe.") } : undefined}
               />
 
               {!!error && <Text style={{ color: C.warning, fontWeight: "500" }}>{error}</Text>}

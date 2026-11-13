@@ -50,4 +50,4 @@ export async function checkCode(secret: string, code: string, notAfterStep?: num
 }
 
 export const otpauthUri = (secret: string, account: string) =>
-  `otpauth://totp/${encodeURIComponent(`MOVA Ops:${account}`)}?secret=${secret}&issuer=${encodeURIComponent("MOVA Ops")}&algorithm=SHA1&digits=6&period=30`;
+  `otpauth://totp/${encodeURIComponent(`DaviGoo Ops:${account}`)}?secret=${secret}&issuer=${encodeURIComponent("DaviGoo Ops")}&algorithm=SHA1&digits=6&period=30`;

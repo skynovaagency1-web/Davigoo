@@ -1,6 +1,6 @@
 # DaviGoo ·  (prototype)
 
-Website, pilot app and staff console for MOVA, a local VTC platform in Besançon.
+Website, pilot app and staff console for DaviGoo, a local VTC platform in Besançon.
 Everything runs on **Cloudflare**: one Worker serves the website and the API, **D1** stores the data and **R2** the driver photos.
 Go-live steps: [CLOUDFLARE.md](CLOUDFLARE.md).
 

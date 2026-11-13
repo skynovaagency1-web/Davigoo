@@ -1,4 +1,4 @@
-// Waitlist sign-ups go to the MOVA API (Cloudflare Worker + D1). Visitors can only add a sign-up.
+// Waitlist sign-ups go to the DaviGoo API (Cloudflare Worker + D1). Visitors can only add a sign-up.
 import { api } from "@/lib/api";
 
 export type Signup = {
