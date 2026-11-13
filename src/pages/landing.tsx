@@ -1,3 +1,4 @@
+import { Wordmark } from "@/components/ui/wordmark";
 import { ArrowRight, Clock3, GraduationCap, Luggage, Moon, Stethoscope, TrainFront } from "lucide-react";
 import { Header } from "@/components/ui/header-1";
 import { RideBookingForm } from "@/components/ui/ride-booking-form";
@@ -35,8 +36,8 @@ export default function Landing() {
             <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#2c251d]/25 via-transparent to-[#2c251d]/35" />
             <div className="flex min-h-[560px] flex-col items-center justify-between px-6 pb-8 pt-24 text-center sm:min-h-[640px] lg:min-h-[720px]">
               <div>
-                <h1 className="font-display text-[17vw] font-medium leading-[0.85] tracking-[0.01em] text-[#f6f1ec] drop-shadow-[0_2px_24px_rgba(44,37,29,0.25)] sm:text-[8rem] lg:text-[11rem]">
-                  DaviGoo
+                <h1 className="hero-glass mx-auto w-full max-w-[46rem] rounded-full px-[9%] py-[6%] text-[#f6f1ec]">
+                  <Wordmark className="w-full" tone="light" shine title="DaviGoo" />
                 </h1>
                 <a href="#liste-attente" className="group mt-8 inline-flex items-center gap-1 rounded-full bg-[#3a3528]/90 py-1.5 pl-5 pr-1.5 text-sm text-[#f6f1ec] backdrop-blur transition hover:bg-[#3a3528]">
                   Rejoindre la liste d'attente

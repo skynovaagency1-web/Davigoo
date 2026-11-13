@@ -1,5 +1,7 @@
 import * as React from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import Svg, { Defs, LinearGradient as SvgGradient, Path, Stop } from "react-native-svg";
+import { BRONZE_DARK, BRONZE_LIGHT, LOGO_LINES, LOGO_ORBITS, LOGO_RATIO, LOGO_VIEWBOX, LOGO_WHEELS } from "./logo";
 import { ActivityIndicator, Platform, Pressable, StyleSheet, Text, TextInput, View, type TextInputProps, type ViewStyle } from "react-native";
 
 // Warm studio palette: cream paper, sand and taupe stone, ink-brown text, serif wordmark.
@@ -41,8 +43,23 @@ export function Backdrop({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function Wordmark({ size = 28, color = C.fg }: { size?: number; color?: string }) {
-  return <Text style={{ fontFamily: SERIF, fontSize: size, fontWeight: "400", letterSpacing: size * 0.03, color, marginRight: -size * 0.03 }}>DaviGoo</Text>;
+// DaviGoo logotype (Davinova line style). `size` is the cap height in points; `light` uses the pale bronze for dark photos.
+export function Wordmark({ size = 28, color = C.fg, light = false }: { size?: number; color?: string; light?: boolean }) {
+  const id = React.useId().replace(/:/g, "");
+  const h = size * 0.82, w = h * LOGO_RATIO;
+  const stops = light ? BRONZE_LIGHT : BRONZE_DARK;
+  return (
+    <Svg width={w} height={h} viewBox={LOGO_VIEWBOX} accessibilityLabel="DaviGoo" accessibilityRole="image">
+      <Defs>
+        <SvgGradient id={`${id}g`} x1="0" y1="0" x2="1" y2="1">
+          {stops.map((c, i) => <Stop key={i} offset={[0, 0.4, 0.75, 1][i]} stopColor={c} />)}
+        </SvgGradient>
+      </Defs>
+      {LOGO_LINES.map((d) => <Path key={d} d={d} fill="none" stroke={color} strokeWidth={3.6} />)}
+      {LOGO_ORBITS.map((d) => <Path key={d} d={d} fill="none" stroke={`url(#${id}g)`} strokeWidth={3.6} strokeLinecap="round" />)}
+      {LOGO_WHEELS.map((d) => <Path key={d} d={d} fill="none" stroke={`url(#${id}g)`} strokeWidth={2} strokeLinecap="round" />)}
+    </Svg>
+  );
 }
 
 export function Title({ children, style }: { children: React.ReactNode; style?: object }) {
