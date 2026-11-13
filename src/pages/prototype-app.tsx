@@ -1,3 +1,4 @@
+import { IntroOverlay } from "@/components/ui/intro-overlay";
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Car, CheckCircle2, MapPin, Navigation, Phone, Power, Star, User, X } from "lucide-react";
@@ -14,6 +15,7 @@ export default function PrototypeApp() {
 
   return (
     <div className="min-h-screen">
+      <IntroOverlay />
       <DemoBanner />
       <header className="container flex h-16 items-center justify-between">
         <Logo />
