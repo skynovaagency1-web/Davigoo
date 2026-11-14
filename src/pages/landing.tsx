@@ -1,6 +1,6 @@
-import { Wordmark } from "@/components/ui/wordmark";
-import { ArrowRight, Clock3, GraduationCap, Luggage, Moon, Stethoscope, TrainFront } from "lucide-react";
+import { Clock3, GraduationCap, Luggage, Moon, Stethoscope, TrainFront } from "lucide-react";
 import { Header } from "@/components/ui/header-1";
+import { Hero } from "@/components/sections/hero";
 import { RideBookingForm } from "@/components/ui/ride-booking-form";
 import Features from "@/components/ui/features-01";
 import FooterSection from "@/components/ui/footer";
@@ -11,8 +11,8 @@ import { Drivers } from "@/components/sections/drivers";
 import { AppTeaser } from "@/components/sections/app-teaser";
 import { Faq } from "@/components/sections/faq";
 import { Waitlist } from "@/components/sections/waitlist";
-import globe from "@/assets/globe.jpg";
 import touch from "@/assets/touch.jpg";
+import globe from "@/assets/globe.jpg";
 import { PLACES } from "@/lib/demo-data";
 import { PHOTO_CREDITS, PLACE_PHOTOS } from "@/lib/place-photos";
 
@@ -30,31 +30,12 @@ export default function Landing() {
     <>
       <Header />
       <main>
-        <section className="container pt-4">
-          <div className="relative isolate overflow-hidden rounded-[2rem] bg-[#cdbba8]">
-            <img src={globe} alt="" className="absolute inset-0 -z-10 h-full w-full object-cover object-[60%_50%] opacity-95" />
-            <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#2c251d]/25 via-transparent to-[#2c251d]/35" />
-            <div className="flex min-h-[560px] flex-col items-center justify-between px-6 pb-8 pt-24 text-center sm:min-h-[640px] lg:min-h-[720px]">
-              <div>
-                <h1 className="hero-glass mx-auto w-full max-w-[46rem] rounded-full px-[9%] py-[6%] text-[#f6f1ec]">
-                  <Wordmark className="w-full" tone="light" shine title="DaviGoo" />
-                </h1>
-                <a href="#liste-attente" className="group mt-8 inline-flex items-center gap-1 rounded-full bg-[#3a3528]/90 py-1.5 pl-5 pr-1.5 text-sm text-[#f6f1ec] backdrop-blur transition hover:bg-[#3a3528]">
-                  Rejoindre la liste d'attente
-                  <span className="ml-2 grid size-8 place-items-center rounded-full bg-[#f6f1ec]/15 transition group-hover:translate-x-0.5">
-                    <ArrowRight className="size-4" />
-                  </span>
-                </a>
-              </div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#f6f1ec]/85">47°14′N · 6°01′E — VTC local, en préparation</p>
-            </div>
-          </div>
-        </section>
+        <Hero />
 
         <section className="container grid gap-8 py-16 sm:py-20 lg:grid-cols-2 lg:gap-16">
           <h2 className="font-display text-4xl uppercase leading-[1.05] tracking-[0.14em] sm:text-5xl">
-            Votre trajet,
-            <br />à l'heure.
+            Des chauffeurs
+            <br />d'ici.
           </h2>
           <p className="max-w-md text-lg leading-relaxed text-muted-foreground lg:justify-self-end">
             DaviGoo met en relation les Bisontins avec des chauffeurs VTC indépendants de la ville. Prix connu avant de partir,
