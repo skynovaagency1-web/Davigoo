@@ -76,12 +76,21 @@ export async function me(env: Env, a: Auth) {
 }
 
 // E-mail (optional) ----------------------------------------------------------------------------
-export const emailEnabled = (env: Env) => !!(env.EMAIL && env.MAIL_FROM);
+export const emailEnabled = (env: Env) => !!((env.RESEND_API_KEY || env.EMAIL) && env.MAIL_FROM);
 
 async function sendMail(env: Env, to: string, subject: string, text: string) {
-  if (!env.EMAIL || !env.MAIL_FROM) return false;
+  if (!emailEnabled(env)) return false;
   try {
-    await env.EMAIL.send({ from: env.MAIL_FROM, to, subject, text });
+    if (env.RESEND_API_KEY) {
+      const r = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ from: `DaviGoo <${env.MAIL_FROM}>`, to: [to], subject, text }),
+      });
+      if (!r.ok) throw new Error(`resend ${r.status}: ${await r.text()}`);
+    } else {
+      await env.EMAIL!.send({ from: env.MAIL_FROM!, to, subject, text });
+    }
     return true;
   } catch (e) {
     console.error("mail failed", e);
