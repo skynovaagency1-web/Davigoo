@@ -17,8 +17,7 @@
   "r2_buckets": [
     { "binding": "PHOTOS", "bucket_name": "mova-driver-photos" }
   ],
-  "observability": { "enabled": true }
-  // Optional, for password-reset e-mails (needs Workers Paid and a domain on Cloudflare):
-  // "send_email": [{ "name": "EMAIL" }],
-  // "vars": { "MAIL_FROM": "noreply@your-domain.fr" }
+  "observability": { "enabled": true },
+  // Password-reset e-mails go through Resend: add the secret RESEND_API_KEY in the dashboard (see CLOUDFLARE.md).
+  "vars": { "MAIL_FROM": "noreply@davigoo.com" }
 }

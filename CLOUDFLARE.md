@@ -62,9 +62,13 @@ once you add your own domain, change that line (or tell Claude the address and i
 
 - **Your own domain** (for example `mova-besancon.fr`): **mova** → **Settings** → **Domains & Routes** → **+ Add** → **Custom domain**.
   The domain has to be on Cloudflare first (**Add a domain** on the account home).
-- **Password-reset e-mails**: these need the Workers Paid plan ($5/month) and your own domain. Until then, people who forget their
-  password ask the team, and you make a link in **Équipe et accès** → **Mot de passe oublié**. To turn e-mails on: onboard the domain
-  in **Compute** → **Email Service** → **Email Sending**, then uncomment the `send_email` and `MAIL_FROM` lines in `wrangler.jsonc`.
+- **Password-reset e-mails** go through Resend (free up to 3,000 e-mails a month), sent from `noreply@davigoo.com`:
+  1. Create an account at resend.com, open **Domains** → **Add Domain**, type `davigoo.com`. Choose **Sign in to Cloudflare**
+     (automatic setup) or copy the DNS records it shows into Cloudflare → **davigoo.com** → **DNS**. Wait until it says **Verified**.
+  2. In Resend, **API Keys** → **Create API Key** (permission: Sending access). Copy the key (starts with `re_`).
+  3. In Cloudflare, **davigoo** Worker → **Settings** → **Variables and Secrets** → **+ Add**: Type **Secret**, name
+     `RESEND_API_KEY`, value = the key. Click **Deploy**.
+  Without the key, people who forget their password ask the team, and you make a link in **Équipe et accès** → **Mot de passe oublié**.
 - **Free plan limits**: the free plan gives each request 10 ms of processing. Password checks are heavy, so if a login ever shows
   **Error 1102**, switch to Workers Paid (**Workers & Pages** → **Plans**). Everything else stays well within the free plan.
 

@@ -6,7 +6,8 @@ export interface Env {
   ASSETS: Fetcher;
   /** Secret, set in the Cloudflare dashboard. Needed once, to create the first ops admin at /ops/. */
   SETUP_CODE?: string;
-  /** Optional Cloudflare Email Service binding + sender address, for password-reset e-mails. */
+  /** Password-reset e-mails: a Resend API key (secret) or a Cloudflare Email Service binding, plus the sender address. */
+  RESEND_API_KEY?: string;
   EMAIL?: { send(msg: { from: string; to: string; subject: string; text: string; html?: string }): Promise<unknown> };
   MAIL_FROM?: string;
 }
