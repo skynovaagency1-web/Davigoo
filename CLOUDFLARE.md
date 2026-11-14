@@ -55,7 +55,7 @@ their own 6-digit codes.
 
 ## 6. Point the app to the new address
 
-The app uses `https://mova.skynovaagency1.workers.dev` (in `mobile/src/config.ts`). If the address from step 4 is different, or
+The app uses `https://davigoo.com` (in `mobile/src/config.ts`). If the address from step 4 is different, or
 once you add your own domain, change that line (or tell Claude the address and it will update it).
 
 ## Optional
