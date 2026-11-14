@@ -19,5 +19,7 @@
   ],
   "observability": { "enabled": true },
   // Password-reset e-mails go through Resend: add the secret RESEND_API_KEY in the dashboard (see CLOUDFLARE.md).
-  "vars": { "MAIL_FROM": "noreply@davigoo.com" }
+  "vars": { "MAIL_FROM": "noreply@davigoo.com" },
+  // Keep variables added in the dashboard when GitHub deploys a new version.
+  "keep_vars": true
 }
