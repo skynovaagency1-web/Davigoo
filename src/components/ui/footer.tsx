@@ -3,12 +3,12 @@ import { Mail, MapPin } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
 
 const links = [
-  { title: "Comment ça marche", href: "/#fonctionnement" },
-  { title: "Trajets", href: "/#trajets" },
-  { title: "Sécurité", href: "/#securite" },
-  { title: "Devenir chauffeur", href: "/#chauffeurs" },
+  { title: "Comment ça marche", href: "/comment-ca-marche.html" },
+  { title: "Trajets", href: "/trajets.html" },
+  { title: "Sécurité", href: "/securite.html" },
+  { title: "Devenir chauffeur", href: "/chauffeurs.html" },
   { title: "Liste d'attente", href: "/#liste-attente" },
-  { title: "FAQ", href: "/#faq" },
+  { title: "FAQ", href: "/faq.html" },
   { title: "Prototype d'app", href: "/app.html" },
   { title: "Mentions légales", href: "/mentions-legales.html" },
   { title: "Conditions d'utilisation", href: "/cgu.html" },

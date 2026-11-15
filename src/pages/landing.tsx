@@ -1,29 +1,14 @@
-import { Clock3, GraduationCap, Luggage, Moon, Stethoscope, TrainFront } from "lucide-react";
 import { Header } from "@/components/ui/header-1";
 import { Hero } from "@/components/sections/hero";
 import { RideBookingForm } from "@/components/ui/ride-booking-form";
-import Features from "@/components/ui/features-01";
 import FooterSection from "@/components/ui/footer";
 import { DepartureBoard } from "@/components/sections/departure-board";
-import { HowItWorks } from "@/components/sections/how-it-works";
-import { Security } from "@/components/sections/security";
-import { Drivers } from "@/components/sections/drivers";
 import { AppTeaser } from "@/components/sections/app-teaser";
-import { Faq } from "@/components/sections/faq";
 import { Waitlist } from "@/components/sections/waitlist";
+import { Places } from "@/components/sections/places";
+import { ExploreTiles } from "@/components/page-shell";
 import touch from "@/assets/touch.jpg";
 import globe from "@/assets/globe.jpg";
-import { PLACES } from "@/lib/demo-data";
-import { PHOTO_CREDITS, PLACE_PHOTOS } from "@/lib/place-photos";
-
-const useCases = [
-  { icon: TrainFront, title: "Gares Viotte et Besançon TGV", description: "Rejoindre Auxon ou Viotte sans chercher de place ni rater le train.", footnote: "Centre → TGV · ≈ 12 km" },
-  { icon: Moon, title: "Soirées", description: "Rentrer de Battant ou du centre quand les bus se font rares.", footnote: "Horaires à définir" },
-  { icon: Stethoscope, title: "CHU Minjoz", description: "Rendez-vous médicaux et visites, avec un trajet planifié à l'avance.", footnote: "Accessibilité à préciser" },
-  { icon: GraduationCap, title: "La Bouloie, Témis, Micropolis", description: "Des trajets courts et réguliers entre campus, zones d'activité et salons.", footnote: "Demande à mesurer" },
-  { icon: Luggage, title: "Bagages et groupes", description: "Un van jusqu'à 7 places pour les familles et les valises.", footnote: "Catégorie à confirmer" },
-  { icon: Clock3, title: "Immédiat ou planifié", description: "Réserver maintenant ou la veille, avec un prix affiché avant de confirmer.", footnote: "Mode à trancher" },
-];
 
 export default function Landing() {
   return (
@@ -58,19 +43,9 @@ export default function Landing() {
             </div>
           </div>
         </section>
+        <ExploreTiles title="Découvrir DaviGoo" />
         <Waitlist />
-        <HowItWorks />
-        <Features
-          id="trajets"
-          tag="02 · Trajets"
-          title="Les trajets que nous voulons tester"
-          subtitle="Nous ne présumons pas la demande : ces usages seront mesurés pendant le pilote."
-          features={useCases}
-        />
-        <Security />
-        <Drivers />
         <AppTeaser />
-        <Faq />
       </main>
       <FooterSection />
     </>
@@ -102,38 +77,6 @@ function PhotoStrip() {
           </div>
         ))}
       </div>
-    </section>
-  );
-}
-
-// The pilot places as photo cards; a click picks the place as destination in the estimate form.
-function Places() {
-  const pick = (id: string) => {
-    window.dispatchEvent(new CustomEvent("mova:destination", { detail: id }));
-    document.getElementById("devis")?.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
-  return (
-    <section id="lieux" aria-labelledby="lieux-title" className="container pt-16">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <h2 id="lieux-title" className="font-display text-4xl sm:text-5xl">Où allez-vous ?</h2>
-        <p className="max-w-sm text-sm text-muted-foreground">Les lieux du pilote à Besançon. Touchez une photo pour estimer le trajet.</p>
-      </div>
-      <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5 lg:gap-y-10">
-        {PLACES.map((p, i) => (
-          <li key={p.id}>
-            <button
-              type="button"
-              onClick={() => pick(p.id)}
-              className={`group relative block aspect-[4/5] w-full overflow-hidden rounded-[1.5rem] bg-[#d8c9b9] text-left shadow-[0_18px_40px_-22px_rgba(90,70,50,0.55)] ring-2 ring-white/60 transition hover:-translate-y-1 hover:ring-white ${i % 2 ? "lg:translate-y-6" : ""}`}
-            >
-              <img src={PLACE_PHOTOS[p.id]?.uri} alt={p.label} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-              <span className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#2c251d]/75" />
-              <span className="absolute inset-x-4 bottom-4 font-display text-2xl leading-none text-white">{p.short}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
-      <p className="mt-10 text-[11px] text-muted-foreground lg:mt-12">{PHOTO_CREDITS}</p>
     </section>
   );
 }

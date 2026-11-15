@@ -31,7 +31,7 @@ export function Hero() {
             <div className="mt-9 flex flex-wrap items-center justify-center gap-2 lg:justify-start">
               <a
                 href="#liste-attente"
-                className="inline-flex h-12 items-center rounded-2xl border-2 border-white/5 bg-[linear-gradient(104deg,rgba(253,253,253,0.06)_5%,rgba(240,228,214,0.12))] px-5 font-semibold text-white shadow-sm backdrop-blur transition hover:bg-white/15"
+                className="lg lg-strong inline-flex h-12 items-center px-6 text-base"
               >
                 Rejoindre la liste
               </a>

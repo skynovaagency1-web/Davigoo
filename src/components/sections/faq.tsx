@@ -34,12 +34,14 @@ const items = [
   },
 ];
 
-export function Faq() {
+export function Faq({ heading = true }: { heading?: boolean }) {
   return (
     <section id="faq" className="scroll-mt-24 py-20">
       <div className="container">
+        {heading && (
         <SectionHeading tag="05 · Questions" title="Questions fréquentes" />
-        <div className="mt-10 max-w-3xl md:ml-[12rem]">
+        )}
+        <div className={`mt-10 max-w-3xl ${heading ? "md:ml-[12rem]" : ""}`}>
           <Accordion items={items} defaultOpen={["real"]} />
         </div>
       </div>

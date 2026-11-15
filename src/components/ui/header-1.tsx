@@ -8,14 +8,16 @@ import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { label: "Comment ça marche", href: "/#fonctionnement" },
-  { label: "Trajets", href: "/#trajets" },
-  { label: "Sécurité", href: "/#securite" },
-  { label: "Chauffeurs", href: "/#chauffeurs" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "Comment ça marche", href: "/comment-ca-marche.html", page: "fonctionnement" },
+  { label: "Trajets", href: "/trajets.html", page: "trajets" },
+  { label: "Sécurité", href: "/securite.html", page: "securite" },
+  { label: "Chauffeurs", href: "/chauffeurs.html", page: "chauffeurs" },
+  { label: "FAQ", href: "/faq.html", page: "faq" },
 ];
 
-export function Header() {
+export type SitePage = (typeof links)[number]["page"] | "home";
+
+export function Header({ current = "home" }: { current?: SitePage }) {
   const [open, setOpen] = React.useState(false);
   const [menuTop, setMenuTop] = React.useState(0);
   const headerRef = React.useRef<HTMLElement>(null);
@@ -43,22 +45,33 @@ export function Header() {
       <DemoBanner />
       <nav className="container flex h-[4.5rem] items-center justify-between">
         <Logo />
-        <div className="hidden items-center gap-1 lg:flex">
-          {links.map((link) => (
-            <a key={link.label} className={buttonVariants({ variant: "ghost", className: "font-medium" })} href={link.href}>
-              {link.label}
-            </a>
-          ))}
-          <a className={buttonVariants({ variant: "outline", className: "ml-2" })} href="/app.html">
+        <div className="hidden items-center gap-3 lg:flex">
+          {/* Menu as glass tabs: the page you are on is the raised one. */}
+          <div className="lg-track flex items-center gap-1 p-1">
+            {links.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                aria-current={current === link.page ? "page" : undefined}
+                className={cn(
+                  "px-3.5 py-1.5 text-sm font-medium transition xl:px-4",
+                  current === link.page ? "lg lg-quiet" : "rounded-[10px] text-foreground/80 hover:bg-white/20 hover:text-foreground",
+                )}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+          <a className={buttonVariants({ variant: "glass" })} href="/app.html">
             Voir l'app
           </a>
-          <a className={buttonVariants()} href="/#liste-attente">
+          <a className={buttonVariants({ variant: "glassStrong", className: "!text-sm" })} href="/#liste-attente">
             Liste d'attente
           </a>
         </div>
         <Button
           size="icon"
-          variant="outline"
+          variant="glass"
           onClick={() => setOpen(!open)}
           className="lg:hidden"
           aria-expanded={open}
@@ -74,7 +87,8 @@ export function Header() {
             <a
               key={link.label}
               onClick={() => setOpen(false)}
-              className={buttonVariants({ variant: "ghost", className: "justify-start text-base" })}
+              aria-current={current === link.page ? "page" : undefined}
+              className={buttonVariants({ variant: current === link.page ? "glass" : "ghost", className: "h-12 justify-start !rounded-[12px] text-base" })}
               href={link.href}
             >
               {link.label}
@@ -82,10 +96,10 @@ export function Header() {
           ))}
         </div>
         <div className="flex flex-col gap-2">
-          <a className={buttonVariants({ variant: "outline", className: "w-full" })} href="/app.html">
+          <a className={buttonVariants({ variant: "glass", size: "lg", className: "w-full" })} href="/app.html">
             Voir l'app (démo)
           </a>
-          <a onClick={() => setOpen(false)} className={buttonVariants({ className: "w-full" })} href="/#liste-attente">
+          <a onClick={() => setOpen(false)} className={buttonVariants({ variant: "glassStrong", size: "lg", className: "w-full" })} href="/#liste-attente">
             Rejoindre la liste d'attente
           </a>
         </div>

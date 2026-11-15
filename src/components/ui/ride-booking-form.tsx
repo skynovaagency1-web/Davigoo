@@ -59,7 +59,7 @@ export const RideBookingForm = React.forwardRef<HTMLDivElement, React.HTMLAttrib
         <motion.form
           id="devis"
           onSubmit={handleSubmit}
-          className="scroll-mt-28 border-y border-foreground/80"
+          className="lg-panel scroll-mt-28 px-5 sm:px-6"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -89,18 +89,18 @@ export const RideBookingForm = React.forwardRef<HTMLDivElement, React.HTMLAttrib
             </label>
           </motion.div>
 
-          <motion.fieldset variants={itemVariants} className="flex flex-wrap gap-2 py-4">
+          <motion.fieldset variants={itemVariants} className="lg-track my-4 grid grid-cols-3 gap-1 p-1">
             <legend className="sr-only">Catégorie de véhicule</legend>
             {CATEGORIES.map((c) => (
               <label
                 key={c.id}
                 className={cn(
-                  "cursor-pointer rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring",
-                  category === c.id ? "border-foreground bg-foreground text-background" : "border-foreground/25 hover:border-foreground",
+                  "cursor-pointer px-2 py-2 text-center text-sm font-semibold leading-tight transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-white",
+                  category === c.id ? "lg lg-quiet" : "rounded-[12px] text-foreground/75 hover:bg-white/15",
                 )}
               >
                 <input type="radio" name="category" value={c.id} checked={category === c.id} onChange={() => setCategory(c.id)} className="sr-only" />
-                {c.label} <span className={cn("font-normal", category === c.id ? "text-background/70" : "text-muted-foreground")}>· {c.hint}</span>
+                {c.label}<span className={cn("block text-[11px] font-normal", category === c.id ? "text-white/95" : "text-muted-foreground")}>{c.hint}</span>
               </label>
             ))}
           </motion.fieldset>
@@ -108,7 +108,7 @@ export const RideBookingForm = React.forwardRef<HTMLDivElement, React.HTMLAttrib
           <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t py-4">
             <button
               type="submit"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-7 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="lg lg-strong inline-flex h-12 items-center justify-center gap-2 px-7 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               Estimer le trajet <ArrowRight className="size-4" />
             </button>
