@@ -6,16 +6,43 @@ import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { Logo } from "@/components/ui/logo";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
-const links = [
-  { label: "Comment ça marche", href: "/comment-ca-marche.html", page: "fonctionnement" },
-  { label: "Trajets", href: "/trajets.html", page: "trajets" },
-  { label: "Sécurité", href: "/securite.html", page: "securite" },
-  { label: "Chauffeurs", href: "/chauffeurs.html", page: "chauffeurs" },
-  { label: "FAQ", href: "/faq.html", page: "faq" },
+// Menu grouped in dropdowns, after the davinova.com header: a pill trigger, then a dark glass panel
+// that springs open below it with a list of links (title + one line).
+type MenuLink = { label: string; text: string; href: string; page?: string };
+const groups: { label: string; pages: string[]; links: MenuLink[] }[] = [
+  {
+    label: "Le service",
+    pages: ["fonctionnement", "trajets", "securite"],
+    links: [
+      { label: "Comment ça marche", text: "Trois étapes, prix affiché avant de partir", href: "/comment-ca-marche.html", page: "fonctionnement" },
+      { label: "Trajets", text: "Gares, soirées, CHU, campus", href: "/trajets.html", page: "trajets" },
+      { label: "Sécurité", text: "Chauffeurs contrôlés, passagers vérifiés", href: "/securite.html", page: "securite" },
+      { label: "Estimer un trajet", text: "Un prix d'exemple en deux clics", href: "/comment-ca-marche.html#devis" },
+    ],
+  },
+  {
+    label: "Chauffeurs",
+    pages: ["chauffeurs"],
+    links: [
+      { label: "Conduire avec DaviGoo", text: "Une plateforme de votre ville", href: "/chauffeurs.html", page: "chauffeurs" },
+      { label: "Laisser mes coordonnées", text: "Nous vous rappelons avant le pilote", href: "/chauffeurs.html#chauffeurs" },
+    ],
+  },
+  {
+    label: "Aide",
+    pages: ["faq"],
+    links: [
+      { label: "FAQ", text: "Prix, zone, paiement, données", href: "/faq.html", page: "faq" },
+      { label: "Confidentialité", text: "Vos données et vos droits", href: "/confidentialite.html" },
+      { label: "Mentions légales", text: "Qui édite le site", href: "/mentions-legales.html" },
+    ],
+  },
 ];
 
-export type SitePage = (typeof links)[number]["page"] | "home";
+export type SitePage = "fonctionnement" | "trajets" | "securite" | "chauffeurs" | "faq" | "home";
 
 export function Header({ current = "home" }: { current?: SitePage }) {
   const [open, setOpen] = React.useState(false);
@@ -46,22 +73,7 @@ export function Header({ current = "home" }: { current?: SitePage }) {
       <nav className="container flex h-[4.5rem] items-center justify-between">
         <Logo />
         <div className="hidden items-center gap-3 lg:flex">
-          {/* Menu as glass tabs: the page you are on is the raised one. */}
-          <div className="lg-track flex items-center gap-1 p-1">
-            {links.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                aria-current={current === link.page ? "page" : undefined}
-                className={cn(
-                  "px-3.5 py-1.5 text-sm font-medium transition xl:px-4",
-                  current === link.page ? "lg lg-quiet" : "rounded-[10px] text-foreground/80 hover:bg-white/20 hover:text-foreground",
-                )}
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
+          <DropdownMenu current={current} />
           <a className={buttonVariants({ variant: "glass" })} href="/app.html">
             Voir l'app
           </a>
@@ -82,17 +94,25 @@ export function Header({ current = "home" }: { current?: SitePage }) {
         </Button>
       </nav>
       <MobileMenu open={open} top={menuTop} className="flex flex-col justify-between gap-2">
-        <div className="grid gap-y-2">
-          {links.map((link) => (
-            <a
-              key={link.label}
-              onClick={() => setOpen(false)}
-              aria-current={current === link.page ? "page" : undefined}
-              className={buttonVariants({ variant: current === link.page ? "glass" : "ghost", className: "h-12 justify-start !rounded-[12px] text-base" })}
-              href={link.href}
-            >
-              {link.label}
-            </a>
+        <div className="grid min-h-0 gap-5 overflow-y-auto">
+          {groups.map((g) => (
+            <div key={g.label}>
+              <p className="px-3 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground/60">{g.label}</p>
+              <div className="mt-1.5 grid gap-1">
+                {g.links.map((link) => (
+                  <a
+                    key={link.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={link.page && current === link.page ? "page" : undefined}
+                    className={cn("block px-3 py-2.5", link.page && current === link.page ? "lg lg-quiet" : "rounded-[12px] hover:bg-white/20")}
+                    href={link.href}
+                  >
+                    <span className="block text-base font-semibold">{link.label}</span>
+                    <span className={cn("block text-xs", link.page && current === link.page ? "text-white/90" : "text-muted-foreground")}>{link.text}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
         <div className="flex flex-col gap-2">
@@ -140,5 +160,92 @@ function MobileMenu({ open, top, children, className, ...props }: MobileMenuProp
       </div>
     </div>,
     document.body,
+  );
+}
+
+/** Desktop menu: pill triggers that open a dark glass panel on hover, click or keyboard (davinova.com style). */
+function DropdownMenu({ current }: { current: SitePage }) {
+  const [openIdx, setOpenIdx] = React.useState<number | null>(null);
+  const closeTimer = React.useRef<number>();
+  const navRef = React.useRef<HTMLDivElement>(null);
+
+  const show = (i: number) => {
+    window.clearTimeout(closeTimer.current);
+    setOpenIdx(i);
+  };
+  const hide = () => {
+    window.clearTimeout(closeTimer.current);
+    closeTimer.current = window.setTimeout(() => setOpenIdx(null), 140);
+  };
+
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpenIdx(null);
+    const onDown = (e: PointerEvent) => !navRef.current?.contains(e.target as Node) && setOpenIdx(null);
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onDown);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onDown);
+    };
+  }, []);
+
+  return (
+    <div ref={navRef} className="lg-track flex items-center gap-1 p-1" onMouseLeave={hide}>
+      {groups.map((g, i) => {
+        const open = openIdx === i;
+        const here = g.pages.includes(current);
+        return (
+          <div key={g.label} className="relative" onMouseEnter={() => show(i)} onBlur={(e) => !e.currentTarget.contains(e.relatedTarget as Node) && hide()}>
+            <button
+              type="button"
+              aria-expanded={open}
+              aria-haspopup="true"
+              onClick={() => setOpenIdx(open ? null : i)}
+              onKeyDown={(e) => e.key === "ArrowDown" && (e.preventDefault(), show(i))}
+              className={cn(
+                "inline-flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white",
+                open || here ? "lg lg-quiet" : "rounded-[10px] text-foreground/80 hover:bg-white/20 hover:text-foreground",
+              )}
+            >
+              {g.label}
+              <ChevronDown className={cn("size-3.5 transition-transform duration-200", open && "rotate-180")} />
+            </button>
+            <AnimatePresence>
+              {open && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.85 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 6, scale: 0.95, transition: { duration: 0.12 } }}
+                  transition={{ type: "spring", stiffness: 420, damping: 30 }}
+                  style={{ transformOrigin: "top left" }}
+                  className="absolute left-0 top-full z-50 pt-3"
+                >
+                  <div className="menu-panel w-max min-w-[260px] p-2.5">
+                    {g.links.map((link) => {
+                      const active = link.page === current;
+                      return (
+                        <a
+                          key={link.href}
+                          href={link.href}
+                          aria-current={active ? "page" : undefined}
+                          onClick={() => setOpenIdx(null)}
+                          className={cn(
+                            "block rounded-[12px] px-3 py-2.5 transition-all duration-200 hover:bg-white/10 hover:pl-4 focus-visible:bg-white/10 focus-visible:outline-none",
+                            active && "bg-white/[0.12]",
+                          )}
+                        >
+                          <span className="block text-[15px] font-semibold text-[#f6efe7]">{link.label}</span>
+                          <span className="mt-0.5 block text-xs text-[#c9bcae]">{link.text}</span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        );
+      })}
+    </div>
   );
 }
