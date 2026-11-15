@@ -191,6 +191,14 @@ export async function appRoutes(env: Env, req: Request, path: string): Promise<R
     return json({ ride: await ride(env, "select * from rides where passenger_id = ? order by created_at desc, id desc limit 1", uid) });
   }
 
+  // Past rides of the signed-in passenger or driver, for the account page (stats + history).
+  if (path === "/api/rides/history" && method === "GET") {
+    const r = await env.DB.prepare(
+      "select * from rides where (passenger_id = ?1 or driver_id = ?1) and status in ('completed', 'cancelled') order by created_at desc, id desc limit 50",
+    ).bind(uid).all();
+    return json({ rides: rows(r.results) });
+  }
+
   if (path === "/api/rides" && method === "POST") {
     const p = await profileOf(env, uid);
     if (!p || p.role !== "passenger") throw new ApiError("not_a_passenger");
