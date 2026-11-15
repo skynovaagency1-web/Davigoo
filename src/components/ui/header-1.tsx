@@ -45,11 +45,13 @@ export function Header({ current = "home" }: { current?: SitePage }) {
   return (
     <header
       className={cn("sticky top-0 z-50 w-full border-b border-transparent", {
-        "border-border bg-background/90 backdrop-blur-lg supports-[backdrop-filter]:bg-background/75": scrolled,
+        // Desktop: full-width frosted bar once scrolled. Phone: the bar floats as a glass pill (davinova.com style).
+        "lg:border-border lg:bg-background/90 lg:backdrop-blur-lg lg:supports-[backdrop-filter]:bg-background/75": scrolled,
       })}
     >
       <DemoBanner />
-      <nav className="container flex h-[4.5rem] items-center justify-between">
+      <div className="container pt-2.5 lg:pt-0">
+      <nav className="flex h-14 items-center justify-between max-lg:lg-panel max-lg:!rounded-[28px] max-lg:!bg-[#cbc0b5]/75 max-lg:pl-4 max-lg:pr-2 lg:h-[4.5rem]">
         <Logo />
         <div className="hidden items-center gap-3 lg:flex">
           {/* Menu as glass tabs: the page you are on is the raised one. */}
@@ -70,9 +72,10 @@ export function Header({ current = "home" }: { current?: SitePage }) {
           </a>
         </div>
       </nav>
+      </div>
       {/* Phone: the same glass tab bar as on desktop, scrolling sideways (no hamburger menu). */}
-      <div className="container pb-3 lg:hidden">
-        <div className="lg-track flex items-center gap-1 overflow-x-auto p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{tabs(true)}</div>
+      <div className="container pb-2 pt-2 lg:hidden">
+        <div className="lg-track flex !bg-[#cbc0b5]/70 backdrop-blur-xl items-center gap-1 overflow-x-auto p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{tabs(true)}</div>
       </div>
     </header>
   );

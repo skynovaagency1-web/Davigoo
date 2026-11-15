@@ -58,13 +58,13 @@ export function ExploreTiles({ current, title = "Continuer la visite" }: { curre
   return (
     <section className="container py-16">
       <h2 className="font-display text-4xl sm:text-5xl">{title}</h2>
-      <ul className={`mt-8 grid gap-5 sm:grid-cols-2 ${current ? "lg:grid-cols-4" : "lg:grid-cols-5"}`}>
+      <ul className={`mt-8 grid grid-cols-2 gap-5 ${current ? "lg:grid-cols-4" : "lg:grid-cols-5"}`}>
         {PAGES.filter((p) => p.page !== current).map((p) => (
           <li key={p.page}>
-            <a href={p.href} className="lg group flex h-full flex-col justify-between gap-6 !rounded-[16px] p-6">
+            <a href={p.href} className="lg group flex h-full flex-col justify-between gap-4 !rounded-[18px] p-4 sm:gap-6 sm:p-6">
               <span>
-                <span className="block text-xl font-semibold">{p.title}</span>
-                <span className="mt-1 block text-sm text-white/95">{p.text}</span>
+                <span className="block text-base font-semibold leading-tight sm:text-xl">{p.title}</span>
+                <span className="mt-1 block text-xs text-white/95 sm:text-sm">{p.text}</span>
               </span>
               <ArrowRight className="size-5 transition group-hover:translate-x-1" />
             </a>
