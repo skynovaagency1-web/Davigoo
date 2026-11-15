@@ -2,7 +2,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { AlertTriangle, Check, ExternalLink, Loader2, UserRound, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { inputClass } from "@/components/ui/consent";
+import { glassInputClass as inputClass } from "@/components/ui/consent";
 import { cn } from "@/lib/utils";
 import { ApiError, ops } from "@/ops/client";
 
@@ -230,7 +230,7 @@ export function DriverVerification({ driver, onClose, onChanged }: { driver: Ver
         role="dialog"
         aria-modal="true"
         aria-label={`Vérification de ${driver.first_name}`}
-        className="glass-card h-full w-full max-w-xl overflow-y-auto !bg-[#f8f4f0]/90 p-6 sm:m-3 sm:h-[calc(100%-1.5rem)] sm:rounded-[1.75rem]"
+        className="lg-panel h-full w-full max-w-xl overflow-y-auto !bg-[#c4b8ac]/90 p-6 sm:m-3 sm:h-[calc(100%-1.5rem)] sm:rounded-[1.75rem]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">
@@ -344,11 +344,11 @@ export function DriverVerification({ driver, onClose, onChanged }: { driver: Ver
         )}
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
-          <Button variant="outline" size="lg" onClick={onSave} disabled={!!busy || loading}>
+          <Button variant="glass" size="lg" onClick={onSave} disabled={!!busy || loading}>
             {busy === "save" && <Loader2 className="size-4 animate-spin" />} Enregistrer
           </Button>
           {!driver.approved && (
-            <Button size="lg" onClick={onApprove} disabled={!!busy || loading || todo.length > 0}>
+            <Button variant="glassStrong" size="lg" onClick={onApprove} disabled={!!busy || loading || todo.length > 0}>
               {busy === "approve" ? <Loader2 className="size-4 animate-spin" /> : <Check className="size-4" />} Valider le chauffeur
             </Button>
           )}

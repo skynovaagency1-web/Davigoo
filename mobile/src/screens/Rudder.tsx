@@ -13,12 +13,12 @@ export function Rudder({ left, right, center }: { left: Side; right: Side; cente
   const insets = useSafeAreaInsets();
   return (
     <View pointerEvents="box-none" style={{ position: "absolute", left: 0, right: 0, bottom: Math.max(insets.bottom, 12) + 4, alignItems: "center" }}>
-      <Glass style={{ flexDirection: "row", alignItems: "center", gap: 26, paddingHorizontal: 14, height: 68, backgroundColor: "rgba(251,248,245,0.78)" }}>
+      <Glass radius={22} style={{ flexDirection: "row", alignItems: "center", gap: 26, paddingHorizontal: 14, height: 68, backgroundColor: "rgba(255,255,255,0.26)" }}>
         <Tab {...left} />
         <Pressable accessibilityRole="button" accessibilityLabel={center.label} onPress={center.onPress} disabled={center.disabled || center.busy} style={{ marginTop: -30 }}>
           {({ pressed }) => (
-            <Glass tint={center.tint ?? "sand"} style={{ width: 72, height: 72, alignItems: "center", justifyContent: "center", opacity: center.disabled ? 0.5 : 1, transform: [{ scale: pressed ? 0.95 : 1 }] }}>
-              {center.busy ? <ActivityIndicator color={C.fg} /> : <Icon name={center.icon} size={26} />}
+            <Glass tint={center.tint ?? "sand"} radius={18} style={{ width: 72, height: 72, alignItems: "center", justifyContent: "center", opacity: center.disabled ? 0.5 : 1, transform: [{ scale: pressed ? 0.95 : 1 }] }}>
+              {center.busy ? <ActivityIndicator color="#fff" /> : <Icon name={center.icon} size={26} color="#fff" />}
             </Glass>
           )}
         </Pressable>

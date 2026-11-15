@@ -70,13 +70,13 @@ export function AppSection() {
   const pending = drivers.filter((d) => !d.approved).length;
 
   return (
-    <section className="glass-card mt-6 rounded-[1.75rem] p-5 sm:p-7" aria-labelledby="app-title">
+    <section className="lg-panel mt-6 rounded-[1.75rem] p-5 sm:p-7" aria-labelledby="app-title">
       <div className="flex items-end justify-between gap-4 border-b pb-3">
         <h2 id="app-title" className="text-lg font-bold">
           Application pilote{" "}
           {pending > 0 && <span className="ml-1 rounded-full bg-signal/20 px-2 py-0.5 text-xs font-semibold">{pending} chauffeur(s) à valider</span>}
         </h2>
-        <Button variant="outline" size="sm" onClick={load} aria-label="Actualiser l'application">
+        <Button variant="glass" size="sm" onClick={load} aria-label="Actualiser l'application">
           <RefreshCw className={cn("size-4", loading && "animate-spin")} />
         </Button>
       </div>
@@ -108,11 +108,11 @@ export function AppSection() {
                   <Loader2 className="size-4 animate-spin" />
                 ) : (
                   <div className="flex shrink-0 gap-2">
-                    <Button variant={d.approved ? "outline" : "default"} size="sm" onClick={() => setOpen(d)}>
+                    <Button variant={d.approved ? "glass" : "glassStrong"} size="sm" onClick={() => setOpen(d)}>
                       <ShieldCheck className="size-4" /> Vérifier
                     </Button>
                     {d.approved && (
-                      <Button variant="outline" size="sm" onClick={() => setApproved(d, false)} aria-label={`Retirer la validation de ${d.first_name}`}>
+                      <Button variant="glass" size="sm" onClick={() => setApproved(d, false)} aria-label={`Retirer la validation de ${d.first_name}`}>
                         <X className="size-4" />
                       </Button>
                     )}
