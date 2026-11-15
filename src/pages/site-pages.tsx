@@ -17,14 +17,14 @@ type Item = { icon: React.ComponentType<{ className?: string }>; title: string; 
 /** Row of glass cards, each with an icon, a title and a line of text. */
 function GlassCards({ items, cols = 3 }: { items: Item[]; cols?: 2 | 3 }) {
   return (
-    <ul className={`grid gap-5 sm:grid-cols-2 ${cols === 3 ? "lg:grid-cols-3" : ""}`}>
+    <ul className={`grid grid-cols-2 gap-5 ${cols === 3 ? "lg:grid-cols-3" : ""}`}>
       {items.map((it) => (
-        <li key={it.title} className="lg-panel p-6">
-          <span className="lg lg-quiet inline-grid size-11 place-items-center">
+        <li key={it.title} className="lg-panel p-4 sm:p-6">
+          <span className="lg lg-quiet inline-grid size-9 place-items-center sm:size-11">
             <it.icon className="size-5" />
           </span>
-          <p className="mt-4 text-lg font-semibold">{it.title}</p>
-          <p className="mt-1 text-muted-foreground">{it.text}</p>
+          <p className="mt-3 text-[15px] font-semibold leading-tight sm:mt-4 sm:text-lg">{it.title}</p>
+          <p className="mt-1 text-[13px] leading-snug text-muted-foreground sm:text-base">{it.text}</p>
         </li>
       ))}
     </ul>
