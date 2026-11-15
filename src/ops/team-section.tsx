@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Copy, KeyRound, Loader2, RefreshCw, ShieldOff, UserPlus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { inputClass } from "@/components/ui/consent";
+import { glassInputClass as inputClass } from "@/components/ui/consent";
 import { cn } from "@/lib/utils";
 import { ApiError, ops } from "@/ops/client";
 
@@ -74,10 +74,10 @@ export function TeamSection({ emailEnabled }: { emailEnabled: boolean }) {
   };
 
   return (
-    <section className="glass-card mt-6 rounded-[1.75rem] p-5 sm:p-7" aria-labelledby="team-title">
+    <section className="lg-panel mt-6 rounded-[1.75rem] p-5 sm:p-7" aria-labelledby="team-title">
       <div className="flex items-end justify-between gap-4 border-b pb-3">
         <h2 id="team-title" className="text-lg font-bold">Équipe et accès</h2>
-        <Button variant="outline" size="sm" onClick={load} aria-label="Actualiser l'équipe">
+        <Button variant="glass" size="sm" onClick={load} aria-label="Actualiser l'équipe">
           <RefreshCw className={cn("size-4", loading && "animate-spin")} />
         </Button>
       </div>
@@ -89,10 +89,10 @@ export function TeamSection({ emailEnabled }: { emailEnabled: boolean }) {
           </p>
           <div className="flex items-center gap-2">
             <input readOnly value={link.url} className={cn(inputClass, "py-2 font-mono text-xs")} onFocus={(e) => e.currentTarget.select()} aria-label="Lien à transmettre" />
-            <Button variant="outline" size="sm" onClick={() => navigator.clipboard?.writeText(link.url)} aria-label="Copier le lien">
+            <Button variant="glass" size="sm" onClick={() => navigator.clipboard?.writeText(link.url)} aria-label="Copier le lien">
               <Copy className="size-4" />
             </Button>
-            <Button variant="outline" size="sm" onClick={() => setLink(null)} aria-label="Fermer">
+            <Button variant="glass" size="sm" onClick={() => setLink(null)} aria-label="Fermer">
               <X className="size-4" />
             </Button>
           </div>
@@ -119,11 +119,11 @@ export function TeamSection({ emailEnabled }: { emailEnabled: boolean }) {
                   ) : (
                     <div className="flex shrink-0 gap-2">
                       {m.has_mfa && (
-                        <Button variant="outline" size="sm" onClick={() => act(m, "mfa")} aria-label={`Réinitialiser la vérification en deux étapes de ${m.email}`} title="Téléphone perdu : réinitialiser la vérification en deux étapes">
+                        <Button variant="glass" size="sm" onClick={() => act(m, "mfa")} aria-label={`Réinitialiser la vérification en deux étapes de ${m.email}`} title="Téléphone perdu : réinitialiser la vérification en deux étapes">
                           <ShieldOff className="size-4" />
                         </Button>
                       )}
-                      <Button variant="outline" size="sm" onClick={() => act(m, "remove")} aria-label={`Retirer ${m.email} de l'équipe`}>
+                      <Button variant="glass" size="sm" onClick={() => act(m, "remove")} aria-label={`Retirer ${m.email} de l'équipe`}>
                         <X className="size-4" />
                       </Button>
                     </div>
@@ -137,7 +137,7 @@ export function TeamSection({ emailEnabled }: { emailEnabled: boolean }) {
             <h3 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Ajouter un membre</h3>
             <div className="flex gap-2">
               <input id="team-invite-email" name="email" type="email" required placeholder="prenom@mova.fr" aria-label="E-mail du nouveau membre" className={cn(inputClass, "py-2")} />
-              <Button type="submit" size="sm" disabled={busy === "invite"}>
+              <Button type="submit" variant="glassStrong" size="sm" disabled={busy === "invite"}>
                 {busy === "invite" ? <Loader2 className="size-4 animate-spin" /> : <UserPlus className="size-4" />} Inviter
               </Button>
             </div>
@@ -147,7 +147,7 @@ export function TeamSection({ emailEnabled }: { emailEnabled: boolean }) {
             <h3 className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Mot de passe oublié (app ou équipe)</h3>
             <div className="flex gap-2">
               <input id="team-reset-email" name="email" type="email" required placeholder="e-mail du compte" aria-label="E-mail du compte à réinitialiser" className={cn(inputClass, "py-2")} />
-              <Button type="submit" variant="outline" size="sm" disabled={busy === "reset"}>
+              <Button type="submit" variant="glass" size="sm" disabled={busy === "reset"}>
                 {busy === "reset" ? <Loader2 className="size-4 animate-spin" /> : <KeyRound className="size-4" />} Créer un lien
               </Button>
             </div>

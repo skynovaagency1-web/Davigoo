@@ -32,7 +32,7 @@ export default function PrototypeApp() {
             Tout est simulé dans votre navigateur : pas de GPS, pas de dispatch, pas de paiement. Le chauffeur, la carte et
             les montants sont fictifs.
           </p>
-          <div role="tablist" aria-label="Rôle" className="mt-8 inline-grid grid-cols-2 rounded-xl border bg-card p-1">
+          <div role="tablist" aria-label="Rôle" className="mt-8 inline-grid grid-cols-2 gap-1 lg-track p-1">
             {(["rider", "driver"] as const).map((m) => (
               <button
                 key={m}
@@ -40,8 +40,8 @@ export default function PrototypeApp() {
                 aria-selected={mode === m}
                 onClick={() => setMode(m)}
                 className={cn(
-                  "flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors",
-                  mode === m ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
+                  "flex items-center justify-center gap-2 rounded-[10px] px-5 py-2.5 text-sm font-semibold transition-colors",
+                  mode === m ? "lg lg-quiet" : "text-foreground/75 hover:bg-white/15",
                 )}
               >
                 {m === "rider" ? <User className="size-4" /> : <Car className="size-4" />}
@@ -148,7 +148,7 @@ function Sheet({ children }: { children: React.ReactNode }) {
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: 40, opacity: 0 }}
       transition={{ type: "spring", stiffness: 260, damping: 28 }}
-      className="absolute inset-x-0 bottom-0 z-20 max-h-[85%] overflow-y-auto rounded-t-3xl border-t bg-background p-5 pb-7"
+      className="absolute inset-x-0 bottom-0 z-20 max-h-[85%] overflow-y-auto rounded-t-3xl border-t border-white/60 bg-[#c2b6aa]/85 p-5 pb-7 backdrop-blur-xl"
     >
       <div className="mx-auto mb-4 h-1.5 w-10 rounded-full bg-border" />
       {children}
@@ -207,7 +207,7 @@ function RiderFlow() {
   return (
     <div className="relative h-full">
       <MiniMap progress={mapProgress} showCar={step === "ontrip" || step === "done" || step === "arrived" || step === "enroute"} />
-      <div className="absolute inset-x-4 top-10 z-10 rounded-xl border bg-background/90 px-4 py-2.5 text-sm backdrop-blur">
+      <div className="absolute inset-x-4 top-10 z-10 lg-panel !rounded-[14px] px-4 py-2.5 text-sm">
         <span className="text-muted-foreground">Bonjour 👋</span> <span className="font-semibold">Passager démo</span>
       </div>
 
@@ -229,7 +229,7 @@ function RiderFlow() {
                     aria-pressed={category === c.id}
                     className={cn(
                       "flex items-center justify-between rounded-xl border px-3.5 py-2.5 text-left transition-colors",
-                      category === c.id ? "border-primary bg-primary/10" : "hover:border-muted-foreground",
+                      category === c.id ? "lg lg-quiet border-white/60" : "border-white/40 hover:bg-white/15",
                     )}
                   >
                     <span>
@@ -241,7 +241,7 @@ function RiderFlow() {
                 );
               })}
             </div>
-            <Button size="lg" className="mt-4 w-full" disabled={!estimate} onClick={() => setStep("searching")}>
+            <Button variant="glassStrong" size="lg" className="mt-4 w-full" disabled={!estimate} onClick={() => setStep("searching")}>
               {estimate ? `Commander · ${formatEuro(estimate.price)}` : "Choisissez deux lieux différents"}
             </Button>
             <p className="mt-2 text-center text-[11px] text-muted-foreground">Prix fictifs · aucune commande réelle</p>
@@ -257,7 +257,7 @@ function RiderFlow() {
               </span>
               <p className="mt-4 font-bold">Recherche d'un chauffeur…</p>
               <p className="text-sm text-muted-foreground">Simulation de mise en relation</p>
-              <Button variant="outline" className="mt-5" onClick={reset}>
+              <Button variant="glass" className="mt-5" onClick={reset}>
                 Annuler
               </Button>
             </div>
@@ -271,13 +271,13 @@ function RiderFlow() {
             </p>
             <DriverCard />
             <div className="mt-4 grid grid-cols-2 gap-2">
-              <Button variant="outline" onClick={reset}>
+              <Button variant="glass" onClick={reset}>
                 <X className="size-4" /> Annuler
               </Button>
               {step === "arrived" ? (
-                <Button onClick={() => setStep("ontrip")}>Je suis à bord</Button>
+                <Button variant="glassStrong" onClick={() => setStep("ontrip")}>Je suis à bord</Button>
               ) : (
-                <Button variant="secondary" disabled>
+                <Button variant="glass" disabled>
                   <Phone className="size-4" /> Appeler
                 </Button>
               )}
@@ -311,7 +311,7 @@ function RiderFlow() {
                 <Star key={n} className="size-6 fill-primary text-primary" />
               ))}
             </div>
-            <Button size="lg" className="mt-4 w-full" onClick={reset}>
+            <Button variant="glassStrong" size="lg" className="mt-4 w-full" onClick={reset}>
               Nouvelle course
             </Button>
           </Sheet>
@@ -323,7 +323,7 @@ function RiderFlow() {
 
 function PlaceSelect({ icon, label, value, onChange }: { icon: React.ReactNode; label: string; value: string; onChange: (v: string) => void }) {
   return (
-    <label className="flex items-center gap-3 rounded-xl bg-muted/60 px-3.5 py-2">
+    <label className="flex items-center gap-3 lg-field px-3.5 py-2">
       {icon}
       <span className="sr-only">{label}</span>
       <select value={value} onChange={(e) => onChange(e.target.value)} className="w-full bg-transparent text-sm font-medium focus:outline-none [&>option]:bg-card">
@@ -400,7 +400,7 @@ function DriverFlow() {
   return (
     <div className="relative h-full">
       <MiniMap progress={step === "ontrip" ? trip : 0} showCar={step === "ontrip" || step === "atpickup" || step === "topickup"} />
-      <div className="absolute inset-x-4 top-10 z-10 flex items-center justify-between rounded-xl border bg-background/90 px-4 py-2.5 text-sm backdrop-blur">
+      <div className="absolute inset-x-4 top-10 z-10 flex items-center justify-between lg-panel !rounded-[14px] px-4 py-2.5 text-sm">
         <span>
           <span className="text-muted-foreground">Aujourd'hui · </span>
           <span className="font-bold">{formatEuro(earnings)}</span>
@@ -416,7 +416,7 @@ function DriverFlow() {
         {step === "offline" && (
           <Sheet key="offline">
             <p className="text-center text-sm text-muted-foreground">Vous êtes hors ligne</p>
-            <Button size="lg" className="mt-4 w-full" onClick={() => setStep("waiting")}>
+            <Button variant="glassStrong" size="lg" className="mt-4 w-full" onClick={() => setStep("waiting")}>
               <Power className="size-4" /> Passer en ligne
             </Button>
             <p className="mt-3 text-center text-[11px] text-muted-foreground">
@@ -434,7 +434,7 @@ function DriverFlow() {
               </span>
               <p className="mt-3 font-bold">En attente de demandes…</p>
               {declined && <p className="text-sm text-muted-foreground">Demande précédente refusée ou expirée.</p>}
-              <Button variant="outline" className="mt-4" onClick={() => setStep("offline")}>
+              <Button variant="glass" className="mt-4" onClick={() => setStep("offline")}>
                 Passer hors ligne
               </Button>
             </div>
@@ -458,7 +458,7 @@ function DriverFlow() {
             </dl>
             <div className="mt-4 grid grid-cols-2 gap-2">
               <Button
-                variant="outline"
+                variant="glass"
                 size="lg"
                 onClick={() => {
                   setDeclined(true);
@@ -467,7 +467,7 @@ function DriverFlow() {
               >
                 Refuser
               </Button>
-              <Button size="lg" onClick={() => setStep("topickup")}>
+              <Button variant="glassStrong" size="lg" onClick={() => setStep("topickup")}>
                 Accepter
               </Button>
             </div>
@@ -480,7 +480,7 @@ function DriverFlow() {
               {step === "topickup" ? `Vers ${fromLabel} · ~${Math.max(1, Math.ceil((1 - approach) * 3))} min` : `Arrivé à ${fromLabel}`}
             </p>
             <PassengerCard />
-            <Button size="lg" className="mt-4 w-full" disabled={step !== "atpickup"} onClick={() => setStep("ontrip")}>
+            <Button variant="glassStrong" size="lg" className="mt-4 w-full" disabled={step !== "atpickup"} onClick={() => setStep("ontrip")}>
               {step === "atpickup" ? "Démarrer la course" : "Navigation (simulée)…"}
             </Button>
           </Sheet>
@@ -493,7 +493,7 @@ function DriverFlow() {
               <div className="h-full bg-primary transition-[width] duration-300" style={{ width: `${trip * 100}%` }} />
             </div>
             <PassengerCard />
-            <Button size="lg" className="mt-4 w-full" disabled={trip < 1} onClick={finish}>
+            <Button variant="glassStrong" size="lg" className="mt-4 w-full" disabled={trip < 1} onClick={finish}>
               {trip < 1 ? "En route…" : "Terminer la course"}
             </Button>
           </Sheet>
@@ -506,7 +506,7 @@ function DriverFlow() {
               <p className="mt-2 text-lg font-bold">Course terminée</p>
               <p className="text-sm text-muted-foreground">+{formatEuro(ride.price)} (fictif, avant commission à définir)</p>
             </div>
-            <Button size="lg" className="mt-5 w-full" onClick={() => setStep("waiting")}>
+            <Button variant="glassStrong" size="lg" className="mt-5 w-full" onClick={() => setStep("waiting")}>
               Reprendre les demandes
             </Button>
           </Sheet>

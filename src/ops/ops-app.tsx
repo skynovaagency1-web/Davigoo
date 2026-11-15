@@ -3,7 +3,7 @@ import { Wordmark } from "@/components/ui/wordmark";
 import QRCode from "qrcode";
 import { Loader2, LogOut, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { inputClass } from "@/components/ui/consent";
+import { glassInputClass as inputClass } from "@/components/ui/consent";
 import { ApiError, ops, session, type Me } from "@/ops/client";
 import { api } from "@/lib/api";
 import { Console } from "@/ops/console";
@@ -70,13 +70,12 @@ export default function OpsApp() {
 
   return (
     <div className="grid min-h-screen place-items-center px-4 py-10">
-      <div className="ops-backdrop" aria-hidden />
       <div className="w-full max-w-sm">
         <p className="flex items-end gap-3">
           <Wordmark className="w-48 text-foreground" shine /> <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">OPS</span>
         </p>
         <p className="mt-1 font-mono text-xs text-muted-foreground">Console interne · accès réservé à l'équipe</p>
-        <div className="glass-card mt-8 rounded-[1.75rem] p-7">
+        <div className="lg-panel mt-8 rounded-[1.75rem] p-7">
           {gate.step === "loading" && <Loader2 className="mx-auto size-6 animate-spin text-muted-foreground" />}
           {gate.step === "setup" && <Setup onDone={signedIn} />}
           {gate.step === "signed-out" && <SignIn onDone={signedIn} />}
@@ -89,7 +88,7 @@ export default function OpsApp() {
               <p className="text-muted-foreground">
                 Connecté en tant que {me?.user.email}. Demandez à un administrateur DaviGoo de vous ajouter à l'équipe.
               </p>
-              <Button variant="outline" onClick={signOut}>
+              <Button variant="glass" onClick={signOut}>
                 <LogOut className="size-4" /> Se déconnecter
               </Button>
             </div>
@@ -151,7 +150,7 @@ function Setup({ onDone }: { onDone: (token: string) => void }) {
         <input id="ops-setup-confirm" name="confirm" type="password" required minLength={12} autoComplete="new-password" className={inputClass} />
       </label>
       {error && <p role="alert" className="text-sm font-medium text-warning">{error}</p>}
-      <Button type="submit" size="lg" disabled={busy}>
+      <Button type="submit" variant="glassStrong" size="lg" disabled={busy}>
         {busy && <Loader2 className="size-4 animate-spin" />} Créer le compte
       </Button>
     </form>
@@ -205,7 +204,7 @@ function SignIn({ onDone }: { onDone: (token: string) => void }) {
       </label>
       {error && <p role="alert" className="text-sm font-medium text-warning">{error}</p>}
       {notice && <p role="status" className="text-sm text-muted-foreground">{notice}</p>}
-      <Button type="submit" size="lg" disabled={busy}>
+      <Button type="submit" variant="glassStrong" size="lg" disabled={busy}>
         {busy && <Loader2 className="size-4 animate-spin" />} Se connecter
       </Button>
       <button type="button" onClick={forgot} disabled={busy} className="justify-self-start text-sm text-muted-foreground underline underline-offset-2 hover:text-foreground">
@@ -239,7 +238,7 @@ function CodeForm({ onSubmit, busy, error, label }: { onSubmit: (code: string) =
         />
       </label>
       {error && <p role="alert" className="text-sm font-medium text-warning">{error}</p>}
-      <Button type="submit" size="lg" disabled={busy}>
+      <Button type="submit" variant="glassStrong" size="lg" disabled={busy}>
         {busy && <Loader2 className="size-4 animate-spin" />} Valider
       </Button>
     </form>
@@ -369,7 +368,7 @@ function SetPassword({ token, onDone }: { token: string; onDone: (session: strin
         <input id="ops-confirm-password" name="confirm" type="password" required minLength={12} autoComplete="new-password" className={inputClass} />
       </label>
       {error && <p role="alert" className="text-sm font-medium text-warning">{error}</p>}
-      <Button type="submit" size="lg" disabled={busy}>
+      <Button type="submit" variant="glassStrong" size="lg" disabled={busy}>
         {busy && <Loader2 className="size-4 animate-spin" />} Enregistrer
       </Button>
     </form>

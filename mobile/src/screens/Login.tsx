@@ -96,7 +96,7 @@ export function Login() {
                 <Pressable accessibilityRole="button" accessibilityLabel={mode === "signup" ? "Créer mon compte" : "Se connecter"} onPress={submit} disabled={busy}>
                   {({ pressed }) => (
                     <Glass tint="sand" style={{ width: 72, height: 52, alignItems: "center", justifyContent: "center", transform: [{ scale: pressed ? 0.96 : 1 }] }}>
-                      {busy ? <ActivityIndicator color={C.fg} /> : <Text style={{ color: C.fg, fontSize: 26, marginTop: -3 }}>›</Text>}
+                      {busy ? <ActivityIndicator color={C.fg} /> : <Text style={{ color: "#fff", fontSize: 26, marginTop: -3 }}>›</Text>}
                     </Glass>
                   )}
                 </Pressable>
@@ -118,7 +118,7 @@ export function Login() {
 function Pill({ icon, action, ...props }: TextInputProps & { icon: string; action?: { label: string; onPress: () => void } }) {
   return (
     <Glass style={g.pill}>
-      <Glass style={g.icon}>
+      <Glass radius={9} style={g.icon}>
         <Text style={{ color: C.fg, fontSize: 14 }}>{icon}</Text>
       </Glass>
       <TextInput placeholderTextColor="#8A7B6E" style={{ flex: 1, minWidth: 0, fontSize: 16, color: C.fg, paddingVertical: 0 }} {...props} />

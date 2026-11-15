@@ -4,7 +4,7 @@ import { AppSection } from "@/ops/app-section";
 import { TeamSection } from "@/ops/team-section";
 import { Download, Loader2, LogOut, RefreshCw, Search, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { inputClass } from "@/components/ui/consent";
+import { glassInputClass as inputClass } from "@/components/ui/consent";
 import { cn } from "@/lib/utils";
 import {
   DRIVER_STATUSES,
@@ -113,7 +113,6 @@ export function Console({ email, emailEnabled, onSignOut }: { email: string; ema
 
   return (
     <div className="min-h-screen">
-      <div className="ops-backdrop" aria-hidden />
       <header className="sticky top-0 z-40 border-b border-white/60 bg-[#f4efea]/60 backdrop-blur-xl">
         <div className="container flex h-16 items-center justify-between gap-4">
           <p className="flex items-end gap-2.5">
@@ -121,7 +120,7 @@ export function Console({ email, emailEnabled, onSignOut }: { email: string; ema
           </p>
           <div className="flex items-center gap-3">
             <span className="hidden font-mono text-xs text-muted-foreground sm:inline">{email}</span>
-            <Button variant="outline" size="sm" onClick={onSignOut}>
+            <Button variant="glass" size="sm" onClick={onSignOut}>
               <LogOut className="size-4" /> Déconnexion
             </Button>
           </div>
@@ -130,14 +129,14 @@ export function Console({ email, emailEnabled, onSignOut }: { email: string; ema
 
       <main className="container py-8">
         {error && (
-          <p role="alert" className="glass-card mb-6 rounded-2xl border-l-4 !border-l-warning p-3 text-sm">
+          <p role="alert" className="lg-panel mb-6 rounded-2xl border-l-4 !border-l-warning p-3 text-sm">
             {error}
           </p>
         )}
 
         <section aria-label="Vue d'ensemble" className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {stats.map((s) => (
-            <div key={s.label} className="glass-card rounded-[1.5rem] p-5">
+            <div key={s.label} className="lg-panel rounded-[1.5rem] p-5">
               <p className="text-xs text-muted-foreground">{s.label}</p>
               <p className="mt-1 font-display text-4xl font-medium tnum">
                 {loading ? "–" : s.value}
@@ -152,7 +151,7 @@ export function Console({ email, emailEnabled, onSignOut }: { email: string; ema
           <TopList title="Trajets demandés (passagers)" items={topValues("details", passengers)} />
         </section>
 
-        <section className="glass-card mt-6 rounded-[1.75rem] p-5 sm:p-7">
+        <section className="lg-panel mt-6 rounded-[1.75rem] p-5 sm:p-7">
           <div className="flex flex-wrap items-end justify-between gap-4 border-b">
             <div role="tablist" className="flex gap-6">
               {(["driver", "passenger"] as const).map((t) => (
@@ -189,10 +188,10 @@ export function Console({ email, emailEnabled, onSignOut }: { email: string; ema
                   ))}
                 </select>
               </label>
-              <Button variant="outline" size="sm" onClick={load} aria-label="Actualiser">
+              <Button variant="glass" size="sm" onClick={load} aria-label="Actualiser">
                 <RefreshCw className={cn("size-4", loading && "animate-spin")} />
               </Button>
-              <label className="glass inline-flex h-9 cursor-pointer items-center gap-2 rounded-full px-4 text-sm font-medium tracking-wide hover:bg-white/60 focus-within:ring-2 focus-within:ring-ring" title="Importer un export CSV de l'ancienne console">
+              <label className="lg inline-flex h-9 cursor-pointer items-center gap-2 px-4 text-sm font-medium tracking-wide hover:bg-white/60 focus-within:ring-2 focus-within:ring-ring" title="Importer un export CSV de l'ancienne console">
                 <Upload className="size-4" /> Importer
                 <input
                   type="file"
@@ -205,7 +204,7 @@ export function Console({ email, emailEnabled, onSignOut }: { email: string; ema
                   }}
                 />
               </label>
-              <Button variant="outline" size="sm" onClick={exportCsv} disabled={!list.length}>
+              <Button variant="glass" size="sm" onClick={exportCsv} disabled={!list.length}>
                 <Download className="size-4" /> CSV
               </Button>
             </div>
@@ -269,7 +268,7 @@ export function Console({ email, emailEnabled, onSignOut }: { email: string; ema
 function TopList({ title, items }: { title: string; items: [string, number][] }) {
   const max = Math.max(1, ...items.map((i) => i[1]));
   return (
-    <div className="glass-card rounded-[1.5rem] p-5">
+    <div className="lg-panel rounded-[1.5rem] p-5">
       <p className="text-xs text-muted-foreground">{title}</p>
       {items.length ? (
         <ul className="mt-3 grid gap-2">
@@ -323,7 +322,7 @@ function DetailPanel({ row, onClose, onSaved }: { row: SignupRow; onClose: () =>
         role="dialog"
         aria-modal="true"
         aria-label={`Fiche de ${row.first_name || row.email}`}
-        className="glass-card h-full w-full max-w-md overflow-y-auto !bg-[#f8f4f0]/90 p-6 sm:m-3 sm:h-[calc(100%-1.5rem)] sm:rounded-[1.75rem]"
+        className="lg-panel h-full w-full max-w-md overflow-y-auto !bg-[#c4b8ac]/90 p-6 sm:m-3 sm:h-[calc(100%-1.5rem)] sm:rounded-[1.75rem]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">
@@ -360,7 +359,7 @@ function DetailPanel({ row, onClose, onSaved }: { row: SignupRow; onClose: () =>
                 key={s}
                 className={cn(
                   "cursor-pointer rounded-full border px-3 py-1 text-sm font-semibold has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring",
-                  status === s ? "border-foreground bg-foreground text-background" : "border-foreground/25 hover:border-foreground",
+                  status === s ? "lg lg-quiet border-transparent" : "border-foreground/25 hover:border-foreground",
                 )}
               >
                 <input type="radio" name="status" value={s} checked={status === s} onChange={() => setStatus(s)} className="sr-only" />
@@ -385,7 +384,7 @@ function DetailPanel({ row, onClose, onSaved }: { row: SignupRow; onClose: () =>
         <p className="mt-1 text-xs text-muted-foreground">Ne notez ni numéro de pièce d'identité, ni données de santé.</p>
 
         <div className="mt-6 flex items-center gap-3">
-          <Button size="lg" onClick={save} disabled={busy}>
+          <Button variant="glassStrong" size="lg" onClick={save} disabled={busy}>
             {busy && <Loader2 className="size-4 animate-spin" />} Enregistrer
           </Button>
           {message && (
