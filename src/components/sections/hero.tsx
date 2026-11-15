@@ -2,7 +2,7 @@ import { ChevronRight } from "lucide-react";
 
 // Home hero, laid out like resend.com: announcement pill, large serif headline with a fading gradient,
 // short subline, a glass button plus a quiet text button, and the logo film playing on the right
-// (the car drives in, shatters and reforms as DAVIGOO). Clicking the film replays it.
+// (the car drives in, stops and flashes its headlights). Clicking it replays.
 export function Hero() {
   return (
     <section className="container pt-4">
@@ -44,7 +44,7 @@ export function Hero() {
           <div className="relative order-first h-[240px] w-full [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_62%,transparent)] sm:h-[360px] lg:order-none lg:h-[560px] lg:[mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent)]">
             <iframe
               src={`${import.meta.env.BASE_URL}intro.html?embed=1`}
-              title="Logo DaviGoo animé"
+              title="Berline DaviGoo"
               className="absolute inset-0 h-full w-full border-0 bg-transparent"
               style={{ colorScheme: "normal" }}
             />
