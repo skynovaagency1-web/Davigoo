@@ -1,6 +1,10 @@
 export const inputClass =
   "w-full rounded-2xl border border-white/80 bg-white/60 px-4 py-2.5 shadow-[inset_0_1px_2px_rgba(90,70,50,0.08)] text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-ring";
 
+/** Glass field for the marketing site's forms. */
+export const glassInputClass =
+  "lg-field w-full px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-white/80";
+
 export function ConsentCheckbox({ id }: { id: string }) {
   return (
     <label htmlFor={id} className="flex items-start gap-3 text-sm text-muted-foreground">

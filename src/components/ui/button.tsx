@@ -16,6 +16,9 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // Liquid-glass buttons of the marketing site (see .lg in index.css).
+        glass: "lg !rounded-[12px] font-medium",
+        glassStrong: "lg lg-strong !rounded-[12px] text-base",
       },
       size: {
         default: "h-10 px-5 py-2",

@@ -6,7 +6,7 @@ export function AppTeaser() {
       <div className="container">
         <a
           href="/app.html"
-          className="group grid items-end gap-6 border-y border-foreground/80 py-10 transition-colors hover:bg-card md:grid-cols-[12rem_1fr_auto]"
+          className="lg-panel group grid items-end gap-6 px-6 py-10 transition-colors hover:bg-white/20 sm:px-10 md:grid-cols-[12rem_1fr_auto]"
         >
           <p className="font-mono text-xs text-muted-foreground">04 · Prototype</p>
           <div>
@@ -15,7 +15,7 @@ export function AppTeaser() {
               Commandez une course fictive, puis passez côté chauffeur pour accepter la demande et faire avancer le trajet.
             </p>
           </div>
-          <ArrowUpRight className="size-12 text-primary transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+          <ArrowUpRight className="size-12 text-foreground transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
         </a>
       </div>
     </section>

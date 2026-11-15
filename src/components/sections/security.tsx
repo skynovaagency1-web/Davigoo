@@ -13,7 +13,7 @@ const checks = [
   { icon: LifeBuoy, title: "Support humain", text: "Assistance, procédure d'incident et remboursements traités par une personne." },
 ];
 
-export function Security() {
+export function Security({ heading = true }: { heading?: boolean }) {
   const [digits, setDigits] = React.useState<string[]>(Array(6).fill(""));
   const [status, setStatus] = React.useState<{ ok: boolean; msg: string } | null>(null);
   const refs = React.useRef<(HTMLInputElement | null)[]>([]);
@@ -48,10 +48,12 @@ export function Security() {
   return (
     <section id="securite" className="scroll-mt-24 py-20">
       <div className="container">
+        {heading && (
         <SectionHeading tag="03 · Sécurité" title="Des chauffeurs contrôlés, des passagers vérifiés">
           Ce que DaviGoo prévoit de vérifier avant le pilote. La liste exacte des pièces sera validée par un spécialiste.
         </SectionHeading>
-      <div className="mt-10 grid items-start gap-10 md:ml-[12rem] lg:grid-cols-2">
+        )}
+      <div className={`mt-10 grid items-start gap-10 ${heading ? "md:ml-[12rem]" : ""} lg:grid-cols-2`}>
         <div>
           <ul className="grid gap-6">
             {checks.map((c) => (
@@ -66,7 +68,7 @@ export function Security() {
           </ul>
         </div>
 
-        <form onSubmit={verify} className="rounded-md border border-foreground/15 bg-card p-6 sm:p-8">
+        <form onSubmit={verify} className="lg-panel p-6 sm:p-8">
           <div className="flex items-center justify-between gap-3">
             <h3 className="flex items-center gap-2 text-lg font-semibold">
               <Smartphone className="size-5 text-primary" /> Vérification du téléphone
@@ -103,7 +105,7 @@ export function Security() {
           <p aria-live="polite" className={cn("mt-3 min-h-6 text-sm font-semibold", status?.ok ? "text-success" : "text-warning")}>
             {status?.msg}
           </p>
-          <Button type="submit" size="lg" className="mt-2 w-full">
+          <Button type="submit" size="lg" variant="glassStrong" className="mt-2 w-full">
             Vérifier
           </Button>
         </form>
