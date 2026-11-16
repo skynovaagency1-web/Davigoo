@@ -4,6 +4,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
+import { createPortal } from "react-dom";
+import { InstallPrompt } from "@/components/ui/install-prompt";
 
 const links = [
   { label: "Comment ça marche", href: "/comment-ca-marche.html", page: "fonctionnement" },
@@ -77,6 +79,7 @@ export function Header({ current = "home" }: { current?: SitePage }) {
       <div className="container pb-2 pt-2 lg:hidden">
         <div className="lg-track flex !bg-[#cbc0b5]/70 backdrop-blur-xl items-center gap-1 overflow-x-auto p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{tabs(true)}</div>
       </div>
+      {typeof document !== "undefined" && createPortal(<InstallPrompt />, document.body)}
     </header>
   );
 }

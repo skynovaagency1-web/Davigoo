@@ -120,6 +120,9 @@
     body.site :is(.gap-8, .gap-10) { gap: 1.5rem; }
     body.site .lg-panel { border-radius: 26px; }
   }
+  /* Dark espresso glass sheet (install prompt), after davinova.com panels. */
+  .menu-panel { border-radius: 22px; background: rgba(40,28,20,0.92); border: 1px solid rgba(255,245,230,0.16); color: #f6efe7;
+    box-shadow: 0 30px 70px rgba(30,12,2,0.35), inset 0 1px 0 rgba(255,245,230,0.22); backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); }
   .font-narrow { font-stretch: 72%; }
   .tnum { font-variant-numeric: tabular-nums; }
 }

@@ -1,0 +1,24 @@
+{
+  "id": "/",
+  "name": "DaviGoo · Chauffeur VTC",
+  "short_name": "DaviGoo",
+  "description": "Votre chauffeur VTC à Besançon, prix connu d'avance, chauffeurs vérifiés.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "/?source=app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#B6AA9E",
+  "theme_color": "#2C251D",
+  "categories": ["travel", "navigation"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Estimer un trajet", "url": "/comment-ca-marche#devis", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Liste d'attente", "url": "/#liste-attente", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
