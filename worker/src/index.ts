@@ -3,6 +3,7 @@
 import { authRoutes } from "./auth";
 import { appRoutes } from "./app";
 import { opsRoutes } from "./ops";
+import { pushRoutes } from "./push";
 import { ApiError, CORS, body, clientIp, email, json, limit, str, type Env } from "./lib";
 
 async function signup(env: Env, req: Request) {
@@ -23,7 +24,7 @@ async function api(env: Env, req: Request, path: string) {
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
   if (path === "/api/health") return json({ ok: true });
   if (path === "/api/signups" && req.method === "POST") return signup(env, req);
-  return (await authRoutes(env, req, path)) ?? (await opsRoutes(env, req, path)) ?? (await appRoutes(env, req, path)) ?? json({ error: "not_found" }, 404);
+  return (await pushRoutes(env, req, path)) ?? (await authRoutes(env, req, path)) ?? (await opsRoutes(env, req, path)) ?? (await appRoutes(env, req, path)) ?? json({ error: "not_found" }, 404);
 }
 
 export default {

@@ -153,3 +153,18 @@ create table if not exists driver_checks (
   checked_by text references users(id) on delete set null,
   updated_at text not null default (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 );
+
+-- Web push for the installed app (worker/src/push.ts also creates these on first use).
+create table if not exists push_subscriptions (
+  endpoint text primary key,
+  created_at text not null default (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);
+create table if not exists push_messages (
+  id integer primary key autoincrement,
+  title text not null,
+  body text not null,
+  url text not null default '/',
+  sent integer not null default 0,
+  created_by text,
+  created_at text not null default (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+);

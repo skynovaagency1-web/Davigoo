@@ -1,7 +1,7 @@
 // DaviGoo service worker: lets the installed app open offline and load fast.
 // Pages: network first, cached copy when offline. Hashed build files (/assets/*), icons, fonts: cache first.
 // The API (/api/*) is never cached.
-const VERSION = "davigoo-v1";
+const VERSION = "davigoo-v2";
 const SHELL = ["/", "/comment-ca-marche", "/trajets", "/securite", "/chauffeurs", "/faq", "/manifest.webmanifest", "/icons/icon-192.png"];
 
 self.addEventListener("install", (event) => {
@@ -65,17 +65,22 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
-// Push notifications (news, opening of the pilot). The payload is JSON: { title, body, url }.
+// Push notifications (news, opening of the pilot). Pushes arrive empty; the text is fetched from the server.
 self.addEventListener("push", (event) => {
-  let data = {};
-  try { data = event.data ? event.data.json() : {}; } catch { data = { body: event.data && event.data.text() }; }
   event.waitUntil(
-    self.registration.showNotification(data.title || "DaviGoo", {
-      body: data.body || "",
-      icon: "/icons/icon-192.png",
-      badge: "/icons/icon-192.png",
-      data: { url: data.url || "/" },
-    }),
+    (async () => {
+      let data = {};
+      try { data = event.data ? event.data.json() : {}; } catch { /* empty push */ }
+      if (!data.title) {
+        try { data = (await (await fetch("/api/push/latest", { cache: "no-store" })).json()).message || {}; } catch { /* offline */ }
+      }
+      await self.registration.showNotification(data.title || "DaviGoo", {
+        body: data.body || "Du nouveau sur DaviGoo.",
+        icon: "/icons/icon-192.png",
+        badge: "/icons/icon-192.png",
+        data: { url: data.url || "/" },
+      });
+    })(),
   );
 });
 

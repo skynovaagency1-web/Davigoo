@@ -4,20 +4,22 @@
 // Hidden once the app is installed, and for 30 days after « Plus tard ».
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Share, SquarePlus, X } from "lucide-react";
+import { Bell, Share, SquarePlus, X } from "lucide-react";
+import { enablePush, pushSupported } from "@/lib/push";
 
 type InstallEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: "accepted" | "dismissed" }> };
 
 const SNOOZE_KEY = "davigoo-install-snooze";
 const SNOOZE_DAYS = 30;
+const PUSH_SNOOZE_KEY = "davigoo-push-snooze";
 
 const isStandalone = () =>
   window.matchMedia("(display-mode: standalone)").matches || (navigator as Navigator & { standalone?: boolean }).standalone === true;
 const isIos = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-function snoozed() {
+function snoozed(key = SNOOZE_KEY) {
   try {
-    const t = Number(localStorage.getItem(SNOOZE_KEY) || 0);
+    const t = Number(localStorage.getItem(key) || 0);
     return Date.now() - t < SNOOZE_DAYS * 864e5;
   } catch {
     return false;
@@ -35,10 +37,17 @@ export function InstallPrompt() {
   const [ios, setIos] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const [steps, setSteps] = React.useState(false);
+  const [ask, setAsk] = React.useState(false); // installed app: offer notifications once
 
   React.useEffect(() => {
     registerServiceWorker();
-    if (isStandalone()) return;
+    if (isStandalone()) {
+      if (pushSupported() && Notification.permission === "default" && !snoozed(PUSH_SNOOZE_KEY)) {
+        const t = window.setTimeout(() => setAsk(true), 3000);
+        return () => window.clearTimeout(t);
+      }
+      return;
+    }
     const onPrompt = (e: Event) => {
       e.preventDefault();
       setDeferred(e as InstallEvent);
@@ -61,12 +70,22 @@ export function InstallPrompt() {
 
   const later = () => {
     try {
-      localStorage.setItem(SNOOZE_KEY, String(Date.now()));
+      localStorage.setItem(ask ? PUSH_SNOOZE_KEY : SNOOZE_KEY, String(Date.now()));
     } catch {
       /* private mode: just hide for now */
     }
     setShow(false);
     setSteps(false);
+    setAsk(false);
+  };
+
+  const notify = async () => {
+    try {
+      await enablePush();
+    } catch {
+      /* try again next time */
+    }
+    setAsk(false);
   };
 
   const install = async () => {
@@ -82,10 +101,10 @@ export function InstallPrompt() {
 
   return (
     <AnimatePresence>
-      {show && (deferred || ios) && (
+      {(ask || (show && (deferred || ios))) && (
         <motion.div
           role="dialog"
-          aria-label="Installer l'application DaviGoo"
+          aria-label={ask ? "Activer les notifications" : "Installer l'application DaviGoo"}
           initial={{ opacity: 0, y: 24, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 16, transition: { duration: 0.15 } }}
@@ -96,14 +115,16 @@ export function InstallPrompt() {
             <div className="flex items-center gap-3">
               <img src="/icons/icon-192.png" alt="" className="size-12 shrink-0 rounded-[12px]" />
               <div className="min-w-0 flex-1">
-                <p className="font-semibold text-[#f6efe7]">Installer DaviGoo</p>
-                <p className="text-xs text-[#c9bcae]">L'app sur votre écran d'accueil : plein écran, rapide, même hors connexion.</p>
+                <p className="font-semibold text-[#f6efe7]">{ask ? "Activer les notifications" : "Installer DaviGoo"}</p>
+                <p className="text-xs text-[#c9bcae]">
+                  {ask ? "Soyez prévenu de l'ouverture du pilote et des nouveautés. Pas de publicité." : "L'app sur votre écran d'accueil : plein écran, rapide, même hors connexion."}
+                </p>
               </div>
               <button type="button" onClick={later} aria-label="Fermer" className="grid size-8 shrink-0 place-items-center rounded-full text-[#c9bcae] hover:bg-white/10">
                 <X className="size-4" />
               </button>
             </div>
-            {steps ? (
+            {steps && !ask ? (
               <ol className="grid gap-2 rounded-[14px] bg-white/[0.08] p-3 text-sm text-[#f6efe7]">
                 <li className="flex items-center gap-2">
                   <span className="font-mono text-xs text-[#c9bcae]">1</span> Touchez <Share className="size-4" aria-label="Partager" /> <b>Partager</b> en bas de Safari
@@ -114,8 +135,8 @@ export function InstallPrompt() {
               </ol>
             ) : (
               <div className="flex gap-2">
-                <button type="button" onClick={install} className="lg lg-strong h-11 flex-1 text-sm">
-                  Installer
+                <button type="button" onClick={ask ? notify : install} className="lg lg-strong inline-flex h-11 flex-1 items-center justify-center gap-2 text-sm">
+                  {ask && <Bell className="size-4" />} {ask ? "Activer" : "Installer"}
                 </button>
                 <button type="button" onClick={later} className="h-11 rounded-[12px] px-4 text-sm text-[#c9bcae] hover:bg-white/10">
                   Plus tard

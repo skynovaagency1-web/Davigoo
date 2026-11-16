@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Wordmark } from "@/components/ui/wordmark";
 import { AppSection } from "@/ops/app-section";
+import { PushSection } from "@/ops/push-section";
 import { TeamSection } from "@/ops/team-section";
 import { Download, Loader2, LogOut, RefreshCw, Search, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -257,6 +258,7 @@ export function Console({ email, emailEnabled, onSignOut }: { email: string; ema
         </section>
 
         <AppSection />
+        <PushSection />
         <TeamSection emailEnabled={emailEnabled} />
       </main>
 

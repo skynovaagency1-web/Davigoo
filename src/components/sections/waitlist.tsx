@@ -3,6 +3,7 @@ import { BellRing, CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConsentCheckbox, glassInputClass as inputClass } from "@/components/ui/consent";
 import { SIGNUP_ERROR, submitSignup } from "@/lib/signups";
+import { NotifyButton } from "@/components/ui/notify-button";
 
 const USES = ["Gare / train", "Soirées", "Rendez-vous médicaux", "Trajets du quotidien", "Aéroport", "Autre"];
 
@@ -48,6 +49,7 @@ export function Waitlist() {
               <CheckCircle2 className="mx-auto size-9 text-success" />
               <p className="mt-2 text-lg font-semibold">C'est noté, merci !</p>
               <p className="text-muted-foreground">Nous vous écrirons dès l'ouverture du pilote.</p>
+              <NotifyButton className="mt-5" />
             </div>
           ) : (
             <form onSubmit={onSubmit} className="lg-panel grid gap-4 p-5 text-foreground sm:p-7">
