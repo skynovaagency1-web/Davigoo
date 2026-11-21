@@ -4,6 +4,7 @@ import { RideBookingForm } from "@/components/ui/ride-booking-form";
 import FooterSection from "@/components/ui/footer";
 import { DepartureBoard } from "@/components/sections/departure-board";
 import { AppTeaser } from "@/components/sections/app-teaser";
+import { AppPoster } from "@/components/sections/app-poster";
 import { Waitlist } from "@/components/sections/waitlist";
 import { Places } from "@/components/sections/places";
 import { ExploreTiles } from "@/components/page-shell";
@@ -44,6 +45,7 @@ export default function Landing() {
           </div>
         </section>
         <ExploreTiles title="Découvrir DaviGoo" />
+        <AppPoster role="passenger" />
         <Waitlist />
         <AppTeaser />
       </main>
