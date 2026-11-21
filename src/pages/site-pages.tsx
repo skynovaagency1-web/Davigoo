@@ -3,6 +3,7 @@ import { PageShell } from "@/components/page-shell";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Security } from "@/components/sections/security";
 import { Drivers } from "@/components/sections/drivers";
+import { AppPoster } from "@/components/sections/app-poster";
 import { Faq } from "@/components/sections/faq";
 import { AppTeaser } from "@/components/sections/app-teaser";
 import { Places } from "@/components/sections/places";
@@ -163,6 +164,7 @@ export function DriversPage() {
           ]}
         />
       </Block>
+      <AppPoster role="driver" />
       <Drivers heading={false} />
     </PageShell>
   );
