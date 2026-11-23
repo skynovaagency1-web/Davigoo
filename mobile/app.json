@@ -38,7 +38,8 @@
           "photosPermission": "DaviGoo accède à vos photos si vous choisissez votre photo de chauffeur dans la galerie.",
           "microphonePermission": false
         }
-      ]
+      ],
+      "expo-status-bar"
     ]
   }
 }
